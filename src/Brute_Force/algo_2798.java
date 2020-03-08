@@ -1,3 +1,5 @@
+package Brute_Force;
+//Brute Force Algorithm
 import java.io.*;
 import java.util.StringTokenizer;
 
