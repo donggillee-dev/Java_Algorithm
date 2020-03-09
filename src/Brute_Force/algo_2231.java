@@ -1,6 +1,4 @@
 package Brute_Force;
-//Brute Force Algoritm
-
 import java.io.*;
 
 public class algo_2231 {
