@@ -1,38 +1,38 @@
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    static StringBuilder sb = new StringBuilder();
-
     public static void main(String[] args) throws IOException {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Test Test = new Test();
-        int ans, N;
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer stk1 = new StringTokenizer(br.readLine());
+        StringTokenizer stk2 = new StringTokenizer(br.readLine());
 
-        N = Integer.parseInt(br.readLine());
-        ans = (int)Math.pow((double)2, (double)N) - 1;
+        int N = Integer.parseInt(stk1.nextToken()), K = Integer.parseInt(stk1.nextToken());
+        int[] arr = new int[N];
+        int tmp = 0, ans = 0;
 
+        for(int i = 0; i < N; i++) {
+            if(stk2.hasMoreTokens()) {
+                arr[i] = Integer.parseInt(stk2.nextToken());
+            }
+
+            if(arr[i] == 1) continue;
+
+            tmp++;
+
+            if(tmp == K -1) {
+                ans++;
+                tmp = 0;
+            }
+        }
+        if(tmp > 0) ans++;
         sb.append(ans).append("\n");
-        Test.Hanoi(N, '1', '2', '3');
-
         bw.write(String.valueOf(sb));
         bw.flush();
         bw.close();
         br.close();
-        return;
-    }
-}
-
-class Test {
-    void Hanoi(int N, char from, char by, char to) {
-
-        if(N == 1) {//옮겨야할게 1개이면 그냥 from에서 to로 옮겨줌
-            Main.sb.append(from).append(" ").append(to).append("\n");
-        } else {
-            Hanoi(N - 1, from, to, by);//N-1개에 대해서 from에서 by로 옮겨주고
-            Main.sb.append(from).append(" ").append(to).append("\n");//제일 큰 원판은 from에서 to로 옮겨줌
-            Hanoi(N -1, by, from, to);//옮겨놨었던 N-1개에 대해서 by에서 to로 다시 옮겨줌
-        }
         return;
     }
 }

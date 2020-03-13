@@ -7,7 +7,7 @@ public class algo_2750 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
-        Sort Sort = new Sort();
+        Sort1 Sort1 = new Sort1();
         int N = Integer.parseInt(br.readLine());
         int[] arr = new int[N];
 
@@ -15,7 +15,7 @@ public class algo_2750 {
             arr[i] = Integer.parseInt(br.readLine());
         }
 
-        Sort.MergeSort(arr, 0, N - 1);
+        Sort1.MergeSort(arr, 0, N - 1);
 
         for(int i = 0; i < N; i++) {
             sb.append(arr[i]).append("\n");
@@ -29,7 +29,7 @@ public class algo_2750 {
     }
 }
 
-class Sort {
+class Sort1 {
     static int[] sorted = new int[1001];
     void MergeSort(int[] arr, int start, int end) {//분할
         if(start < end) {
@@ -69,4 +69,6 @@ class Sort {
         }
     }
 }
+
+
 
