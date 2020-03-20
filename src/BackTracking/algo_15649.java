@@ -4,20 +4,20 @@ import java.io.*;
 import java.util.*;
 
 public class algo_15649 {
+    static Stack<Integer> S = new Stack<Integer>();
+    static int N;
+    static int M;
     static StringBuilder sb = new StringBuilder();
-    static int[] stack;
-    static boolean[] visited;
     public static void main(String[] args) throws IOException {
-        BackTrack BT = new BackTrack();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        BackTrack BT = new BackTrack();
         StringTokenizer stk = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(stk.nextToken());
-        int M = Integer.parseInt(stk.nextToken());
-        stack = new int[N];
-        visited = new boolean[M + 1];
-        BT.DFS(N, M, 0);
+        N = Integer.parseInt(stk.nextToken());
+        M = Integer.parseInt(stk.nextToken());
+
+        BT.Mknum(0, "");
 
         bw.write(String.valueOf(sb));
         bw.flush();
@@ -28,20 +28,16 @@ public class algo_15649 {
 }
 
 class BackTrack {
-    void DFS(int n, int m, int d) {
-        if(d == m) {
-            for(int i = 0; i < n; i++) {
-                algo_15649.sb.append(algo_15649.stack[i]).append(" ");
-            }
-            algo_15649.sb.append("\n");
-            return;
+    void Mknum(int start, String str) {
+        if(start == algo_15649.M) {
+            algo_15649.sb.append(str).append("\n");
         } else {
-            for(int i = 1; i <= n; i++) {
-                if(!algo_15649.visited[i]) {
-                    algo_15649.stack[d] = i;
-                    algo_15649.visited[i] = true;
-                    DFS(n, m, d + 1);
-                    algo_15649.visited[i] = false;
+            start++;
+            for(int i = 1; i <= algo_15649.N; i++) {
+                if(!algo_15649.S.contains(i)) {
+                    algo_15649.S.push(i);
+                    Mknum(start, str + i + " ");
+                    algo_15649.S.pop();
                 }
             }
         }
