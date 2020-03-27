@@ -2,143 +2,82 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int N, K;
-    static int min = Integer.MAX_VALUE;
-    static boolean [][] visit;  //이미 방문한 정점의 정보를 담을 배열
-    static int [][] map;
-    static Stack<Point> S;
-
-    static BufferedReader br;
-    static BufferedWriter bw;
-    static StringBuilder sb;
-    static StringTokenizer st;
-
+    static int[] pos_arr;
+    static int ans = 0;
     public static void main(String[] args) throws IOException {
-        br = new BufferedReader(new InputStreamReader(System.in));
-        bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        sb = new StringBuilder();
-        st = new StringTokenizer(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        pos_arr = new int[N];
 
-        N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken());
-        map = new int[N][K];
-        visit = new boolean[N][K];
-        for(int i = 0; i < N; i++) {
-            String tmp = br.readLine();
-            for(int j = 0; j < K; j++) {
-                map[i][j] = tmp.charAt(j) - '0';
-            }
-        }
-        dfsSol();
-        bw.write(String.valueOf(sb));
+        N_Queen(N);
+
+        bw.write(String.valueOf(ans));
         bw.flush();
         bw.close();
         br.close();
         return;
     }
+    private static void N_Queen(int N) {
+        Stack<QueenInfo> S = new Stack<>();
+        for(int i = 0; i < N; i++) {
+            S.push(new QueenInfo(0, i));
+            pos_arr[0] = i;
 
-    private static void dfsSol() {
-        S = new Stack<Point>();
-        S.add(new Point(0, 0, 1, 0));
-        visit[0][0] = true;
+            while(!S.empty()) {
+                int cnt = 0;
+                QueenInfo info = S.pop();
+                pos_arr[info.depth] = info.pos;
+                if(info.depth == N - 1) {//만약에 큐에서 꺼낸 branch가 N - 1과 동일하다면 ans++해주고 continue;
+                    ans++;
+                    continue;
+                }
 
-        while(!S.empty()) {
-            Point p = S.pop();
-            int x = p.getX();
-            int y = p.getY();
-            int d = p.getDepth();
-            int metWall = p.getTimeMetWall();
-            int flag = 0;
-            int poss_path = 0;
-
-            if(x == N - 1 && y == K - 1) {
-                if(d < min) {
-                    min = d;
-                    if(sb.length() > 0) {
-                        sb.delete(0, sb.length() - 1);
-                        sb.append(d).append("\n");
+                //앞으로의 branch들 유망한지 isPossible 함수로 테스트
+                //if true => Stack에 넣어줌
+                //if false => 아무것도 하지 않는다
+                for(int j = 0; j < N; j++) {
+                    QueenInfo branch = new QueenInfo(info.depth + 1, j);
+                    if(isPossible(branch)) {
+                        S.push(branch);
                     }
                 }
             }
-            if(x != 0 && !visit[x - 1][y]) {
-                poss_path++;
-                if(map[x-1][y] == 1) {
-                    if(metWall == 0) {
-                        S.push(new Point(x - 1, y, d + 1, metWall + 1));
-                        visit[x - 1][y] = true;
-                    }
-                    else flag++;
-                } else {
-                    S.push(new Point(x - 1, y, d + 1, metWall));
-                    visit[x - 1][y] = true;
-                }
-            }
-            if(y != 0 && !visit[x][y - 1]) {
-                poss_path++;
-                if(map[x][y - 1] == 1) {
-                    if(metWall == 0) {
-                        S.push(new Point(x, y - 1, d + 1, metWall + 1));
-                        visit[x][y - 1] = true;
-                    }
-                    else flag++;
-                } else {
-                    S.push(new Point(x, y - 1, d + 1, metWall));
-                    visit[x][y - 1] = true;
-                }
-            }
-            if(x < N - 1 && !visit[x + 1][y]) {
-                poss_path++;
-                if(map[x + 1][y] == 1) {
-                    if(metWall == 0) {
-                        S.push(new Point(x + 1, y, d + 1, metWall + 1));
-                        visit[x + 1][y] = true;
-                    }
-                    else flag++;
-                } else {
-                    S.push(new Point(x + 1, y, d + 1, metWall));
-                    visit[x + 1][y] = true;
-                }
-            }
-            if(y < K - 1 && !visit[x][y + 1]) {
-                poss_path++;
-                if(map[x][y + 1] == 1) {
-                    if(metWall == 0) {
-                        S.push(new Point(x, y + 1, d + 1, metWall + 1));
-                        visit[x][y + 1] = true;
-                    }
-                    else flag++;
-                } else {
-                    S.push(new Point(x, y + 1, d + 1, metWall));
-                    visit[x][y + 1] = true;
-                }
-            }
-
-            if(poss_path == flag) visit[x][y] = false;
-            if(S.empty()) {
-                if(x != N - 1 && y != K - 1 && min == Integer.MAX_VALUE) sb.append(-1).append("\n");
-            }
+            S.clear();
         }
     }
-}
-class Point {
-    int x, y, depth, metWall;
+    private static boolean isPossible(QueenInfo info) {
+        //이때까지 거쳐온 branch들에 대해서 앞으로의 branch(input값)가 유망한지 확인
+        int depth = info.depth;
+        int pos = info.pos;
+        boolean flag = true;
 
-    public Point(int x1, int y1, int d, int w) {
-        x = x1;
-        y = y1;
-        depth = d;
-        metWall = w;
+        for(int i = 0; i < depth; i++) {
+            //직선거리 대각선 확인
+            //대각선의 경우 높이와 밑변의 거리가 같으면 동일 대각선상에 있다고 본다
+            if(pos_arr[i] == pos || Math.abs(i - depth) == Math.abs(pos_arr[i] - pos)) {
+                flag = false;
+                break;
+            }
+        }
+
+        if(flag) {
+            pos_arr[depth] = pos;
+            return true;
+        } else return false;
+        //유망하면
+        //pos[depth]에 해당 pos값 넣어주고 true 리턴
+
+        //유망하지 않으면
+        //false 리턴
     }
-    public int getTimeMetWall() {
-        return metWall;
-    }
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
-    public int getDepth() {
-        return depth;
+}
+
+class QueenInfo {
+    int depth, pos;
+
+    QueenInfo(int d, int p) {
+        this.depth = d;
+        this.pos = p;
     }
 }
