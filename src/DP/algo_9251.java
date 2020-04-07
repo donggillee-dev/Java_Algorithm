@@ -23,9 +23,9 @@ public class algo_9251 {//LCS 알고리즘
 
         for(int i = 0; i < str1.length(); i++) {//시간복잡도 -> O(str1.length() * str2.length())
             for(int j = 0; j < str2.length(); j++) {
-                if(str1.charAt(i) == str2.charAt(j)) {
+                if(str1.charAt(i) == str2.charAt(j)) { //문자가 같을경우 대각선 뒤의 값 + 1
                     DP[i + 1][j + 1] = DP[i][j] + 1;
-                } else {
+                } else { //문자가 다를경우 이전값과 이전 비교 문자열의 값중 최대값 가져와서 넣어줌
                     DP[i + 1][j + 1] = Math.max(DP[i][j + 1], DP[i + 1][j]);
                 }
             }
