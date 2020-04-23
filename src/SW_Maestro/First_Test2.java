@@ -1,7 +1,9 @@
+package SW_Maestro;
+
 import java.io.*;
 import java.util.*;
 
-public class Test2 {
+public class First_Test2 {
     static int[][] ans;
     static int[][] map;
     static int N, M;

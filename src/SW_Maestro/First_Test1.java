@@ -1,6 +1,8 @@
+package SW_Maestro;
+
 import java.io.*;
 
-public class Test1 {
+public class First_Test1 {
     public static void main(String[] args) throws IOException {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
