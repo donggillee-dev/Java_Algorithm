@@ -1,3 +1,5 @@
+package ETC;
+
 import java.io.*;
 
 public class algo_6588 {
