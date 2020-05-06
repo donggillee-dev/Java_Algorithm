@@ -20,10 +20,12 @@ public class algo_14890 {
             }
         }
         for(int i = 0; i < N; i++) {//행에 대해서
-            for(int j = 0; j <  N - 1; j++) {//왼 -> 오
+            for(int j = 0; j < N - 1; j++) {//위 -> 아래
+
             }
 
-            for(int j = N - 1; j > 0; j--) {//오 -> 왼
+            for(int j = N - 1; j > 0; j--) {//아래 -> 위
+
             }
         }
 
