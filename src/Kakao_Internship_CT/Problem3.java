@@ -36,22 +36,27 @@ public class Problem3 {
                 count++;
             }
             if(count == gem_count) {
+                System.out.println(k + " " + start + " " + width);
+                if(k - start < width) {
+                   start = end + 1;
+//                   width
+                }
                 tmp = new ArrayList<>();
-                DP[k] = k;
                 count = 0;
             }
         }
-        System.out.println(Arrays.toString(DP));
-        for(int i = 0; i < DP.length; i++) {
-            if(DP[i] != 0) {
-                if(width > (DP[i] - i)) {
-                    width = DP[i] - i;
-                    start = DP[i] - i;
-                    end = DP[i];
-                }
-            }
-        }
         System.out.println(start + " " + end);
+//        System.out.println(Arrays.toString(DP));
+//        for(int i = 0; i < DP.length; i++) {
+//            if(DP[i] != 0) {
+//                if(width > (DP[i] - i)) {
+//                    width = DP[i] - i;
+//                    start = DP[i] - i;
+//                    end = DP[i];
+//                }
+//            }
+//        }
+//        System.out.println(start + " " + end);
 //        ans[0] = start + 1;
 //        ans[1] = end + 1;
         return ans;
