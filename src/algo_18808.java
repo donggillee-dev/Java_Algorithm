@@ -17,6 +17,10 @@ public class algo_18808 {
         br.close();
         return;
     }
+    public static void rotate() {
+
+    }
+
     public static void test() {
         System.out.println(sticker.length + " " + sticker[1].length);
     }
