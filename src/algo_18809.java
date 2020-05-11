@@ -3,6 +3,7 @@ import java.util.*;
 
 public class algo_18809 {
     static GardenInfo[][] GardenMap;
+    static boolean[][] Visited;
     static int N, M;
     static int GreenCnt;
     static int RedCnt;
@@ -20,7 +21,7 @@ public class algo_18809 {
         GreenCnt = Integer.parseInt(stk.nextToken());
         RedCnt = Integer.parseInt(stk.nextToken());
         GardenMap = new GardenInfo[N][M];
-
+        Visited = new boolean[N][M];
         for(int i = 0; i < N; i++) {//입력받는 부분
             stk = new StringTokenizer(br.readLine());
             for(int j = 0; j < M; j++) {
@@ -36,8 +37,10 @@ public class algo_18809 {
         }
         if(GardenMap[0][0].Land == 2) {//0, 0이 배양액을 뿌릴 수 있는 칸이면 초록색 배영액을 뿌리고 SpreadGreen 함수 호출
             Q.offer(new LiquidInfo(0, 0));
-        } else {//그렇지 않을 경우에는 그냥 SpreadGreen g
-
+            GardenMap[0][0] = new GardenInfo(2, "green", 0);
+            SpreadGreen(0, 0, 1);
+        } else {//그렇지 않을 경우에는 그냥 SpreadGreen 함수 호출
+            SpreadGreen(0, 0, 0);
         }
         bw.flush();
         bw.close();
@@ -45,18 +48,34 @@ public class algo_18809 {
         return;
     }
     public static void SpreadGreen(int x, int y, int depth) {
-        if(depth == GreenCnt) {
-            SpreadRed(0, 0, 0);
+        if(depth == GreenCnt) {//초록색 배양액을 다 뿌렸을 경우에는 빨간색 배양액 뿌리는 함수 호출
+            if(GardenMap[0][0].Land == 2) {//0, 0 땅이 뿌릴 수 있는 땅인데 아무것도 안뿌려져 있는 경우
+                if(GardenMap[0][0].Color.equals("")) {
+                    Q.offer(new LiquidInfo(0, 0));
+                    GardenMap[0][0] = new GardenInfo(2, "red", 0);
+                    SpreadRed(0,0, 1);
+                } else {
+                    SpreadRed(0, 0, 0);
+                }
+            } else {
+                for(int i = 0; i < 4; i++) {
+                    int nx = x + dir_x[i];
+                    int ny = y + dir_y[i];
+                }
+            }
         } else {
             GardenInfo tmp = GardenMap[x][y];
         }
         return;
     }
     public static void SpreadRed(int x, int y, int depth) {
-        if(depth == RedCnt) {
+        if(depth == RedCnt) {//빨간색 배양액을 다 뿌렸을 경우에는
             BFS();
         } else {
-
+            for(int i = 0; i < 4; i++) {
+                int nx = x + dir_x[i];
+                int ny = y + dir_y[i];
+            }
         }
         return;
     }
