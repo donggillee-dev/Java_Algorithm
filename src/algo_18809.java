@@ -2,15 +2,17 @@ import java.io.*;
 import java.util.*;
 
 public class algo_18809 {
+    static SpreadInfo[] SpreadMap = new SpreadInfo[10];
     static GardenInfo[][] GardenMap;
-    static boolean[][] Visited;
+
     static int N, M;
     static int GreenCnt;
     static int RedCnt;
+    static int LandCnt = 0;
     static int[] dir_x = {0, 1, 0, -1};
     static int[] dir_y = {1, 0, -1, 0};
     static int ans = Integer.MIN_VALUE;
-    static Queue<LiquidInfo> Q = new LinkedList<>();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -21,71 +23,116 @@ public class algo_18809 {
         GreenCnt = Integer.parseInt(stk.nextToken());
         RedCnt = Integer.parseInt(stk.nextToken());
         GardenMap = new GardenInfo[N][M];
-        Visited = new boolean[N][M];
+
+        for(int i = 0; i < 10; i++) {
+            SpreadMap[i] = new SpreadInfo("",-1, -1);
+        }
+
         for(int i = 0; i < N; i++) {//입력받는 부분
             stk = new StringTokenizer(br.readLine());
             for(int j = 0; j < M; j++) {
                 int tmp = Integer.parseInt(stk.nextToken());
-                if(tmp == 0) {
-                    GardenMap[i][j] = new GardenInfo(tmp, "", 0);
-                } else if(tmp == 1) {
-                    GardenMap[i][j] = new GardenInfo(tmp, "", 0);
-                } else {
-                    GardenMap[i][j] = new GardenInfo(tmp, "", 0);
+                if(tmp == 2) {
+                    SpreadMap[LandCnt].x = i;
+                    SpreadMap[LandCnt].y = j;
+                    LandCnt++;
                 }
+                GardenMap[i][j] = new GardenInfo(tmp, "", 0);
             }
         }
-        if(GardenMap[0][0].Land == 2) {//0, 0이 배양액을 뿌릴 수 있는 칸이면 초록색 배영액을 뿌리고 SpreadGreen 함수 호출
-            Q.offer(new LiquidInfo(0, 0));
-            GardenMap[0][0] = new GardenInfo(2, "green", 0);
-            SpreadGreen(0, 0, 1);
-        } else {//그렇지 않을 경우에는 그냥 SpreadGreen 함수 호출
-            SpreadGreen(0, 0, 0);
-        }
+        SpreadGreen(0, 0);
+        sb.append(ans).append("\n");
+        bw.write(String.valueOf(sb));
         bw.flush();
         bw.close();
         br.close();
         return;
     }
-    public static void SpreadGreen(int x, int y, int depth) {
+    public static void SpreadGreen(int depth, int start) {
         if(depth == GreenCnt) {//초록색 배양액을 다 뿌렸을 경우에는 빨간색 배양액 뿌리는 함수 호출
-            if(GardenMap[0][0].Land == 2) {//0, 0 땅이 뿌릴 수 있는 땅인데 아무것도 안뿌려져 있는 경우
-                if(GardenMap[0][0].Color.equals("")) {
-                    Q.offer(new LiquidInfo(0, 0));
-                    GardenMap[0][0] = new GardenInfo(2, "red", 0);
-                    SpreadRed(0,0, 1);
-                } else {
-                    SpreadRed(0, 0, 0);
-                }
-            } else {
-                for(int i = 0; i < 4; i++) {
-                    int nx = x + dir_x[i];
-                    int ny = y + dir_y[i];
+            SpreadRed(0, 0);
+        } else {
+            for(int i = start; i < LandCnt; i++) {
+                if(SpreadMap[i].Color.equals("")) {
+                    SpreadInfo tmp = SpreadMap[i];
+                    SpreadMap[i].Color = "green";
+                    GardenMap[tmp.x][tmp.y].Color = "green";
+                    SpreadGreen(depth + 1, i + 1);
+                    GardenMap[tmp.x][tmp.y].Color = "";
+                    SpreadMap[i].Color = "";
                 }
             }
-        } else {
-            GardenInfo tmp = GardenMap[x][y];
         }
         return;
     }
-    public static void SpreadRed(int x, int y, int depth) {
+    public static void SpreadRed(int depth, int start) {
         if(depth == RedCnt) {//빨간색 배양액을 다 뿌렸을 경우에는
             BFS();
         } else {
-            for(int i = 0; i < 4; i++) {
-                int nx = x + dir_x[i];
-                int ny = y + dir_y[i];
+            for(int i = start; i < LandCnt; i++) {
+                if(SpreadMap[i].Color.equals("")) {
+                    SpreadInfo tmp = SpreadMap[i];
+                    SpreadMap[i].Color = "red";
+                    GardenMap[tmp.x][tmp.y].Color = "red";
+                    SpreadRed(depth + 1, i + 1);
+                    GardenMap[tmp.x][tmp.y].Color = "";
+                    SpreadMap[i].Color = "";
+                }
             }
         }
         return;
     }
     public static void BFS() {
+        int Flower = 0;
+        Queue<LiquidInfo> Q = new LinkedList<>();
         GardenInfo[][] CopyGarden = new GardenInfo[N][M];
         for(int i = 0; i < N; i++) {
-            System.arraycopy(GardenMap[i], 0, CopyGarden[i], 0, M);
+            for(int j = 0; j < M; j++) {
+                CopyGarden[i][j] = new GardenInfo(GardenMap[i][j].Land, GardenMap[i][j].Color, GardenMap[i][j].Time);
+            }
         }
-
-        //현재 배양액이 뿌려져있는 gardenMap을 복사하여 배양액 퍼뜨려줌
+        for(int i = 0; i < LandCnt; i++) {
+            if(!SpreadMap[i].Color.equals("")) {
+                Q.offer(new LiquidInfo(SpreadMap[i].x, SpreadMap[i].y, SpreadMap[i].Color));
+            }
+        }
+        while(!Q.isEmpty()) {
+            LiquidInfo tmp = Q.poll();
+            if(CopyGarden[tmp.x][tmp.y].Color.equals("Flower")) continue;
+            int time = CopyGarden[tmp.x][tmp.y].Time;
+            for(int i = 0; i < 4; i++) {
+                int nx = tmp.x + dir_x[i];
+                int ny = tmp.y + dir_y[i];
+                if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+                if(CopyGarden[nx][ny].Land == 0) continue;
+                if(CopyGarden[nx][ny].Color.equals("")) {
+                    CopyGarden[nx][ny].Color = tmp.Color;
+                    CopyGarden[nx][ny].Time = time + 1;
+                    Q.offer(new LiquidInfo(nx, ny, tmp.Color));
+                } else {
+                    if(!CopyGarden[nx][ny].Color.equals(tmp.Color) && !CopyGarden[nx][ny].Color.equals("Flower")) {
+                        if(CopyGarden[nx][ny].Time == time + 1) {
+//                            System.out.println(nx + " " + ny );
+                            CopyGarden[nx][ny].Color = "Flower";
+                            Flower++;
+                        }
+                    }
+                }
+            }
+        }
+        if(Flower > ans) {
+            ans = Flower;
+        }
+    }
+}
+class SpreadInfo {
+    String Color;
+    int x;
+    int y;
+    public SpreadInfo(String c, int nx, int ny) {
+        this.Color = c;
+        this.x = nx;
+        this.y = ny;
     }
 }
 class GardenInfo {
@@ -102,8 +149,10 @@ class GardenInfo {
 class LiquidInfo {
     int x;
     int y;
-    public LiquidInfo(int nx, int ny) {
+    String Color;
+    public LiquidInfo(int nx, int ny, String c) {
         this.x = nx;
         this.y = ny;
+        this.Color = c;
     }
 }
