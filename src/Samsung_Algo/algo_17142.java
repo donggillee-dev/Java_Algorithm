@@ -6,7 +6,10 @@ public class algo_17142 {
     static int N, M, VirusCnt;
     static int[][] VirusLoc;
     static int[][] Lab;
-    static Stack<VirusInfo> S = new Stack<>();
+    static Stack<SpreadInfo> S = new Stack<>();
+    static int ans = Integer.MAX_VALUE;
+    static int[] dir_x = {1, 0, -1, 0};
+    static int[] dir_y = {0, 1, 0, -1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,6 +33,8 @@ public class algo_17142 {
             }
         }
         PutVirus(0, 0);
+        sb.append(ans).append("\n");
+        bw.write(String.valueOf(sb));
         bw.flush();
         bw.close();
         br.close();
@@ -39,30 +44,68 @@ public class algo_17142 {
     private static void PutVirus(int start, int cnt) {
         if(cnt == M) {
             BFS();
-            return;
         } else {
             for(int i = start; i < VirusCnt; i++) {
-//                System.out.println(VirusLoc[i][0] + " " + VirusLoc[i][1]);
-                S.push(new VirusInfo(VirusLoc[i][0], VirusLoc[i][1]));
+                Lab[VirusLoc[i][0]][VirusLoc[i][1]] = -1;
+                S.push(new SpreadInfo(VirusLoc[i][0], VirusLoc[i][1]));
                 PutVirus(i + 1, cnt + 1);
+                Lab[VirusLoc[i][0]][VirusLoc[i][1]] = 2;
                 S.pop();
             }
         }
     }
 
     private static void BFS() {
-        Stack<VirusInfo> Stack = new Stack<>();
+        int cnt = 0;
+        int[][] CopyLab = new int[N][N];
+        Stack<SpreadInfo> Stack = new Stack<>();
         Stack.addAll(S);
-        System.out.println(S.size());
-        Stack.pop();
-        System.out.println(S.size());
+        Queue<VirusInfo> Queue = new LinkedList<>();
+
+        for(int i = 0; i < N; i++) {
+            System.arraycopy(Lab[i], 0, CopyLab[i], 0, N);
+        }
+        for(int i = 0; i < M; i++) {
+            SpreadInfo tmp = Stack.pop();
+            Queue.offer(new VirusInfo(tmp.x, tmp.y, 0));
+        }
+        while(!Queue.isEmpty()) {
+            VirusInfo tmp = Queue.poll();
+//            if(tmp.t > ans) break;
+            for(int i = 0; i < 4; i++) {
+                int Time = tmp.t + 1;
+                int nx = tmp.x + dir_x[i];
+                int ny = tmp.y + dir_y[i];
+                if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+                if(CopyLab[nx][ny] == 0 || CopyLab[nx][ny] == 2) {
+                    CopyLab[nx][ny] = Time;
+                    Queue.offer(new VirusInfo(nx, ny, Time));
+                    if(cnt < Time) cnt = Time;
+                }
+            }
+        }
+        for(int i = 0; i < N; i++) {
+            System.out.println(Arrays.toString(CopyLab[i]));
+        }
+        System.out.println();
+        if(cnt < ans) ans = cnt;
+    }
+}
+class SpreadInfo {
+    int x;
+    int y;
+    public SpreadInfo(int nx, int ny) {
+        this.x = nx;
+        this.y = ny;
     }
 }
 class VirusInfo {
     int x;
     int y;
-    public VirusInfo(int nx, int ny) {
+    int t;
+    public VirusInfo(int nx, int ny, int Time) {
         this.x = nx;
         this.y = ny;
+        this.t = Time;
     }
 }
