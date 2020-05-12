@@ -112,7 +112,6 @@ public class algo_18809 {
                 } else {
                     if(!CopyGarden[nx][ny].Color.equals(tmp.Color) && !CopyGarden[nx][ny].Color.equals("Flower")) {
                         if(CopyGarden[nx][ny].Time == time + 1) {
-//                            System.out.println(nx + " " + ny );
                             CopyGarden[nx][ny].Color = "Flower";
                             Flower++;
                         }
