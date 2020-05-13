@@ -5,6 +5,7 @@ import java.util.*;
 public class algo_17142 {
     static int N, M, VirusCnt;
     static int[][] VirusLoc;
+//    static char[][] Lab;
     static int[][] Lab;
     static Stack<SpreadInfo> S = new Stack<>();
     static int ans = Integer.MAX_VALUE;
