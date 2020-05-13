@@ -57,6 +57,7 @@ public class algo_17142 {
 
     private static void BFS() {
         int cnt = 0;
+        boolean[][] Visited = new boolean[N][N];
         int[][] CopyLab = new int[N][N];
         Stack<SpreadInfo> Stack = new Stack<>();
         Stack.addAll(S);
@@ -67,6 +68,7 @@ public class algo_17142 {
         }
         for(int i = 0; i < M; i++) {
             SpreadInfo tmp = Stack.pop();
+            Visited[tmp.x][tmp.y] = true;
             Queue.offer(new VirusInfo(tmp.x, tmp.y, 0));
         }
         while(!Queue.isEmpty()) {
@@ -77,8 +79,9 @@ public class algo_17142 {
                 int nx = tmp.x + dir_x[i];
                 int ny = tmp.y + dir_y[i];
                 if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
-                if(CopyLab[nx][ny] == 0 || CopyLab[nx][ny] == 2) {
-                    CopyLab[nx][ny] = Time;
+                if(CopyLab[nx][ny] != 1 && !Visited[nx][ny]) {
+//                    CopyLab[nx][ny] = Time;
+                    Visited[nx][ny] = true;
                     Queue.offer(new VirusInfo(nx, ny, Time));
                     if(cnt < Time) cnt = Time;
                 }
