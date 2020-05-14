@@ -24,14 +24,6 @@ public class algo_15685 {
             S.push(dir);
             K_Dragon(x, y, gen);
             S.clear();
-//            for(int j = 0; j < 10; j++) {
-//                for(int k = 0; k < 10; k++) {
-//                    if(Map[j][k]) System.out.print("1 ");
-//                    else System.out.print("0 ");
-//                }
-//                System.out.println();
-//            }
-//            System.out.println();
         }
         for(int i = 0; i < MAX - 1; i++) {
             for(int j = 0; j < MAX - 1; j++) {
@@ -54,7 +46,7 @@ public class algo_15685 {
             Stack<Integer> TmpS = new Stack<>();
             Queue<Integer> Origin = new LinkedList<>();
             Queue<Integer> Rotated = new LinkedList<>();
-            while(!S.isEmpty()) {
+            while(!S.isEmpty()) {//Rotate된 direction에 대해 Rotate 큐에 넣어줌
                 int dir = S.pop();
                 TmpS.push(dir);
                 dir++;
@@ -65,30 +57,18 @@ public class algo_15685 {
                 int tmp = TmpS.pop();
                 Origin.offer(tmp);//원본 방향을 Origin큐에 복사
             }
-
-//            System.out.println(cnt+"-th generation ==========");
-//            System.out.println("Origin Direction");
-            while(!Origin.isEmpty()) {
+            while(!Origin.isEmpty()) {//원본 방향에 대해서 진행 후 스택에 넣어줌
                 int dir = Origin.poll();
-//                System.out.println(dir);
                 nx += dir_x[dir];
                 ny += dir_y[dir];
-//                System.out.println(nx + " " + ny);
-//                if(nx < 0 || ny < 0 || nx >= 101 || ny >= 101) continue;
                 Map[ny][nx] = true;
                 S.push(dir);
-            }//0세대, 1세대
-//            System.out.println("Roated Direction");
-            while(!Rotated.isEmpty()) {
+            }
+            while(!Rotated.isEmpty()) {//Rotate에 대해서 스택에 넣어줌
                 int dir = Rotated.poll();
-//                System.out.println(dir);
                 S.push(dir);
-            }//1세대, 2세대
+            }
            cnt++;
         }
-//        System.out.println(cnt+"-th generation ========");
-//        while(!S.isEmpty()) {
-//            System.out.println(S.pop());
-//        }
     }
 }
