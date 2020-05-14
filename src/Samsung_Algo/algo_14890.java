@@ -55,9 +55,11 @@ public class algo_14890 {
                         Possible = false;
                         break loop1;
                     }
+                    idx--;
                 }
                 for(int k = 1, idx = j - k; k <= L && idx >= 0; k++) {
                     Built[Row][idx] = true;
+                    idx--;
                 }
                 height = Map[Row][j];
                 length = 1;
@@ -68,11 +70,13 @@ public class algo_14890 {
                         Possible = false;
                         break loop1;
                     }
+                    idx++;
                 }
                 for(int k = 0, idx = j + k; idx < N && k < L; k++) {
                     Built[Row][idx] = true;
+                    idx++;
                 }
-                j += (L - 1);
+                j += (L - 2);
                 height = Map[Row][j];
                 length = 1;
             } else {//똑같은 높이인 경우
@@ -80,7 +84,7 @@ public class algo_14890 {
             }
         }
         if(Possible) {
-            System.out.println(Row);
+//            System.out.println(Row);
             ans++;
         }
         Init_Built();
@@ -106,9 +110,11 @@ public class algo_14890 {
                         Possible = false;
                         break loop1;
                     }
+                    idx--;
                 }
                 for(int k = 1, idx = j - k; k <= L && idx >= 0; k++) {
                     Built[idx][Column] = true;
+                    idx--;
                 }
                 height = Map[j][Column];
                 length = 1;
@@ -119,19 +125,21 @@ public class algo_14890 {
                         Possible = false;
                         break loop1;
                     }
+                    idx++;
                 }
                 for(int k = 0, idx = j + k; idx < N && k < L; k++) {
                     Built[idx][Column] = true;
+                    idx++;
                 }
-                j += (L - 1);
+                j += (L - 2);
                 height = Map[j][Column];
-                length = 1;
+                length = (L - 1);
             } else {//똑같은 높이인 경우
                 length++;
             }
         }
         if(Possible) {
-            System.out.println(Column);
+//            System.out.println(Column);
             ans++;
         }
         Init_Built();
