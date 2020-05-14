@@ -112,7 +112,7 @@ public class algo_14890 {
                 }
                 height = Map[j][Column];
                 length = 1;
-            } else if(Map[j][Column] < height) {//내려가는 경사 -> 다시 생각해볼 것
+            } else if(Map[j][Column] < height) {//내려가는 경사
                 height = Map[j][Column];
                 for(int k = 1, idx = j + k; k < L && idx < N; k++) {
                     if(height != Map[idx][Column] || Built[idx][Column]) {
