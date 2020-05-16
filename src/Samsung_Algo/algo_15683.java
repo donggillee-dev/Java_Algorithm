@@ -23,26 +23,26 @@ public class algo_15683 {
             for(int j = 0; j < M; j++) {
                 int data = Integer.parseInt(stk.nextToken());
 
-                if(data == 5) {
+                if(data == 5) {//5의 경우 4방향 모두 감시 가능
                     CctvArr[Cnt] = new CCInfo(i, j, data, 1, 4);
                     CctvArr[Cnt].dir[0] = 0;
                     CctvArr[Cnt].dir[1] = 1;
                     CctvArr[Cnt].dir[2] = 2;
                     CctvArr[Cnt].dir[3] = 3;
-                } else if(data == 4) {
+                } else if(data == 4) {//4의 경우 3방향 감시 가능
                     CctvArr[Cnt] = new CCInfo(i, j, data, 4, 3);
                     CctvArr[Cnt].dir[0] = 0;
                     CctvArr[Cnt].dir[1] = 2;
                     CctvArr[Cnt].dir[2] = 3;
-                } else if(data == 3) {
+                } else if(data == 3) {//3의 경우 직각의로 2방향
                     CctvArr[Cnt] = new CCInfo(i, j, data, 4, 2);
                     CctvArr[Cnt].dir[0] = 3;
                     CctvArr[Cnt].dir[1] = 0;
-                } else if(data == 2) {
+                } else if(data == 2) {//2의 경우 반대방향으로 2방향
                     CctvArr[Cnt] = new CCInfo(i, j, data, 2, 2);
                     CctvArr[Cnt].dir[0] = 0;
                     CctvArr[Cnt].dir[1] = 2;
-                } else if(data == 1) {
+                } else if(data == 1) {//1의 경우 한방향
                     CctvArr[Cnt] = new CCInfo(i, j, data, 4, 1);
                     CctvArr[Cnt].dir[0] = 0;
                 } else;
@@ -52,8 +52,7 @@ public class algo_15683 {
                 OfficeMap[i][j] = data;
             }
         }
-//        System.out.println(Cnt);
-        Rotate(0, CopyMap);
+        Rotate(0, CopyMap);//Rotate함수는 각 모든 CCTV에 대해서 일일히 회전 시킨 경우의 수에 대해 탐색하는 함수
         sb.append(ans).append("\n");
         bw.write(String.valueOf(sb));
         bw.flush();
@@ -61,21 +60,18 @@ public class algo_15683 {
         br.close();
         return;
     }
-    private static void Rotate(int depth, int[][] arr) {
+    private static void Rotate(int depth, int[][] arr) {//1번째부터 K번째까지의 CCTV를 각 돌릴 수 있는 경우의 수 탐색
         if(depth == Cnt) {
             Check(arr);
-//            Init();
-            //여기서 사각지대 체크
         } else {
             CCInfo tmp = CctvArr[depth];
-
             if(tmp.num == 1) {
                 int dir = tmp.dir[0];
                 int x = tmp.x;
                 int y = tmp.y;
 
                 for(int i = 0; i < tmp.max; i++) {
-                    int[][] copyarr = new int[N][M];
+                    int[][] copyarr = new int[N][M];//현재 1번 CCTV를 i만큼 돌렸을때의 감시 가능 부분을 담을 배열을 저장하기 위함 -> 이 배열을 tmp.max만큼 생성한다 그 이유 각 CCTV가 rotate될때마다 감시가능 위치가 다 달라지기 때문
                     for(int j = 0; j < N; j++) {
                         System.arraycopy(arr[j], 0, copyarr[j], 0, M);
                     }
@@ -278,21 +274,14 @@ public class algo_15683 {
     private static void Check(int[][] arr) {
         int cnt = 0;
         for(int i = 0; i < N; i++) {
-//            System.out.println(Arrays.toString(arr[i]));
             for(int j = 0; j < M; j++) {
                 if(arr[i][j] == 0) cnt++;
             }
         }
-//        System.out.println();
         if(cnt < ans) ans = cnt;
     }
-//    private static void Init() {
-//        for(int i = 0; i < N; i++) {
-//            System.arraycopy(OfficeMap[i], 0, CopyMap[i], 0, M);
-//        }
-//    }
 }
-class CCInfo {
+class CCInfo {//CCTV의 정보
     int x;
     int y;
     int num;
@@ -303,6 +292,6 @@ class CCInfo {
         this.y = ny;
         this.num = N;
         this.max = M;
-        this.dir = new int[way];
+        this.dir = new int[way];//감시할 수 있는 방향
     }
 }
