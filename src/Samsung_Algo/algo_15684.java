@@ -72,6 +72,7 @@ public class algo_15684 {
                 y += 1;
             }
             if(((x / Width) + 1) == i) cnt++;
+            else break;
         }
         if(cnt == N && BuiltCnt < ans)
             ans = BuiltCnt;
