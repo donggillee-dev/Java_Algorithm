@@ -25,14 +25,12 @@ public class algo_15684 {
                 Ladder[x][y1] = 1;
                 Ladder[x][y2] = 1;
             }
+            Play(0);
+            Build(1, 1, 0);
+            if(ans == Integer.MAX_VALUE || ans > 3) sb.append(-1).append("\n");
+            else sb.append(ans).append("\n");
         }
 
-//        System.out.println("Original Ladder");
-//        for(int i = 0; i < H + 1; i++) {
-//            System.out.println(Arrays.toString(Ladder[i]));
-//        }
-                Build(1, 1, 0);
-        sb.append(ans).append("\n");
         bw.write(String.valueOf(sb));
         bw.flush();
         bw.close();
@@ -40,27 +38,14 @@ public class algo_15684 {
         return;
     }
     private static void Build(int x, int y, int BuiltCnt) {
-        if(BuiltCnt >= 1 && BuiltCnt <= 3) {
-//            System.out.println("========= " + BuiltCnt + " =========");
-//            for(int i = 1; i <= H; i++) {
-//                System.out.println(Arrays.toString(Ladder[i]));
-//            }
-
+        if(BuiltCnt >= 1) {
             Play(BuiltCnt);
         }
 
         if(BuiltCnt <= 2) {
             for(int i = x; i <= H; i++) {
                 for(int j = y; j < N; j++) {
-                    if(CurrentPossible(i, j) && j > 1 && LeftPossible(i, j)) {
-                        int idx = j * 3 - 2;
-                        Ladder[i][idx] = 1;
-                        Ladder[i][idx - 1] = 1;
-                        Build(i, j, BuiltCnt + 1);
-                        Ladder[i][idx] = 0;
-                        Ladder[i][idx - 1] = 0;
-                    }
-                    else if(CurrentPossible(i, j) && j < N && RightPossible(i, j)) {
+                    if(CurrentPossible(i, j) && RightPossible(i, j)) {
                         int idx = j * 3;
                         Ladder[i][idx] = 1;
                         Ladder[i][idx + 1] = 1;
@@ -69,12 +54,13 @@ public class algo_15684 {
                         Ladder[i][idx + 1] = 0;
                     }
                 }
+                y = 1;
             }
         }
     }
     private static void Play(int BuiltCnt) {
         int cnt = 0;
-        for(int i = 1; i < N; i++) {
+        for(int i = 1; i <= N; i++) {
             int x = i * Width - 1;
             int y = 0;
             while(y <= H) {
@@ -87,24 +73,14 @@ public class algo_15684 {
             }
             if(((x / Width) + 1) == i) cnt++;
         }
-        if(cnt == N && BuiltCnt < ans) ans = BuiltCnt;
-    }
-    private static boolean LeftPossible(int x, int y) {
-        boolean ret = true;
-        int y1 = (y - 1) * 3;
-        int y2 = y1 - 1;
-        int y3 = y2 - 1;
-
-        if(Ladder[x][y1] == 1 || Ladder[x][y2] == 1 || Ladder[x][y3] == 1) ret = false;
-        return ret;
+        if(cnt == N && BuiltCnt < ans)
+            ans = BuiltCnt;
     }
     private static boolean RightPossible(int x, int y) {
         boolean ret = true;
         int y1 = (y + 1) * 3;
-        int y2 = y1 - 1;
-        int y3 = y2 - 1;
 
-        if(Ladder[x][y1] == 1 || Ladder[x][y2] == 1 || Ladder[x][y3] == 1) ret = false;
+        if(Ladder[x][y1] == 1) ret = false;
         return ret;
     }
     private static boolean CurrentPossible(int x, int y) {
@@ -113,8 +89,9 @@ public class algo_15684 {
         int y2 = y1 - 1;
         int y3 = y2 - 1;
 
-        if(Ladder[x][y1] == 1 || Ladder[x][y2] == 1 || Ladder[x][y3] == 1) ret = false;
+        if(Ladder[x][y1] == 1 || Ladder[x][y3] == 1) ret = false;
 
         return ret;
     }
 }
+
