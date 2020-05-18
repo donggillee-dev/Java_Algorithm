@@ -29,7 +29,6 @@ public class algo_17143 {
         R = Integer.parseInt(stk.nextToken());
         C = Integer.parseInt(stk.nextToken());
         M = Integer.parseInt(stk.nextToken());
-
         if(M == 0) {
             sb.append(M).append("\n");
         } else {
@@ -52,11 +51,6 @@ public class algo_17143 {
                     break;
                 }
             }
-//            for(Iterator<Shark> shark = Sharks.iterator(); shark.hasNext();) {
-//                cur = shark.next();
-//                System.out.println(cur.Row + " " + cur.Column + " " + cur.Weight);
-//            }
-//            System.out.println("========== 0 ============");
             Solve();
             sb.append(ans).append("\n");
         }
@@ -84,6 +78,7 @@ public class algo_17143 {
                     }
                 }
             }
+            if(Time == C) break;
             for(Iterator<Shark> shark = Sharks.iterator(); shark.hasNext();) {//상어들 이동
                 cur = shark.next();
                 int Direction = cur.Direction;
@@ -122,26 +117,21 @@ public class algo_17143 {
                 }
 
             }
-
-            Sort();//정렬
-//            for(Iterator<Shark> shark = Sharks.iterator(); shark.hasNext();) {
-//                cur = shark.next();
-//                System.out.println(cur.Row + " " + cur.Column + " " + cur.Weight);
-//            }
-//            System.out.println("=========="+ Time +"============");
-            for(Iterator<Shark> shark = Sharks.iterator(); shark.hasNext();) {//상어끼리 잡아먹힘 &&
-                cur = shark.next();
-                if(cur.Row == x && cur.Column == y) {
-                    if(weight > cur.Weight) {
-                        shark.remove();
+            if(Sharks.size() != 1 && Sharks.size() != 0) {
+                Sort();//정렬
+                for(Iterator<Shark> shark = Sharks.iterator(); shark.hasNext();) {//상어끼리 잡아먹힘 &&
+                    cur = shark.next();
+                    if(cur.Row == x && cur.Column == y) {
+                        if(weight > cur.Weight) {
+                            shark.remove();
+                        }
+                    } else {
+                        x = cur.Row;
+                        y = cur.Column;
+                        weight = cur.Weight;
                     }
-                } else {
-                    x = cur.Row;
-                    y = cur.Column;
-                    weight = cur.Weight;
                 }
             }
-
             Time++;
         }
 
