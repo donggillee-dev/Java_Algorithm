@@ -3,6 +3,14 @@ import java.io.*;
 import java.util.*;
 
 public class algo_14502 {
+    private static class Info{
+        int x;
+        int y;
+        Info(int pos_x, int pos_y) {
+            this.x = pos_x;
+            this.y = pos_y;
+        }
+    }
     static int N, M;
     static int[] arr_x = {1,0,-1,0};
     static int[] arr_y = {0,1,0,-1};
@@ -84,11 +92,4 @@ public class algo_14502 {
         return result;
     }
 }
-class Info{
-    int x;
-    int y;
-    Info(int pos_x, int pos_y) {
-        this.x = pos_x;
-        this.y = pos_y;
-    }
-}
+

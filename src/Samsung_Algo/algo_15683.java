@@ -3,6 +3,20 @@ import java.io.*;
 import java.util.*;
 
 public class algo_15683 {
+    private static class CCInfo {//CCTV의 정보
+        int x;
+        int y;
+        int num;
+        int max;
+        int[] dir;
+        public CCInfo(int nx, int ny, int N, int M, int way) {
+            this.x = nx;
+            this.y = ny;
+            this.num = N;
+            this.max = M;
+            this.dir = new int[way];//감시할 수 있는 방향
+        }
+    }
     static int ans = Integer.MAX_VALUE, N, M, Cnt;
     static int[] dir_x = {0, 1, 0, -1};
     static int[] dir_y = {1, 0, -1, 0};
@@ -279,19 +293,5 @@ public class algo_15683 {
             }
         }
         if(cnt < ans) ans = cnt;
-    }
-}
-class CCInfo {//CCTV의 정보
-    int x;
-    int y;
-    int num;
-    int max;
-    int[] dir;
-    public CCInfo(int nx, int ny, int N, int M, int way) {
-        this.x = nx;
-        this.y = ny;
-        this.num = N;
-        this.max = M;
-        this.dir = new int[way];//감시할 수 있는 방향
     }
 }

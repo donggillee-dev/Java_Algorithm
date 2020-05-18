@@ -3,6 +3,24 @@ import java.io.*;
 import java.util.*;
 
 public class algo_17142 {
+    private static class SpreadInfo {
+        int x;
+        int y;
+        public SpreadInfo(int nx, int ny) {
+            this.x = nx;
+            this.y = ny;
+        }
+    }
+    private static class VirusInfo {
+        int x;
+        int y;
+        int t;
+        public VirusInfo(int nx, int ny, int Time) {
+            this.x = nx;
+            this.y = ny;
+            this.t = Time;
+        }
+    }
     static int N, M, VirusCnt;
     static int[][] VirusLoc;
     static char[][] Lab;
@@ -94,23 +112,5 @@ public class algo_17142 {
             }
         }
         if(maxTime < ans && cnt == BlankSpace) ans = maxTime;
-    }
-}
-class SpreadInfo {
-    int x;
-    int y;
-    public SpreadInfo(int nx, int ny) {
-        this.x = nx;
-        this.y = ny;
-    }
-}
-class VirusInfo {
-    int x;
-    int y;
-    int t;
-    public VirusInfo(int nx, int ny, int Time) {
-        this.x = nx;
-        this.y = ny;
-        this.t = Time;
     }
 }

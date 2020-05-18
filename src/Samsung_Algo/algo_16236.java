@@ -3,6 +3,16 @@ import java.io.*;
 import java.util.*;
 
 public class algo_16236 {
+    private static class PosInfo {
+        int time;
+        int nx, ny;
+
+        public PosInfo(int t, int x, int y) {
+            this.time = t;
+            this.nx = x;
+            this.ny = y;
+        }
+    }
     static int N;
     static int[] pos_x = {-1, 0, 1, 0};
     static int[] pos_y = {0, -1, 0, 1};
@@ -121,15 +131,5 @@ public class algo_16236 {
             Arrays.fill(TimeMap[i], -1);
         }
         return;
-    }
-}
-class PosInfo {
-    int time;
-    int nx, ny;
-
-    public PosInfo(int t, int x, int y) {
-        this.time = t;
-        this.nx = x;
-        this.ny = y;
     }
 }

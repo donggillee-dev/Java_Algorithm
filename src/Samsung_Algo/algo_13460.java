@@ -3,6 +3,17 @@ import java.io.*;
 import java.util.*;
 
 public class algo_13460 {
+    private static class BallInfo {
+        int Rx, Ry, Bx, By;
+        int cnt;
+        public BallInfo(int Red_x, int Red_y, int Blue_x, int Blue_y, int c) {
+            this.Rx = Red_x;
+            this.Ry = Red_y;
+            this.Bx = Blue_x;
+            this.By = Blue_y;
+            this.cnt = c;
+        }
+    }
     static int N, M;
     static int[] dir_x = {1, -1, 0, 0};
     static int[] dir_y = {0, 0, 1, -1};
@@ -107,16 +118,5 @@ public class algo_13460 {
             }
         }
         System.out.println("-1");
-    }
-}
-class BallInfo {
-    int Rx, Ry, Bx, By;
-    int cnt;
-    public BallInfo(int Red_x, int Red_y, int Blue_x, int Blue_y, int c) {
-        this.Rx = Red_x;
-        this.Ry = Red_y;
-        this.Bx = Blue_x;
-        this.By = Blue_y;
-        this.cnt = c;
     }
 }

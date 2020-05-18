@@ -3,6 +3,27 @@ import java.io.*;
 import java.util.*;
 
 public class algo_17825 {
+    private static class PointInfo {//현재 윺놓이 포인트에 대한 정보 객체
+        boolean Blue;//현재 칸이 분기하는 파란색 칸인지 여부
+        int move_x1, move_x2;//파란색 칸이 아닐 경우 사용되는 이동용 좌표
+        int move_y1, move_y2; //파란색 칸일 경우 사용하는 정보들 파란색 칸이 아닐 경우 -1로 초기화 되어있다
+        public PointInfo(boolean B, int x1, int y1, int x2, int y2) {
+            this.Blue = B;
+            this.move_x1 = x1;
+            this.move_x2 = x2;
+            this.move_y1 = y1;
+            this.move_y2 = y2;
+        }
+    }
+    private static class HorseInfo {
+        int x;
+        int y;
+
+        public HorseInfo(int x1, int y1) {
+            this.x = x1;
+            this.y = y1;
+        }
+    }
     static int[][] Map = new int[11][11];
     static int[][] Visited = new int[11][11];
     static PointInfo[][] Point = new PointInfo[11][11];
@@ -174,25 +195,4 @@ public class algo_17825 {
         return;
     }
 
-}
-class PointInfo {//현재 윺놓이 포인트에 대한 정보 객체
-    boolean Blue;//현재 칸이 분기하는 파란색 칸인지 여부
-    int move_x1, move_x2;//파란색 칸이 아닐 경우 사용되는 이동용 좌표
-    int move_y1, move_y2; //파란색 칸일 경우 사용하는 정보들 파란색 칸이 아닐 경우 -1로 초기화 되어있다
-    public PointInfo(boolean B, int x1, int y1, int x2, int y2) {
-        this.Blue = B;
-        this.move_x1 = x1;
-        this.move_x2 = x2;
-        this.move_y1 = y1;
-        this.move_y2 = y2;
-    }
-}
-class HorseInfo {
-    int x;
-    int y;
-
-    public HorseInfo(int x1, int y1) {
-        this.x = x1;
-        this.y = y1;
-    }
 }
