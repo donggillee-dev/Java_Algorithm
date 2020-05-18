@@ -27,21 +27,16 @@ public class algo_3190 {
             int y = Integer.parseInt(stk.nextToken());
             Map[x][y] = 10;//사과는 10
         }
-//        System.out.println("Original Array");
-//        for(int j = 1; j <= N; j++) {
-//            System.out.println(Arrays.toString(Map[j]));
-//        }
-//        System.out.println();
         L = Integer.parseInt(br.readLine());
+        boolean stop = false;
         for(int i = 0; i < L; i++) {
             StringTokenizer stk = new StringTokenizer(br.readLine());
-            boolean stop = false;
+            stop = false;
             int X = Integer.parseInt(stk.nextToken());
             char C = stk.nextToken().charAt(0);
             while(Time <= X) {
                 HeadX += dir_x[dirHead];
                 HeadY += dir_y[dirHead];
-//                System.out.println(HeadX + " " + HeadY);
                 if(HeadX < 1 || HeadY < 1 || HeadX > N || HeadY > N) {
                     stop = true;
                     break;
@@ -58,19 +53,13 @@ public class algo_3190 {
                     Map[TailX][TailY] = 0;
                     TailX += dir_x[dirTail];
                     TailY += dir_y[dirTail];
-//                    System.out.println(TailX + " " + TailY);
                     if(Map[TailX][TailY] >= 1 && Map[TailX][TailY] <= 4) {
                         dirTail = Map[TailX][TailY];
                         Map[TailX][TailY] = -1;
                     }
                 }
                 Time++;
-//                for(int j = 1; j <= N; j++) {
-//                    System.out.println(Arrays.toString(Map[j]));
-//                }
-//                System.out.println();
             }
-//            System.out.println(stop);
             if(stop) break;
             else {
                 if(C == 'D') {
@@ -81,9 +70,11 @@ public class algo_3190 {
                     HeadX += dir_x[dirHead];
                     HeadY += dir_y[dirHead];
                     if(HeadX < 1 || HeadY < 1 || HeadX > N || HeadY > N ) {
+                        stop = true;
                         break;
                     }
                     if(Map[HeadX][HeadY] == -1) {
+                        stop = true;
                         break;
                     }
                     if(Map[HeadX][HeadY] == 10) {
@@ -106,10 +97,11 @@ public class algo_3190 {
                     HeadX += dir_x[dirHead];
                     HeadY += dir_y[dirHead];
                     if(HeadX < 1 || HeadY < 1 || HeadX > N || HeadY > N) {
-
+                        stop = true;
                         break;
                     }
                     if(Map[HeadX][HeadY] == -1) {
+                        stop = true;
                         break;
                     }
                     if(Map[HeadX][HeadY] == 10) {
@@ -125,43 +117,36 @@ public class algo_3190 {
                         }
                     }
                 }
-//                for(int j = 1; j <= N; j++) {
-//                    System.out.println(Arrays.toString(Map[j]));
-//                }
-//                System.out.println();
                 Time++;
             }
         }
-        while(true) {
-            HeadX += dir_x[dirHead];
-            HeadY += dir_y[dirHead];
-//                System.out.println(HeadX + " " + HeadY);
-            if(HeadX < 1 || HeadY < 1 || HeadX > N || HeadY > N) {
-                break;
-            }
-            if(Map[HeadX][HeadY] == -1) {
-                break;
-            }
-
-            if(Map[HeadX][HeadY] == 10) {
-                Map[HeadX][HeadY] = -1;
-            }else {
-                Map[HeadX][HeadY] = -1;
-                Map[TailX][TailY] = 0;
-                TailX += dir_x[dirTail];
-                TailY += dir_y[dirTail];
-//                System.out.println(TailX + " " + TailY);
-                if(Map[TailX][TailY] >= 1 && Map[TailX][TailY] <= 4) {
-                    dirTail = Map[TailX][TailY];
-                    Map[TailX][TailY] = -1;
+        if(!stop) {
+            while(true) {
+                HeadX += dir_x[dirHead];
+                HeadY += dir_y[dirHead];
+                if(HeadX < 1 || HeadY < 1 || HeadX > N || HeadY > N) {
+                    break;
                 }
+                if(Map[HeadX][HeadY] == -1) {
+                    break;
+                }
+
+                if(Map[HeadX][HeadY] == 10) {
+                    Map[HeadX][HeadY] = -1;
+                }else {
+                    Map[HeadX][HeadY] = -1;
+                    Map[TailX][TailY] = 0;
+                    TailX += dir_x[dirTail];
+                    TailY += dir_y[dirTail];
+                    if(Map[TailX][TailY] >= 1 && Map[TailX][TailY] <= 4) {
+                        dirTail = Map[TailX][TailY];
+                        Map[TailX][TailY] = -1;
+                    }
+                }
+                Time++;
             }
-            Time++;
-//            for(int j = 1; j <= N; j++) {
-//                System.out.println(Arrays.toString(Map[j]));
-//            }
-//            System.out.println();
         }
+
         sb.append(Time).append("\n");
         bw.write(String.valueOf(sb));
         bw.flush();
