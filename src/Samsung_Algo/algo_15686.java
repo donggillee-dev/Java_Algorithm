@@ -68,7 +68,6 @@ public class algo_15686 {
             for(int i = 0; i < TmpChickens.size(); i++) {
                 cur = TmpChickens.get(i);
                 Map[cur.x][cur.y] = 2;
-//                System.out.println(cur.x + " " + cur.y);
             }
             for(int i = 0; i < Houses.size(); i++) {
                 if(val > ans) break;
