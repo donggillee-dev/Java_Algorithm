@@ -37,9 +37,6 @@ public class algo_5373 {
                 info = stk.nextToken();
                 Rotate(info.charAt(0), info.charAt(1));
             }
-            for(int j = 0; j < 3; j++) {
-                System.out.println(Arrays.toString(Right[j]));
-            }
             Append();
             Init();
         }
@@ -181,7 +178,6 @@ public class algo_5373 {
                     System.arraycopy(Back[0], 0, Right[0], 0, 3);
                     System.arraycopy(Left[0], 0, Back[0], 0, 3);
                     System.arraycopy(tmp_row, 0, Left[0], 0, 3);
-                    System.arraycopy(Upper[0], 0, tmp_row, 0, 3);
                 } else {
                     System.arraycopy(Left[0], 0, Front[0], 0, 3);
                     System.arraycopy(Back[0], 0, Left[0], 0, 3);
@@ -204,7 +200,6 @@ public class algo_5373 {
                         }
                     }
                     System.arraycopy(tmp_column, 0, tmp_row, 0, 3); //Upper 임의로 저장
-//                    System.out.println(Arrays.toString(tmp_column));
                     for(int i = 3; i < 12; i++) {
                         if(i / 3 == 1) {
                             Upper[Math.abs((i % 3) - 2)][0] = tmp_column[i];
@@ -396,13 +391,13 @@ public class algo_5373 {
                         if(i / 3 == 1) {
                             Upper[2][i % 3] = tmp_column[i];
                         } else if(i / 3 == 2) {
-                            Right[i % 3][0] = tmp_column[i];
+                            Right[Math.abs((i % 3) - 2)][0] = tmp_column[i];
                         } else {
                             Down[0][i % 3] = tmp_column[i];
                         }
                     }
                     for(int i = 0; i < 3; i++) {
-                        Left[i][2] = tmp_row[i];
+                        Left[Math.abs(i - 2)][2] = tmp_row[i];
                     }
                 }
                 break;
