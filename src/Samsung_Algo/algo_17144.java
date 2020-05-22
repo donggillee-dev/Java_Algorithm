@@ -74,9 +74,23 @@ public class algo_17144 {
             }
         }
         while(time < T) {
+//            System.out.println("======" + time + "=======");
+//            System.out.println("====== Before Spread =======");
+//            for(int i = 1; i <= R; i++) {
+//                System.out.println(Arrays.toString(Arr[i]));
+//            }
             Spread();
+//            System.out.println("====== After Spread =======");
+//            for(int i = 1; i <= R; i++) {
+//                System.out.println(Arrays.toString(Arr[i]));
+//            }
             Move();
             time++;
+//            System.out.println("====== After Move =======");
+//            for(int i = 1; i <= R; i++) {
+//                System.out.println(Arrays.toString(Arr[i]));
+//            }
+//            System.out.println();
         }
         solve();
         sb.append(ans).append("\n");
@@ -120,17 +134,17 @@ public class algo_17144 {
     private static void Move() {
         Info tmp;
         Collections.sort(List, new Compare());//List Information
-        for(int i = 0; i < List.size(); i++) {
-            int x = List.get(i).x;
-            int y = List.get(i).y;
-            System.out.println(x + " " + y + " " + Arr[x][y]);
-        }
+//        for(int i = 0; i < List.size(); i++) {
+//            int x = List.get(i).x;
+//            int y = List.get(i).y;
+//            System.out.println(x + " " + y + " " + Arr[x][y]);
+//        }
         for(Iterator<Info> it = List.iterator(); it.hasNext();) {
             tmp = it.next();
             if(tmp.y == 1 && tmp.x < UpperX) {
                 if(tmp.x == UpperX - 1) it.remove();
                 else tmp.x++;
-            } else if(tmp.x == 1 && tmp.x > DownX) {
+            } else if(tmp.y == 1 && tmp.x > DownX) {
                 if(tmp.x == DownX + 1) it.remove();
                 else tmp.x--;
             } else if(tmp.x == 1 && tmp.y >= 2) {
@@ -190,13 +204,13 @@ public class algo_17144 {
             Arr[DownX][i - 1] = 0;
         }
 
-        Collections.sort(List, new Compare());//List Information
-        System.out.println("After");
-        for(int i = 0; i < List.size(); i++) {
-            int x = List.get(i).x;
-            int y = List.get(i).y;
-            System.out.println(x + " " + y + " " + Arr[x][y]);
-        }
+//        Collections.sort(List, new Compare());//List Information
+//        System.out.println("After");
+//        for(int i = 0; i < List.size(); i++) {
+//            int x = List.get(i).x;
+//            int y = List.get(i).y;
+//            System.out.println(x + " " + y + " " + Arr[x][y]);
+//        }
     }
     private static void solve() {
         Info tmp;
