@@ -20,20 +20,12 @@ public class algo_17144 {
             this.isFirst = f;
         }
     }
-    private static class Compare implements Comparator<Info> {
-        @Override
-        public int compare(Info o1, Info o2) {
-            if(o1.x > o2.x) {
-                return 1;
-            } else if(o1.x == o2.x) {
-                if(o1.y > o2.y) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            } else {
-                return -1;
-            }
+    private static class Info3 {
+        int x, y, val;
+        public Info3(int nx, int ny, int v) {
+            this.x = nx;
+            this.y = ny;
+            this.val = v;
         }
     }
     static int R, C, T, ans = 0;
@@ -116,81 +108,89 @@ public class algo_17144 {
         }
     }
     private static void Move() {
+        LinkedList<Info> Rm = new LinkedList<>();
+        LinkedList<Info3> Sub = new LinkedList<>();
         Info tmp;
+        int val;
         for(int i = 0; i < List.size(); i++) {
             tmp = List.get(i);
             if(tmp.y == 1 && tmp.x < UpperX) {
                 if(tmp.x == UpperX - 1) {
+                    Rm.add(tmp);
                     List.remove(i);
                     i--;
-                } else tmp.x++;
+                } else {
+                    val = Arr[tmp.x][tmp.y];
+                    Arr[tmp.x][tmp.y] = 0;
+                    tmp.x++;
+                    List.set(i, tmp);
+                    Sub.add(new Info3(tmp.x, tmp.y, val));
+                }
             } else if(tmp.y == 1 && tmp.x > DownX) {
                 if(tmp.x == DownX + 1) {
+                    Rm.add(tmp);
                     List.remove(i);
                     i--;
-                } else tmp.x--;
+                } else {
+                    val = Arr[tmp.x][tmp.y];
+                    Arr[tmp.x][tmp.y] = 0;
+                    tmp.x--;
+                    List.set(i, tmp);
+                    Sub.add(new Info3(tmp.x, tmp.y, val));
+                }
             } else if(tmp.x == 1 && tmp.y >= 2) {
+                val = Arr[tmp.x][tmp.y];
+                Arr[tmp.x][tmp.y] = 0;
                 tmp.y--;
+                List.set(i, tmp);
+                Sub.add(new Info3(tmp.x, tmp.y, val));
             } else if(tmp.x == R && tmp.y >= 2) {
+                val = Arr[tmp.x][tmp.y];
+                Arr[tmp.x][tmp.y] = 0;
                 tmp.y--;
+                List.set(i, tmp);
+                Sub.add(new Info3(tmp.x, tmp.y, val));
             } else if(tmp.x == UpperX && tmp.y <= C - 1) {
+                val = Arr[tmp.x][tmp.y];
+                Arr[tmp.x][tmp.y] = 0;
                 tmp.y++;
+                List.set(i, tmp);
+                Sub.add(new Info3(tmp.x, tmp.y, val));
             } else if(tmp.x == DownX && tmp.y <= C - 1){
+                val = Arr[tmp.x][tmp.y];
+                Arr[tmp.x][tmp.y] = 0;
                 tmp.y++;
+                List.set(i, tmp);
+                Sub.add(new Info3(tmp.x, tmp.y, val));
             } else if(tmp.y == C && tmp.x >= DownX && tmp.x <= R - 1) {
+                val = Arr[tmp.x][tmp.y];
+                Arr[tmp.x][tmp.y] = 0;
                 tmp.x++;
+                List.set(i, tmp);
+                Sub.add(new Info3(tmp.x, tmp.y, val));
             } else if(tmp.y == C && tmp.x <= UpperX && tmp.x >= 1) {
+                val = Arr[tmp.x][tmp.y];
+                Arr[tmp.x][tmp.y] = 0;
                 tmp.x--;
+                List.set(i, tmp);
+                Sub.add(new Info3(tmp.x, tmp.y, val));
             } else;
         }
-
         //Upper
-
-
-        Arr[UpperX - 1][UpperY] = 0;//공기 청정기 바로 위 열에 대해
-        for(int i = UpperX - 1; i >= 2; i--) {
-            Arr[i][UpperY] = Arr[i - 1][UpperY];
-            Arr[i - 1][UpperY] = 0;
+        for(int i = 0; i < Rm.size(); i++) {
+            tmp = Rm.get(i);
+            Arr[tmp.x][tmp.y] = 0;
         }
-        for(int i = UpperY; i <= C - 1; i++) {
-            Arr[1][i] = Arr[1][i + 1];
-            Arr[1][i + 1] = 0;
-        }//공기 청정기 위 행에 대해
-        for(int i = 1; i <= UpperX - 1; i++) {
-
-            Arr[i][C] = Arr[i + 1][C];
-//            System.out.println(i + " " + Arr[i][C]);
-            Arr[i + 1][C] = 0;
-        }//공기 청정기 반대 끝쪽 열에 대해
-        for(int i = C; i >= UpperY + 2; i--) {
-            Arr[UpperX][i] = Arr[UpperX][i - 1];
-            Arr[UpperX][i - 1] = 0;
-        }//공기 청정기 같은 행에 대해
-
-        //Down
-        Arr[DownX + 1][DownY] = 0;
-        for(int i = DownX + 1; i <= R - 1; i++) {//공기 청정기 바로 아래 열에 대해
-            Arr[i][DownY] = Arr[i + 1][DownY];
-            Arr[i + 1][DownY] = 0;
+        Info3 tmp2;
+        for(int i = 0; i < Sub.size(); i++) {
+            tmp2 = Sub.get(i);
+            Arr[tmp2.x][tmp2.y] = tmp2.val;
         }
-        for(int i = DownY; i <= C - 1; i++) {//공기 청정기 아래 행에 대해
-            Arr[R][i] = Arr[R][i + 1];
-            Arr[R][i + 1] = 0;
-        }
-        for(int i = R; i >= DownX + 1; i--) {//공기 청정기 반대편 열에 대해
-            Arr[i][C] = Arr[i - 1][C];
-            Arr[i - 1][C] = 0;
-        }
-        for(int i = C; i >= DownY + 2; i--) {
-            Arr[DownX][i] = Arr[DownX][i - 1];
-            Arr[DownX][i - 1] = 0;
-        }
-
     }
     private static void solve() {
         Info tmp;
-        for(Iterator<Info> it = List.iterator(); it.hasNext();) {
-            tmp = it.next();
+        for(int i = 0; i < List.size(); i++) {
+            tmp = List.get(i);
             ans += Arr[tmp.x][tmp.y];
         }
     }
