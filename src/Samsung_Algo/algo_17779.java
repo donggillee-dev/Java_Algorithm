@@ -7,14 +7,12 @@ public class algo_17779 {
     static int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE, ans = Integer.MAX_VALUE;
     static int tot = 0;
     static int[][] Arr;
-    static int[][] PartArr;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         N = Integer.parseInt(br.readLine());
         Arr = new int[N + 1][N + 1];
-        PartArr = new int[N + 1][N + 1];
 
         for(int i = 1; i <= N; i++) {
             StringTokenizer stk = new StringTokenizer(br.readLine());
@@ -52,7 +50,7 @@ public class algo_17779 {
         return true;
     }
     private static void Partition(int x, int y, int d1, int d2) {
-        ////////// partition 5 //////////
+        int[][] PartArr = new int[N + 1][N + 1];
         for(int nx = x, ny = y; nx <= x + d1 && ny >= ny - d1; nx++, ny--) {
             PartArr[nx][ny] = 5;
         }
@@ -65,52 +63,33 @@ public class algo_17779 {
         for(int nx = x + d2, ny = y + d2; nx <= x + d2 + d1 && ny >= y + d2 - d1; nx++, ny--) {
             PartArr[nx][ny] = 5;
         }
-        ////////// partition 5 //////////
-
-        ////////// partition 1 //////////
-        for(int nx = 1; nx < x + d1; nx++) {
-            for(int ny = 1; ny <= y; ny++) {
-                if(PartArr[nx][ny] == 5) break;
-                else PartArr[nx][ny] = 1;
+        for(int nx = x, ny = y; nx < x + d1 && ny > ny - d1; nx++, ny--) {
+            int tmp = nx + 1;
+            while(tmp <= N && PartArr[tmp][ny] != 5) {
+                PartArr[tmp][ny] = 5;
+                tmp++;
             }
         }
-        ////////// partition 1 //////////
-
-        ////////// partition 2 //////////
-        for(int nx = 1; nx <= x + d2; nx++) {
-            for(int ny = N; ny > y; ny--) {
-                if(PartArr[nx][ny] == 5) break;
-                else PartArr[nx][ny] = 2;
+        if(d1 != 1 || d2 != 1) {
+            for(int nx = x, ny = y; nx < x + d2 && ny < y + d2; nx++, ny++) {
+                int tmp = nx + 1;
+                while(tmp < N && PartArr[tmp][ny] != 5) {
+                    PartArr[tmp][ny] = 5;
+                    tmp++;
+                }
             }
         }
-        ////////// partition 2 //////////
 
-        ////////// partition 3 //////////
-        for(int nx = x + d1; nx <= N; nx++) {
-            for(int ny = 1; ny < y - d1 + d2; ny++) {
-                if(PartArr[nx][ny] == 5) break;
-                else PartArr[nx][ny] = 3;
+        for(int nx = 1; nx <= N; nx++) {
+            for(int ny = 1; ny <= N; ny++) {
+                if(PartArr[nx][ny] != 5) {
+                    if(nx >= 1 && nx < x + d1 && ny >= 1 && ny <= y) PartArr[nx][ny] = 1;
+                    else if(nx >= 1 && nx <= x + d2 && ny > y && ny <= N) PartArr[nx][ny] = 2;
+                    else if(nx >= x + d1 && nx <= N && ny >= 1 && ny < y - d1 + d2) PartArr[nx][ny] = 3;
+                    else if(nx > x + d2 && nx <= N && ny >= y - d1 + d2  && ny <= N) PartArr[nx][ny] = 4;
+                }
             }
         }
-        ////////// partition 3 //////////
-
-        ////////// partition 4 //////////
-        for(int nx = x + d2 + 1; nx <= N; nx++) {
-            for(int ny = N; ny >= y - d1 + d2; ny--) {
-                if(PartArr[nx][ny] == 5) break;
-                else PartArr[nx][ny] = 4;
-            }
-        }
-        ////////// partition 4 //////////
-//        System.out.println(x + " " + y + " " + d1 + " " + d2);
-//        for(int i = 1; i <= N; i++) {
-//            System.out.println(Arrays.toString(PartArr[i]));
-//        }
-//        System.out.println();
-        sum();
-        Init();
-    }
-    private static void sum() {
         int sum1 = 0;
         int sum2 = 0;
         int sum3 = 0;
@@ -137,13 +116,9 @@ public class algo_17779 {
         if(sum5 < min) min = sum5;
         if(sum5 > max) max = sum5;
         ans = Math.min(ans, max - min);
-    }
-    private static void Init() {
-        for(int i = 0; i <= N; i++) {
-            Arrays.fill(PartArr[i], 0);
-        }
         max = Integer.MIN_VALUE;
         min = Integer.MAX_VALUE;
     }
 }
+
 
