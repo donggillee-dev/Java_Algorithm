@@ -54,7 +54,6 @@ public class algo_1005 {
             }
         }
         for(int i = 0; i < N; i++) {
-            //if(Q.isEmpty) --> 모든 노드에 대해서 탐색하는 도중에 큐가 비었다면 그건 순환 경로가 존재하는것
             int StartNode = Q.poll();//시작노드를 끄집어옴
             for(int EndNode : Queue.get(StartNode)) {//해당 시작노드가 존재하는 위상정렬 ArrayList에 접근해서 빼오고
                 Check[EndNode]--;//해당 타겟 노드로의 경로를 하나 제거해줌 why? StartNode에서 EndNode하나 연결해준다는 생각으로!!
