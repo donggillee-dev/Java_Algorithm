@@ -1,4 +1,4 @@
-package ETC;
+package BOJ_StepByStep;
 import java.io.*;
 import java.util.*;
 
