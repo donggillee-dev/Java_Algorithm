@@ -8,6 +8,8 @@ public class algo_1006 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
 
+
+
         bw.flush();
         bw.close();
         br.close();
