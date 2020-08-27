@@ -8,11 +8,9 @@ public class Dart {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
 
-        Solution S = new Solution();
-
         String str = br.readLine();
 
-        int res = S.solution(str);
+        int res = solution(str);
 
         sb.append(res).append("\n");
         bw.write(String.valueOf(sb));
@@ -22,42 +20,40 @@ public class Dart {
         br.close();
         return;
     }
-    static class Solution {
-        public int solution(String dartResult) {
-            int answer = 0;
-            int idx = 0;
-            boolean flag = false;
-            int[] Score = {0, 1, 1, 1};
+    static int solution(String dartResult) {
+        int answer = 0;
+        int idx = 0;
+        boolean flag = false;
+        int[] Score = {0, 1, 1, 1};
 
-            for(int i = 0; i < dartResult.length(); i++) {
-                char ch = dartResult.charAt(i);
-                if((int)ch >= '0' && (int)ch <= '9'){
-                    if(flag) {
-                        Score[idx] = 10;
-                    } else {
-                        idx++;
-                        Score[idx] = ch - '0';
-                        flag = true;
-                    }
-                }
-                else {
-                    flag = false;
-                    if(ch == 'S');
-                    else if(ch == 'D')
-                        Score[idx] = (int)Math.pow(Score[idx], 2);
-                    else if(ch == 'T')
-                        Score[idx] = (int)Math.pow(Score[idx], 3);
-                    else if(ch == '*') {
-                        Score[idx] *= 2;
-                        Score[idx - 1] *= 2;
-                    } else
-                        Score[idx] *= -1;
+        for(int i = 0; i < dartResult.length(); i++) {
+            char ch = dartResult.charAt(i);
+            if((int)ch >= '0' && (int)ch <= '9'){
+                if(flag) {
+                    Score[idx] = 10;
+                } else {
+                    idx++;
+                    Score[idx] = ch - '0';
+                    flag = true;
                 }
             }
-            for(int i = 1; i < 4; i++) answer += Score[i];
-
-            return answer;
+            else {
+                flag = false;
+                if(ch == 'S');
+                else if(ch == 'D')
+                    Score[idx] = (int)Math.pow(Score[idx], 2);
+                else if(ch == 'T')
+                    Score[idx] = (int)Math.pow(Score[idx], 3);
+                else if(ch == '*') {
+                    Score[idx] *= 2;
+                    Score[idx - 1] *= 2;
+                } else
+                    Score[idx] *= -1;
+            }
         }
+        for(int i = 1; i < 4; i++) answer += Score[i];
+
+        return answer;
     }
 }
 
