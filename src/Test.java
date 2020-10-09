@@ -1,13 +1,12 @@
-import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Test {
-    public static void main(String[] args) throws IOException {
-        String tmp1 = "1tqwe";
-        String tmp2 = tmp1;
+    public static void main(String[] args) throws ParseException {
+        SimpleDateFormat f = new SimpleDateFormat("MM/DD HH:MM:SS");
+        Date D1 = f.parse("10/01 23:20:25");
 
-        tmp2 = "Success";
-
-        System.out.println(tmp2.length());
+        System.out.println( D1.getTime() + 30);
     }
 }
