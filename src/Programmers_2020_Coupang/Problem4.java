@@ -12,8 +12,8 @@ public class Problem4 {
         String dest = "YEOSU";
         String[][] roads = {{"SEOUL","DAEJEON"},{"ULSAN","BUSAN"},{"DAEJEON","ULSAN"},{"DAEJEON","GWANGJU"},{"SEOUL","ULSAN"},{"DAEJEON","BUSAN"},{"GWANGJU","BUSAN"}};
 
-        solution(depar, hub, dest, roads);
 
+        solution(depar, hub, dest, roads);
         System.out.println(answer);
     }
     public static int solution(String depar, String hub, String dest, String[][] roads) {
