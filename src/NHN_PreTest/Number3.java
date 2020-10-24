@@ -68,7 +68,7 @@ public class Number3 {
                 } else answer += ch_pop;
 
             }
-            System.out.println(answer);
+            sb.append(answer).append("\n");
         }
         bw.write(String.valueOf(sb));
         bw.flush();
