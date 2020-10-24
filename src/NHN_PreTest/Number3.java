@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.*;
 
-public class Number2 {
+public class Number3 {
     public static void main(String[] args) throws IOException {
         String[] arr = {"2(B(R)2(G))1(B2(B(R)))"};
         solution(1, arr);
