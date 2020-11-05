@@ -3,6 +3,8 @@ package Programmers_Kit_Greedy;
 public class BiggestNumber {
     public static void main(String[] args) {
         String number = "999991119";
+        String number2 = "999991120";
+
         int k = 3;
         Solution sol = new Solution();
         System.out.println(sol.solution(number, k));
