@@ -3,6 +3,7 @@ import java.util.*;
 public class KakFriColoringBook {
     public static void main(String[] args) {
         Solution sol = new Solution();
+
         int[][] picture = {
                 {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
