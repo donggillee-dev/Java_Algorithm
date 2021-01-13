@@ -2,7 +2,6 @@ package BOJ_BackTracking;
 
 import java.io.*;
 import java.util.*;
-
 public class algo_2206 {
     static int N, K;
     static int min = Integer.MAX_VALUE;
@@ -44,11 +43,10 @@ public class algo_2206 {
         bw.flush();
         bw.close();
         br.close();
-        return;
     }
 
     private static void bfsSol(int x, int y) {
-        Q = new LinkedList<Point>();
+        Q = new LinkedList<>();
         Q.add(new Point(x, y, 1, 0));
         visit[x][y] = 0;
 

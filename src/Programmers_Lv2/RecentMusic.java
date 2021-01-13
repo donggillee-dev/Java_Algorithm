@@ -4,34 +4,27 @@ import java.util.*;
 public class RecentMusic {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        String m = "ABC";
+        String m = "CC#BCC#BCC#BCC#B";
         String[] musicinfos = {
-                "12:00,12:14,HELLO,C#DEFGAB",
-                "13:00,13:05,WORLD,ABCDEF"
+                "03:00,03:30,FOO,CC#B",
+                "04:00,04:08,BAR,CC#BCC#BCC#B"
         };
 
         System.out.println(sol.solution(m, musicinfos));
-
-        return;
     }
     private static class Solution {
         public String solution(String m, String[] musicinfos) {
             StringBuilder answer_sb = new StringBuilder();
             StringBuilder sb = new StringBuilder();
-            PriorityQueue<Info> Q = new PriorityQueue<>(new Comparator<Info>() {
-                @Override
-                public int compare(Info o1, Info o2) {
-                    return o2.time - o1.time;
-                }
-            });
+            PriorityQueue<Info> Q = new PriorityQueue<>((o1, o2) -> o2.time - o1.time);
 
-            String[] infoArr, start, end;
+            String[] infoArr, start;
             int startTime, endTime, playTime;
 
             for(String str : musicinfos) {
                 infoArr = str.split(",");
                 start = infoArr[0].split(":");
-                end = infoArr[1].split(":");
+                String[] end = infoArr[1].split(":");
                 startTime = Integer.parseInt(start[0]) * 3600 + Integer.parseInt(start[1]) * 60;
                 endTime = Integer.parseInt(end[0]) * 3600 + Integer.parseInt(end[1]) * 60;
                 playTime = (endTime - startTime) / 60;
@@ -46,14 +39,25 @@ public class RecentMusic {
                     if(idx == infoArr[3].length()) idx = 0;
                 }
 
-                if(String.valueOf(sb).contains(m)) {
-                    int flagidx = String.valueOf(sb).indexOf(m) + m.length();
-                    if((flagidx < sb.length()) && !(sb.charAt(flagidx) == '#'))
+                String[] splitArr = String.valueOf(sb).split(m);
+                for(int i = 1; i < splitArr.length; i++) {
+                    if(splitArr[i].length() > 0 && splitArr[i].charAt(0) != '#') {
                         Q.offer(new Info(playTime, infoArr[2]));
+                        break;
+                    }
                 }
+//                if(String.valueOf(sb).contains(m)) {
+//                    int flagidx = String.valueOf(sb).indexOf(m) + m.length();
+//                    if((flagidx < sb.length()) && !(sb.charAt(flagidx) == '#'))
+//                        Q.offer(new Info(playTime, infoArr[2]));
+//                }
                 sb.delete(0, sb.length());
             }
-            answer_sb.append(Q.poll().title);
+            if(Q.size() == 0) {
+                sb.append("(None)").append("\n");
+            } else {
+                answer_sb.append(Q.poll().title);
+            }
             Q.clear();
             return String.valueOf(answer_sb);
         }
