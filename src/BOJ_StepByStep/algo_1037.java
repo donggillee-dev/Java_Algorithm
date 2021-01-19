@@ -10,7 +10,7 @@ public class algo_1037 {
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        int result = 0;
+        int result;
         int[] arr = new int[N];
         StringTokenizer stk = new StringTokenizer(br.readLine());
 
