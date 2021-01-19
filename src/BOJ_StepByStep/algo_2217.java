@@ -1,4 +1,4 @@
-package BOJ_MathCategory;
+package BOJ_StepByStep;
 import java.io.*;
 import java.util.*;
 
