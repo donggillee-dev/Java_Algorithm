@@ -1,7 +1,6 @@
 package Programmers_Lv2;
 
 import java.io.*;
-import java.util.*;
 
 public class ExpressNum {
     public static void main(String[] args) throws IOException {
