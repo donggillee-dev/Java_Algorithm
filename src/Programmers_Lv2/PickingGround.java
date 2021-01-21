@@ -18,7 +18,9 @@ public class PickingGround {
         // DP[i+1][j] = max(DP[i+1][j] , DP[i][k] + Ground[i+1][j])
         //3. 이러한 방법으로 N까지 내려오면 결국 최대값...!
 
-        //몰랐던거 자바의 데이터 복사에는 깊은 복사와 옅은 복사가 존재!!
+        //DP는 항상 코드로 옮기기 이전에 점화식을 도출해봐야 사소한 실수와 코드 작성의 어려움을 느끼지 않을 수 있는 것 같다.
+
+        //알았지만 정확히는 몰랐던거 => 자바의 데이터 복사에는 깊은 복사와 옅은 복사가 존재!!
         //https://coding-factory.tistory.com/548
         Solution sol = new Solution();
         int[][] land = {{1,2,3,5}, {5,6,7,8}, {4,3,2,1}};
