@@ -1,15 +1,29 @@
 import java.io.*;
+import java.util.*;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        int num = 129392;
-        while(num > 1) {
-            sb.insert(0, num % 2);
-            num /= 2;
-        }
-        if(num == 1) sb.insert(0, 1);
 
-        System.out.println(String.valueOf(sb));
+    }
+}
+
+class Phone {
+    public String name;
+    public char color;
+    public int price;
+
+    public int getReadDebt() {
+        return 1000;
+    }
+
+    public Phone(String name) {
+        this.name = name;
+        System.out.println("A");
+        System.out.println(name);
+    }
+
+    public Phone() {
+        System.out.println("B");
+        System.out.println(name);
     }
 }
