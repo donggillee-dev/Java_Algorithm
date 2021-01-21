@@ -3,7 +3,14 @@ import java.util.*;
 
 public class Test {
     public static void main(String[] args) throws IOException {
+        String str1 = new String("Hello");
+        String str2 = new String("Hello");
 
+        if(str1 == str2) System.out.println("Same");
+        else System.out.println("diff");
+
+        StringBuilder sb = new StringBuilder();
+        System.out.println(sb)
     }
 }
 
