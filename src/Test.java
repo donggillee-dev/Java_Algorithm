@@ -1,16 +1,18 @@
 import java.io.*;
 import java.util.*;
 
-public class Test {
-    public static void main(String[] args) throws IOException {
-        String str1 = new String("Hello");
-        String str2 = new String("Hello");
+import java.util.Arrays;
 
-        if(str1 == str2) System.out.println("Same");
-        else System.out.println("diff");
+public class Test{
+    public static void main(String[] args)  {
+        int[][] a = {{1, 2, 3}, {4, 5, 6}};
+        int[][] b = new int[a.length][a[0].length];
 
-        StringBuilder sb = new StringBuilder();
-        System.out.println(sb)
+        for(int i = 0; i < a.length; i++) {
+            b[i] = Arrays.copyOf(a[i], a[i].length);
+        }
+        a[0][0] = 10;
+        System.out.println(a[0][0] + " " + b[0][0]);
     }
 }
 
