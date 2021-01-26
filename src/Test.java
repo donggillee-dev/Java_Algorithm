@@ -23,9 +23,9 @@ class Parent {
 
 class Child extends Parent {
     int x = 200;
-
     @Override
     public String toString() {
+        System.out.println("Test");
         return "Child{" +
                 "x=" + x +
                 '}';
