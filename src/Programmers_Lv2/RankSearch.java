@@ -6,8 +6,23 @@ import java.util.Collections;
 
 public class RankSearch {
     public static void main(String[] args) {
-        String[] info = {"java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"};
-        String[] query = {"java and backend and junior and pizza 100","python and frontend and senior and chicken 200","cpp and - and senior and pizza 250","- and backend and senior and - 150","- and - and - and chicken 100","- and - and - and - 150"};
+        String[] info = {
+                "java backend junior pizza 150",
+                "python frontend senior chicken 210",
+                "python frontend senior chicken 150",
+                "cpp backend senior pizza 260",
+                "java backend junior chicken 80",
+                "python backend senior chicken 50"
+        };
+
+        String[] query = {
+                "java and backend and junior and pizza 100",
+                "python and frontend and senior and chicken 200",
+                "cpp and - and senior and pizza 250",
+                "- and backend and senior and - 150",
+                "- and - and - and chicken 100",
+                "- and - and - and - 150"
+        };
         System.out.println(Arrays.toString(Solution.solution(info, query)));
 
     }
@@ -18,8 +33,11 @@ public class RankSearch {
 
         //HashMap 사용해서 문자열 그룹화 & 검색 , 수정 속도 향상 => O(1)
         private static HashMap<String, ArrayList<Integer>> hash = new HashMap<>();
+
         public static int[] solution(String[] info, String[] query) {
+            StringBuilder sb = new StringBuilder();
             int[] answer = new int[query.length];
+            int answerIdx = 0;
 
             //info 문자열 Tokenizing 과정
             for(String str : info) {
@@ -41,8 +59,7 @@ public class RankSearch {
             }
 
             //query 문자열들 가져와서 hash에 key로 들어간 문자열 규격처럼 맞춤
-            StringBuilder sb = new StringBuilder();
-            int idx = 0;
+
             for(String str : query) {
                 String[] arr1 = str.split(" and ");
                 String[] arr2 = arr1[arr1.length - 1].split(" ");
@@ -59,22 +76,23 @@ public class RankSearch {
                 //내가 간과했던 이슈!!
                 //query를 날리더라도 해당 쿼리에 대해 아에 그룹이 생성조차 안되어 있을수도 있음 => null을 리턴할수도 있기때문에 null Check 필수!!!
                 if(valueList == null) {
-                    answer[idx] = 0;
+                    answer[answerIdx] = 0;
                 } else {
                     //ArrayList가 존재하면 내가 검색하려는 점수가 몇번째인지 확인 => 배열의 길이 - idx = 찾는 사람들 인원 수
                     int pos = BinarySearch(valueList, score);
 
                     if(pos >= 0 && pos <= (valueList.size() - 1)) {
-                        answer[idx] = valueList.size() - pos;
+                        answer[answerIdx] = valueList.size() - pos;
                     } else {
-                        answer[idx] = 0;
+                        answer[answerIdx] = 0;
                     }
                 }
 
                 sb.delete(0, sb.length());
 
-                idx++;
+                answerIdx++;
             }
+
             return answer;
         }
 
