@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+//Commit log check
 public class RankSearch {
     public static void main(String[] args) {
         String[] info = {"java backend junior pizza 150","python frontend senior chicken 210","python frontend senior chicken 150","cpp backend senior pizza 260","java backend junior chicken 80","python backend senior chicken 50"};
