@@ -12,11 +12,16 @@ public class RankSearch {
 
     }
     private static class Solution {
+        //문자열을 잘라서 담을 문자열 배열
+        //공간 복잡도와 시간 복잡도를 단순화하기 위해 StringBuilder객체 배열을 선언함
         private static StringBuilder[] arr;
+
+        //HashMap 사용해서 문자열 그룹화 & 검색 , 수정 속도 향상 => O(1)
         private static HashMap<String, ArrayList<Integer>> hash = new HashMap<>();
         public static int[] solution(String[] info, String[] query) {
             int[] answer = new int[query.length];
 
+            //입력받은
             for(String str : info) {
                 String[] strArr = str.split(" ");
                 arr = new StringBuilder[strArr.length];
