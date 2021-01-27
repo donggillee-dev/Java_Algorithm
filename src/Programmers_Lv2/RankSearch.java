@@ -1,12 +1,8 @@
 package Programmers_Lv2;
-import java.util.*;
-
-//알고리즘 적인 문제라기 보다는 단순 탐색 구현 문제
-    //탐색인데 왜 알고리즘이 아니야? => 문자열이기에 HashMap을 생각해봤지만 단순히 하나의 키로 모든 문자열을 탐색할 수는 없음
-    //왜냐하면 문자열에서 타고타고 들어가야하는 조건들이 있기때문
-//그래도 연산 횟수를 어느정도 줄일 수 있는 방법은? => 주어지는 문자열을 정렬하여 탐색이 훨씬 빠르게!!
-//=> 이 방법은 정말 최악 ? => 결과값을 출력할떄 주어진 쿼리 순서대로 출력해줘야 하기 때문...
-//주어진 info에 대한 class를 만들어서 LinkedList를 만들자!!
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class RankSearch {
     public static void main(String[] args) {
@@ -16,21 +12,19 @@ public class RankSearch {
     }
     private static class Solution {
         private static StringBuilder[] arr;
-        private static boolean[] visited;
         private static HashMap<String, ArrayList<Integer>> hash = new HashMap<>();
         public static int[] solution(String[] info, String[] query) {
             int[] answer = new int[query.length];
 
             for(String str : info) {
                 String[] strArr = str.split(" ");
-                visited = new boolean[strArr.length];
                 arr = new StringBuilder[strArr.length];
 
                 for(int i = 0; i < strArr.length; i++) {
                     arr[i] = new StringBuilder();
                     arr[i].append(strArr[i]);
                 }
-                DFS(0, 0);
+                DFS(0);
             }
 
             for(String str : hash.keySet()) {
@@ -66,11 +60,10 @@ public class RankSearch {
 
                 idx++;
             }
-
             return answer;
         }
 
-        private static void DFS(int depth, int idx) {
+        private static void DFS(int idx) {
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < arr.length - 1; i++) {
                 sb.append(arr[i]);
@@ -89,16 +82,12 @@ public class RankSearch {
             }
 
             for(int i = idx; i < arr.length - 1; i++) {
-                if(!visited[i]) {
-                    String tmp = String.valueOf(arr[i]);
-                    arr[i].delete(0, arr[i].length());
-                    arr[i].append("-");
-                    visited[i] = true;
-                    DFS(depth + 1, i + 1);
-                    arr[i].delete(0, arr[i].length());
-                    arr[i].append(tmp);
-                    visited[i] = false;
-                }
+                String tmp = String.valueOf(arr[i]);
+                arr[i].delete(0, arr[i].length());
+                arr[i].append("-");
+                DFS(i + 1);
+                arr[i].delete(0, arr[i].length());
+                arr[i].append(tmp);
             }
         }
 
