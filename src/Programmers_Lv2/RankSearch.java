@@ -15,93 +15,107 @@ public class RankSearch {
         System.out.println(Arrays.toString(Solution.solution(info, query)));
     }
     private static class Solution {
+        private static StringBuilder[] arr;
+        private static boolean[] visited;
+        private static HashMap<String, ArrayList<Integer>> hash = new HashMap<>();
         public static int[] solution(String[] info, String[] query) {
             int[] answer = new int[query.length];
-            LinkedList<Data> infoList = new LinkedList<>();
-            LinkedList<QueryData> queryList = new LinkedList<>();
 
-
-            // infoList 생성
             for(String str : info) {
-                StringTokenizer stk = new StringTokenizer(str);
-                String lang = stk.nextToken();
-                String part = stk.nextToken();
-                String career = stk.nextToken();
-                String food = stk.nextToken();
-                String rem = stk.nextToken();
+                String[] strArr = str.split(" ");
+                visited = new boolean[strArr.length];
+                arr = new StringBuilder[strArr.length];
 
-                int score = 0;
-
-                if(rem.equals("-")) {
-                    score = -1;
-                } else {
-                    score = Integer.parseInt(rem);
+                for(int i = 0; i < strArr.length; i++) {
+                    arr[i] = new StringBuilder();
+                    arr[i].append(strArr[i]);
                 }
-
-                infoList.add(new Data(lang, part, career, food, score));
+                DFS(0, 0);
             }
-            Collections.sort(infoList, new Comparator<Data>() {
-                @Override
-                public int compare(Data o1, Data o2) {
-                    return o2.score - o1.score;
-                }
-            });
 
-            // queryList 생성
-            int qIdx = 0;
+            for(String str : hash.keySet()) {
+                Collections.sort(hash.get(str));
+            }
+
+            StringBuilder sb = new StringBuilder();
+            int idx = 0;
             for(String str : query) {
-                String[] strArr = str.split(" and ");
-                String lang = strArr[0];
-                String part = strArr[1];
-                String career = strArr[2];
-                String food = strArr[3].split(" ")[0];
-                String rem = strArr[3].split(" ")[1];
+                String[] arr1 = str.split(" and ");
+                String[] arr2 = arr1[arr1.length - 1].split(" ");
+                int score = Integer.parseInt(arr2[arr2.length - 1]);
 
-                int score = 0;
+                for(int i = 0; i < arr1.length - 1; i++) {
+                    sb.append(arr1[i]).append(" and ");
+                }
+                sb.append(arr2[0]);
+                ArrayList<Integer> valueList = hash.get(String.valueOf(sb));
 
-                if(rem.equals("-")) {
-                    score = -1;
+                if(valueList == null) {
+                    answer[idx] = 0;
                 } else {
-                    score = Integer.parseInt(rem);
+                    int pos = BinarySearch(valueList, score);
+
+                    if(pos >= 0 && pos <= (valueList.size() - 1)) {
+                        answer[idx] = valueList.size() - pos;
+                    } else {
+                        answer[idx] = 0;
+                    }
                 }
 
-                queryList.add(new QueryData(lang, part, career, food, score, qIdx));
-                qIdx++;
+                sb.delete(0, sb.length());
+
+                idx++;
             }
-
-            Collections.sort(queryList, new Comparator<Data>() {
-                @Override
-                public int compare(Data o1, Data o2) {
-                    return o2.score - o1.score;
-                }
-            });
-
 
             return answer;
         }
-    }
-    private static class Data {
-        String lang;
-        String part;
-        String career;
-        String food;
-        int score;
 
-        public Data(String lang, String part, String career, String food, int score) {
-            this.lang = lang;
-            this.part = part;
-            this.career = career;
-            this.food = food;
-            this.score = score;
+        private static void DFS(int depth, int idx) {
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < arr.length - 1; i++) {
+                sb.append(arr[i]);
+
+                if(i == arr.length - 2) continue;
+
+                sb.append(" and ");
+            }
+            ArrayList<Integer> list = hash.get(String.valueOf(sb));
+            if(list == null) {
+                list = new ArrayList<Integer>();
+                list.add(Integer.parseInt(String.valueOf(arr[arr.length - 1])));
+                hash.put(String.valueOf(sb), list);
+            } else {
+                list.add(Integer.parseInt(String.valueOf(arr[arr.length - 1])));
+            }
+
+            for(int i = idx; i < arr.length - 1; i++) {
+                if(!visited[i]) {
+                    String tmp = String.valueOf(arr[i]);
+                    arr[i].delete(0, arr[i].length());
+                    arr[i].append("-");
+                    visited[i] = true;
+                    DFS(depth + 1, i + 1);
+                    arr[i].delete(0, arr[i].length());
+                    arr[i].append(tmp);
+                    visited[i] = false;
+                }
+            }
         }
-    }
 
-    private static class QueryData extends Data {
-        int idx;
+        private static int BinarySearch(ArrayList<Integer> list, int score) {
+            int start = 0;
+            int end = list.size() - 1;
+            int mid = 0;
 
-        public QueryData(String lang, String part, String career, String food, int score, int idx) {
-            super(lang, part, career, food, score);
-            this.idx = idx;
+            while(end >= start) {
+                mid = (start + end) / 2;
+                if(list.get(mid) < score) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+            return start;
         }
     }
 }
