@@ -44,7 +44,8 @@ public class MenuRenewal {
                 }
             }
 
-            //고객별 주문한 메뉴 문자열 정렬 부분
+            //고객별 주문한 메뉴 문자열 각각을 정렬하는 부분
+            //이렇게 안하면 코스 조합때 중복 생김
             for(int i = 0; i < orders.length; i++) {
                 char[] chArr = orders[i].toCharArray();
 
