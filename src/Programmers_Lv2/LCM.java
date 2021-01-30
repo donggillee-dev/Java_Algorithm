@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class LCM {
     public static void main(String[] args) {
-        System.out.println(Solution.solution(new int[]{2, 6, 8, 14}));
+        System.out.println(Solution.solution(new int[]{2, 6, 8}));
     }
     private static class Solution {
         private static int solution(int[] arr) {
