@@ -77,7 +77,7 @@ public class NewsClustering {
             }
 
 
-            if(union == 0 && inter == 0) return 0;
+            if(union == 0 && inter == 0) return 65536;
             else return (int)((inter/(double)union) * 65536);
         }
     }
