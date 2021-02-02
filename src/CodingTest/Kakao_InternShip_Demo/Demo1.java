@@ -1,4 +1,4 @@
-package Kakao_InternShip_Demo;
+package CodingTest.Kakao_InternShip_Demo;
 import java.io.*;
 import java.util.*;
 

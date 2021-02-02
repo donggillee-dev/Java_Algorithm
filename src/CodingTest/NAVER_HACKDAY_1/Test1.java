@@ -1,4 +1,4 @@
-package NAVER_HACKDAY_1;
+package CodingTest.NAVER_HACKDAY_1;
 
 import java.io.*;
 import java.util.*;

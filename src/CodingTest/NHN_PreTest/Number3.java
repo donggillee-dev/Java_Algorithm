@@ -1,4 +1,4 @@
-package NHN_PreTest;
+package CodingTest.NHN_PreTest;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

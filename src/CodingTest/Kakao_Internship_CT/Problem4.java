@@ -1,4 +1,4 @@
-package Kakao_Internship_CT;
+package CodingTest.Kakao_Internship_CT;
 
 import java.io.*;
 import java.util.*;

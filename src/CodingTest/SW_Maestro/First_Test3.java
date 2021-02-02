@@ -1,4 +1,4 @@
-package SW_Maestro;
+package CodingTest.SW_Maestro;
 
 import java.io.*;
 import java.util.*;

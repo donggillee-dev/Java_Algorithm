@@ -1,6 +1,5 @@
-package Kakao_Internship_CT;
+package CodingTest.Kakao_Internship_CT;
 import java.io.*;
-import java.util.*;
 
 public class Problem1 {
     static int[] dir_x = {1, -1, 0, 0};
