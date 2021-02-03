@@ -10,7 +10,8 @@ import java.util.*;
 public class OpenChat {
     public static void main(String[] args) {
 //        String[] record = {"Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi","Enter uid1234 Muzi", "Leave uid1234 Muzi"};
-        String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan", "Enter uid9999 Test", "Enter uid1111 Test", "Enter uid1 ejej"};
+//        String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan", "Enter uid9999 Test", "Enter uid1111 Test", "Enter uid1 ejej", "Leave uid1 ejej", "Change uid1 NNNN"};
+        String[] record = {"Enter uid12312 uid12312", "Enter uid2929 uid12312", "Change uid2929 uid2929"};
         System.out.println(Arrays.toString(Solution.solution(record)));
     }
     private static class Solution {
@@ -19,18 +20,14 @@ public class OpenChat {
             String[] answer;
             StringBuilder sb = new StringBuilder();
             //Queue에 1은 들어왔다 0은 나갔다
-            HashMap<Integer, Queue<Integer>> inOutHash = new HashMap<Integer, Queue<Integer>>();
-            HashMap<Integer, String> nameHash = new HashMap<>();
-            Queue<Integer> uidQueue = new LinkedList<>();
+            HashMap<String, Queue<Integer>> inOutHash = new HashMap<String, Queue<Integer>>();
+            HashMap<String, String> nameHash = new HashMap<>();
+            Queue<String> uidQueue = new LinkedList<>();
 
             for(int i = 0; i < record.length; i++) {
-                stk = new StringTokenizer(record[i]);
+                stk = new StringTokenizer(record[i], " ");
                 String first = stk.nextToken();
-
-                sb.append(stk.nextToken());
-                sb.delete(0,3);
-                int uid = Integer.parseInt(sb.toString());
-
+                String uid = stk.nextToken();
 
                 if(!first.equals("Change")) uidQueue.offer(uid);
 
@@ -44,7 +41,6 @@ public class OpenChat {
 
                     inOutHash.get(uid).offer(1);
 
-                    sb.delete(0, sb.length());
                     sb.append(stk.nextToken());
 
                     nameHash.put(uid, String.valueOf(sb));
@@ -52,7 +48,6 @@ public class OpenChat {
                 } else if(first.equals("Leave")) {
                     inOutHash.get(uid).offer(0);
                 } else { //방 안에서 닉네임을 변경한 경우
-                    sb.delete(0, sb.length());
                     sb.append(stk.nextToken());
 
                     nameHash.put(uid, String.valueOf(sb));
@@ -64,7 +59,7 @@ public class OpenChat {
             ArrayList<String> answerList = new ArrayList<>();
 
             while(!uidQueue.isEmpty()) {
-                int uid = uidQueue.poll();
+                String uid = uidQueue.poll();
                 sb.append(nameHash.get(uid) + "님이 ");
 
                 int inout = inOutHash.get(uid).poll();
