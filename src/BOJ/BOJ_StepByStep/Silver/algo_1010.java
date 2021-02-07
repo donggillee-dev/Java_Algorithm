@@ -22,7 +22,7 @@ public class algo_1010 {
             for(int j = 1; j <= N; j++) {
                 result = result*(M-j+1)/j;
             }
-            sb.append(result);
+            sb.append(result).append("\n");
         }
 
         bw.write(sb.toString());
