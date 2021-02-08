@@ -36,8 +36,6 @@ public class Algo2_서울_09_이동길 {
         }
         //정답 StringBuilder에 동아리 수 먼저 넣어주고
         answerSb.append(answer).append("\n");
-        //능력치 담은 StringBuilder 맨 뒤 공백 지워줌
-        sb.delete(sb.length() - 1, sb.length());
         //정답 StringBuilder에다가 능력치 StringBuilder 넣어주고 출력
         answerSb.append(sb).append("\n");
         bw.write(answerSb.toString());
