@@ -3,7 +3,7 @@ package BOJ.BOJ_StepByStep.Bronze;
 import java.io.*;
 import java.util.PriorityQueue;
 
-public class SevenDwarf {
+public class algo_2309 {
     private static int[] tallArr = new int[9];
     private static boolean[] visited = new boolean[9];
     private static PriorityQueue<Integer> Q = new PriorityQueue<>();
