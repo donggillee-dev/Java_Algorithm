@@ -37,113 +37,112 @@ public class algo_1018 {
         br.close();
         return;
     }
-}
+    private static class Brute {
+        int CntRePaint(char[][] ChessBoardTmp) {
+            int MIN = Integer.MAX_VALUE;
+            int cnt = 0;
+            char[][] tmp1 = new char[8][8];
+            char[][] tmp2 = new char[8][8];
+            char[][] tmp3 = new char[8][8];
+            char[][] tmp4 = new char[8][8];
+            for(int i = 0; i < 8; i++) {
+                tmp1[i] = ChessBoardTmp[i].clone();
+                tmp2[i] = ChessBoardTmp[i].clone();
+                tmp3[i] = ChessBoardTmp[i].clone();
+                tmp4[i] = ChessBoardTmp[i].clone();
+            }
 
-class Brute {
-    int CntRePaint(char[][] ChessBoardTmp) {
-        int MIN = Integer.MAX_VALUE;
-        int cnt = 0;
-        char[][] tmp1 = new char[8][8];
-        char[][] tmp2 = new char[8][8];
-        char[][] tmp3 = new char[8][8];
-        char[][] tmp4 = new char[8][8];
-        for(int i = 0; i < 8; i++) {
-            tmp1[i] = ChessBoardTmp[i].clone();
-            tmp2[i] = ChessBoardTmp[i].clone();
-            tmp3[i] = ChessBoardTmp[i].clone();
-            tmp4[i] = ChessBoardTmp[i].clone();
-        }
-
-        for(int i = 0; i < 7; i++) {
-            for(int j = 0; j < 7; j++) {
-                if(tmp1[i][j] == tmp1[i][j + 1]){
-                    tmp1[i][j + 1] = tmp1[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp1[i][j] == tmp1[i + 1][j]){
-                    tmp1[i + 1][j] = tmp1[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp1[i][j] != tmp1[i + 1][j + 1]) {
-                    tmp1[i + 1][j + 1] = tmp1[i][j] == 'W' ? 'W' : 'B';
-                    cnt++;
+            for(int i = 0; i < 7; i++) {
+                for(int j = 0; j < 7; j++) {
+                    if(tmp1[i][j] == tmp1[i][j + 1]){
+                        tmp1[i][j + 1] = tmp1[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp1[i][j] == tmp1[i + 1][j]){
+                        tmp1[i + 1][j] = tmp1[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp1[i][j] != tmp1[i + 1][j + 1]) {
+                        tmp1[i + 1][j + 1] = tmp1[i][j] == 'W' ? 'W' : 'B';
+                        cnt++;
+                    }
                 }
             }
-        }
 
-        if(cnt < MIN) MIN = cnt;
-        cnt = 0;
+            if(cnt < MIN) MIN = cnt;
+            cnt = 0;
 
-        for(int i = 0; i < 7; i++) {
-            for(int j = 7; j > 0; j--) {
-                if(tmp2[i][j] == tmp2[i][j - 1]){
-                    tmp2[i][j - 1] = tmp2[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp2[i][j] == tmp2[i + 1][j]){
-                    tmp2[i + 1][j] = tmp2[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp2[i][j] != tmp2[i + 1][j - 1]) {
-                    tmp2[i + 1][j - 1] = tmp2[i][j] == 'W' ? 'W' : 'B';
-                    cnt++;
-                }
-            }
-        }
-
-        if(cnt < MIN) MIN = cnt;
-        cnt = 0;
-
-        for(int i = 7; i > 0; i--) {
-            for(int j = 0; j < 7; j++) {
-                if(tmp3[i][j] == tmp3[i][j + 1]){
-                    tmp3[i][j + 1] = tmp3[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp3[i][j] == tmp3[i - 1][j]){
-                    tmp3[i - 1][j] = tmp3[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp3[i][j] != tmp3[i - 1][j + 1]) {
-                    tmp3[i - 1][j + 1] = tmp3[i][j] == 'W' ? 'W' : 'B';
-                    cnt++;
+            for(int i = 0; i < 7; i++) {
+                for(int j = 7; j > 0; j--) {
+                    if(tmp2[i][j] == tmp2[i][j - 1]){
+                        tmp2[i][j - 1] = tmp2[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp2[i][j] == tmp2[i + 1][j]){
+                        tmp2[i + 1][j] = tmp2[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp2[i][j] != tmp2[i + 1][j - 1]) {
+                        tmp2[i + 1][j - 1] = tmp2[i][j] == 'W' ? 'W' : 'B';
+                        cnt++;
+                    }
                 }
             }
-        }
 
-        if(cnt < MIN) MIN = cnt;
-        cnt = 0;
+            if(cnt < MIN) MIN = cnt;
+            cnt = 0;
 
-        for(int i = 7; i > 0; i--) {
-            for(int j = 7; j > 0; j--) {
-                if(tmp4[i][j] == tmp4[i][j - 1]){
-                    tmp4[i][j - 1] = tmp4[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp4[i][j] == tmp4[i - 1][j]){
-                    tmp4[i - 1][j] = tmp4[i][j] == 'W' ? 'B' : 'W';
-                    cnt++;
-                }
-                if(tmp4[i][j] != tmp4[i - 1][j - 1]) {
-                    tmp4[i - 1][j - 1] = tmp4[i][j] == 'W' ? 'W' : 'B';
-                    cnt++;
+            for(int i = 7; i > 0; i--) {
+                for(int j = 0; j < 7; j++) {
+                    if(tmp3[i][j] == tmp3[i][j + 1]){
+                        tmp3[i][j + 1] = tmp3[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp3[i][j] == tmp3[i - 1][j]){
+                        tmp3[i - 1][j] = tmp3[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp3[i][j] != tmp3[i - 1][j + 1]) {
+                        tmp3[i - 1][j + 1] = tmp3[i][j] == 'W' ? 'W' : 'B';
+                        cnt++;
+                    }
                 }
             }
-        }
 
-        if(cnt < MIN) MIN = cnt;
-        return MIN;
-    }
+            if(cnt < MIN) MIN = cnt;
+            cnt = 0;
 
-    char[][] MakeChessBoard(char[][] ChessBoard, int x, int y) {
-        char[][] tmp = new char[8][8];
-
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++){
-                tmp[i][j] = ChessBoard[i + x][j + y];
+            for(int i = 7; i > 0; i--) {
+                for(int j = 7; j > 0; j--) {
+                    if(tmp4[i][j] == tmp4[i][j - 1]){
+                        tmp4[i][j - 1] = tmp4[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp4[i][j] == tmp4[i - 1][j]){
+                        tmp4[i - 1][j] = tmp4[i][j] == 'W' ? 'B' : 'W';
+                        cnt++;
+                    }
+                    if(tmp4[i][j] != tmp4[i - 1][j - 1]) {
+                        tmp4[i - 1][j - 1] = tmp4[i][j] == 'W' ? 'W' : 'B';
+                        cnt++;
+                    }
+                }
             }
+
+            if(cnt < MIN) MIN = cnt;
+            return MIN;
         }
 
-        return tmp;
+        char[][] MakeChessBoard(char[][] ChessBoard, int x, int y) {
+            char[][] tmp = new char[8][8];
+
+            for(int i = 0; i < 8; i++) {
+                for(int j = 0; j < 8; j++){
+                    tmp[i][j] = ChessBoard[i + x][j + y];
+                }
+            }
+
+            return tmp;
+        }
     }
 }
