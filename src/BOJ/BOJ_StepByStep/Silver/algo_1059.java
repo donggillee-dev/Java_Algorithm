@@ -56,7 +56,7 @@ public class algo_1059 {
         if(n == S[mid]) {
             sb.append(0).append("\n");
         } else {
-            if(n < S[0]) {
+            if(n < S[0]) {//반례 찾는거 제발 열시미좀 하자...!ㅠㅠㅠ
                 for(int i = 1; i <= S[0] - 2; i++) {
                     for(int j = i + 1; j <= S[0] - 1; j++) {
                         if(n >= i && n <= j) answer++;
