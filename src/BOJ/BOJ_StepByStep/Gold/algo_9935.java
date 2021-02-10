@@ -22,7 +22,7 @@ public class algo_9935 {
                 boolean isBomb = true;
                 int tmp_idx = S_idx - 1;
                 for(int idx = bomb.length() - 1; idx >= 0; idx--, tmp_idx--) {
-                    if(tmp_idx < 0) {
+                    if(S_idx < bomb.length() - 1) {
                         isBomb = false;
                         break;
                     }
@@ -40,12 +40,9 @@ public class algo_9935 {
         if(S_idx == 0) {
             sb.append("FRULA");
         } else {
-            for(int i = 0; i < S_idx; i++) {
-                sb.append(S[i]);
-            }
-            sb.append("\n");
+            sb.append(String.valueOf(S, 0, S_idx));
         }
-
+        sb.append("\n");
         bw.write(sb.toString());
         bw.close();
         br.close();
