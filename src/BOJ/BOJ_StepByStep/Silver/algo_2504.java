@@ -12,78 +12,83 @@ public class algo_2504 {
         String input = br.readLine();
         boolean flag = true;
 
-        loop:for(int i = 0; i < input.length(); i++) {
+        loop:
+        for(int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
             int tmp = 0;
+
             switch(ch) {
+                //여는 괄호 들어오면 그냥 넣어줌
                 case '(':
                     S.push(ch + "");
                     break;
+                //닫는 괄호인 경우에는
                 case ')':
-                    if(S.isEmpty() || S.peek().equals("[")) {
+                    //비어있거나 대괄호가 앞에 있는 경우에는 올바르지 않은 경우
+                    if(S.isEmpty() || (S.peek().charAt(0) == '[')) {
                         flag = false;
                         break loop;
-                    } else if(!S.isEmpty() && S.peek().equals("(")){
+                    //비어있지 않고 괄호의 매칭이 이루어지는 경우에는
+                    } else if (!S.isEmpty() && S.peek().charAt(0) == '(') {
                         S.pop();
-                        if(!S.isEmpty() && !S.peek().equals("(") && !S.peek().equals("[")) {
+                        tmp = 2;
+                        //괄호 안에 다른 숫자가 존재하는 경우에는 그 숫자를 꺼내와서 더해줌
+                        if (!S.isEmpty() && !(S.peek().charAt(0) == '(') && !(S.peek().charAt(0) == '[')) {
                             tmp = Integer.parseInt(S.pop());
                             tmp += 2;
-                            S.push(tmp + "");
-                        } else {
-                            S.push(2 + "");
                         }
+                        S.push(tmp + "");
+                    //그 외의 경우에는 괄호 밖을 탐색 => 곱셈해주는 경우
                     } else {
                         tmp = Integer.parseInt(S.pop());
-                        if(S.isEmpty() || !S.peek().equals("(")) {
+                        //괄호가 올바르지 않는 경우에는 탈출
+                        if(S.isEmpty() || S.peek().charAt(0) != '(') {
                             flag = false;
                             break loop;
                         } else {
                             S.pop();
                             tmp *= 2;
-                            if(!S.isEmpty() && !S.peek().equals("(") && !S.peek().equals("[")) {
+                            //해당 괄호 속에 있는 순자를 2 곱해주고 바깥을 탐색해서 바깥에 있는게 숫자인 경우에는 걔를 더해줌
+                            if (!S.isEmpty() && !(S.peek().charAt(0) == '(') && !(S.peek().charAt(0) == '[')) {
                                 tmp += Integer.parseInt(S.pop());
-                                S.push(tmp + "");
-                            } else {
-                                S.push(tmp + "");
                             }
+                            S.push(tmp + "");
                         }
                     }
                     break;
+                //여는 괄호 들어오면 그냥 넣어줌
+                //아래 로직은 소괄호와 동일한 로직임
                 case '[':
                     S.push(ch + "");
                     break;
                 case ']':
-                    if(S.isEmpty() || S.peek().equals("(")) {
+                    if(S.isEmpty() || (S.peek().charAt(0) == '(')) {
                         flag = false;
                         break loop;
-                    } else if(S.peek().equals("[")){
+                    } else if (!S.isEmpty() && S.peek().charAt(0) == '[') {
                         S.pop();
-                        if(!S.isEmpty() && !S.peek().equals("(") && !S.peek().equals("[")) {
+                        tmp = 3;
+                        if (!S.isEmpty() && !(S.peek().charAt(0) == '(') && !(S.peek().charAt(0) == '[')) {
                             tmp = Integer.parseInt(S.pop());
                             tmp += 3;
-                            S.push(tmp + "");
-                        } else {
-                            S.push(3 + "");
                         }
+                        S.push(tmp + "");
                     } else {
                         tmp = Integer.parseInt(S.pop());
-                        if(S.isEmpty() || !S.peek().equals("[")) {
+                        if(S.isEmpty() || S.peek().charAt(0) != '[') {
                             flag = false;
                             break loop;
                         } else {
                             S.pop();
                             tmp *= 3;
-                            if(!S.isEmpty() && !S.peek().equals("(") && !S.peek().equals("[")) {
+                            if (!S.isEmpty() && !(S.peek().charAt(0) == '(') && !(S.peek().charAt(0) == '[')) {
                                 tmp += Integer.parseInt(S.pop());
-                                S.push(tmp + "");
-                            } else {
-                                S.push(tmp + "");
                             }
+                            S.push(tmp + "");
                         }
                     }
                     break;
             }
-
         }
         if(S.isEmpty() || S.size() > 1 || S.peek().equals("(") || S.peek().equals(")") || S.peek().equals("]") || S.peek().equals("["))
             flag = false;
