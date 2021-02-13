@@ -47,7 +47,7 @@ public class algo_1662 {
         String input = br.readLine();
 
         long length = 0;
-        long num = 0;
+        long num = 0, tmp = 0, cnt = 0;
         for(int idx = 0; idx < input.length(); idx++) {
             char ch = input.charAt(idx);
 
@@ -62,9 +62,9 @@ public class algo_1662 {
                 length = 0;
                 S.push(leftBracket);
             } else if(ch == ')') {
-                long tmp;
+                tmp = 0;
                 while(!S.isEmpty()) {
-                    long cnt = 0;
+                    cnt = 0;
                     tmp = S.pop();
                     if(tmp == leftBracket) {
                         cnt = S.pop();
