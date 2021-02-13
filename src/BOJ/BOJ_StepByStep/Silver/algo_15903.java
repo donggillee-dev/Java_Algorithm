@@ -4,6 +4,10 @@ import java.io.*;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
+//Logic
+//우선순위큐를 이용해서 풀면 되는 문제
+//맨 앞에 있는 가장 작은 숫자 두개를 가지고 더해서 그 값을 두번 큐에 더해주면 됨
+
 public class algo_15903 {
     public static void main(String[] arg) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,7 +42,6 @@ public class algo_15903 {
         sb.append(answer);
         bw.write(String.valueOf(sb));
         bw.flush();
-        bw.close();
-        br.close();
     }
 }
+
