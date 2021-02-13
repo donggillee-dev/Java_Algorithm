@@ -5,6 +5,16 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
+//Logic
+
+//공기 확산을 BFS로 하면 풀 수 있는 문제이다
+//치즈의 개수가 0이 될때까지 공기의 확산은 계속된다
+//1. 공기를 우선적으로 확산시킨다
+//  1-1. 공기가 확산된 위치는 백트레킹으로 제거하여 해당 위치를 큐에 넣지 않도록 한다
+//  1-2. 공기가 확산된 위치에서 4방으로 움직여보고 치즈가 존재한다면 그 위치의 visited를 1 증가하여 준다
+//      이렇게 하면 다른 방향의 공기에서 해당 치즈에 닿게 되었을시 2, 즉 공기가 닿은면 개수가 도출되므로 2면 이상이 노출된 치즈는 녹아내리게 해준다
+
+// 2. 위 로직을 치즈의 개수가 0이 될때까지 시간을 1 씩 증가시켜주면서 반복하면 결과가 도출된다.
 public class algo_2638 {
     private static int N, M, cheeseCnt;
     private static short[][] visited;
