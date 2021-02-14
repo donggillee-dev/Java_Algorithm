@@ -3,7 +3,7 @@ package BOJ.BFS.Gold;
 import java.io.*;
 import java.util.*;
 
-public class algo_18809 {
+public class boj_18809 {
     private static  SpreadInfo[] SpreadMap = new SpreadInfo[10];
     private static  GardenInfo[][] GardenMap;
 

@@ -3,7 +3,7 @@ package BOJ.BFS.Gold;
 import java.io.*;
 import java.util.*;
 
-public class algo_2580 {
+public class boj_2580 {
     static int N = 9;
     static int cnt = 0;
     static int[][] SdokuMap = new int[9][9];

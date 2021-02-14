@@ -2,7 +2,7 @@ package BOJ.BFS.Gold;
 
 import java.io.*;
 
-public class algo_9663 {
+public class boj_9663 {
     static int N;
     static int[] pos_arr;
     static int ans = 0;

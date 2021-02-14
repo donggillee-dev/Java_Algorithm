@@ -3,7 +3,7 @@ package BOJ.DFS.Silver;
 import java.io.*;
 import java.util.*;
 
-public class algo_14888 {
+public class boj_14888 {
     static int N;
     static int[] An;
     static int max = Integer.MIN_VALUE;

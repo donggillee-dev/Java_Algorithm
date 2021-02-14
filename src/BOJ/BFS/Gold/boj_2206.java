@@ -2,7 +2,7 @@ package BOJ.BFS.Gold;
 
 import java.io.*;
 import java.util.*;
-public class algo_2206 {
+public class boj_2206 {
     static int N, K;
     static int min = Integer.MAX_VALUE;
     static int[][] visit;  //이미 방문한 정점의 정보를 담을 배열

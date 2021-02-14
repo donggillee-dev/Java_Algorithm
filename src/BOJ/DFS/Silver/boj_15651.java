@@ -2,7 +2,7 @@ package BOJ.DFS.Silver;
 import java.io.*;
 import java.util.*;
 
-public class algo_15651 {
+public class boj_15651 {
     private static int N;
     private static int M;
     private static StringBuilder Sb;

@@ -3,7 +3,7 @@ package BOJ.DFS.Silver;
 import java.io.*;
 import java.util.*;
 
-public class algo_15649 {
+public class boj_15649 {
     private static Stack<Integer> S = new Stack<Integer>();
     private static int N;
     private static int M;
