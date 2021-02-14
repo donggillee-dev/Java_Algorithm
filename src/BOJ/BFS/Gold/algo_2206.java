@@ -1,4 +1,4 @@
-package BOJ.BOJ_BackTracking;
+package BOJ.BFS.Gold;
 
 import java.io.*;
 import java.util.*;

@@ -1,19 +1,19 @@
-package BOJ.BOJ_BackTracking;
+package BOJ.BFS.Gold;
 
 import java.io.*;
 import java.util.*;
 
 public class algo_18809 {
-    static SpreadInfo[] SpreadMap = new SpreadInfo[10];
-    static GardenInfo[][] GardenMap;
+    private static  SpreadInfo[] SpreadMap = new SpreadInfo[10];
+    private static  GardenInfo[][] GardenMap;
 
-    static int N, M;
-    static int GreenCnt;
-    static int RedCnt;
-    static int LandCnt = 0;
-    static int[] dir_x = {0, 1, 0, -1};
-    static int[] dir_y = {1, 0, -1, 0};
-    static int ans = Integer.MIN_VALUE;
+    private static  int N, M;
+    private static  int GreenCnt;
+    private static  int RedCnt;
+    private static  int LandCnt = 0;
+    private static  int[] dir_x = {0, 1, 0, -1};
+    private static  int[] dir_y = {1, 0, -1, 0};
+    private static  int ans = Integer.MIN_VALUE;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -125,35 +125,35 @@ public class algo_18809 {
             ans = Flower;
         }
     }
-}
-class SpreadInfo {
-    String Color;
-    int x;
-    int y;
-    public SpreadInfo(String c, int nx, int ny) {
-        this.Color = c;
-        this.x = nx;
-        this.y = ny;
+    private static class SpreadInfo {
+        String Color;
+        int x;
+        int y;
+        public SpreadInfo(String c, int nx, int ny) {
+            this.Color = c;
+            this.x = nx;
+            this.y = ny;
+        }
     }
-}
-class GardenInfo {
-    String Color;//Red, Green, None
-    int Land;
-    int Time;//배양액 도달 시간
+    private static class GardenInfo {
+        String Color;//Red, Green, None
+        int Land;
+        int Time;//배양액 도달 시간
 
-    public GardenInfo(int l, String c, int t) {
-        this.Land = l;
-        this.Color = c;
-        this.Time = t;
+        public GardenInfo(int l, String c, int t) {
+            this.Land = l;
+            this.Color = c;
+            this.Time = t;
+        }
     }
-}
-class LiquidInfo {
-    int x;
-    int y;
-    String Color;
-    public LiquidInfo(int nx, int ny, String c) {
-        this.x = nx;
-        this.y = ny;
-        this.Color = c;
+    private static class LiquidInfo {
+        int x;
+        int y;
+        String Color;
+        public LiquidInfo(int nx, int ny, String c) {
+            this.x = nx;
+            this.y = ny;
+            this.Color = c;
+        }
     }
 }

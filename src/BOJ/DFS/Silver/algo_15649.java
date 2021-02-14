@@ -1,13 +1,13 @@
-package BOJ.BOJ_BackTracking;
+package BOJ.DFS.Silver;
 
 import java.io.*;
 import java.util.*;
 
 public class algo_15649 {
-    static Stack<Integer> S = new Stack<Integer>();
-    static int N;
-    static int M;
-    static StringBuilder sb = new StringBuilder();
+    private static Stack<Integer> S = new Stack<Integer>();
+    private static int N;
+    private static int M;
+    private static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -25,22 +25,23 @@ public class algo_15649 {
         br.close();
         return;
     }
-}
-
-class BackTrack {
-    void Mknum(int start, String str) {
-        if(start == algo_15649.M) {
-            algo_15649.sb.append(str).append("\n");
-        } else {
-            start++;
-            for(int i = 1; i <= algo_15649.N; i++) {
-                if(!algo_15649.S.contains(i)) {
-                    algo_15649.S.push(i);
-                    Mknum(start, str + i + " ");
-                    algo_15649.S.pop();
+    private static class BackTrack {
+        void Mknum(int start, String str) {
+            if(start == M) {
+                sb.append(str).append("\n");
+            } else {
+                start++;
+                for(int i = 1; i <= N; i++) {
+                    if(!S.contains(i)) {
+                        S.push(i);
+                        Mknum(start, str + i + " ");
+                        S.pop();
+                    }
                 }
             }
+            return;
         }
-        return;
     }
 }
+
+

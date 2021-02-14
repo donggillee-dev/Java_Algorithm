@@ -1,4 +1,4 @@
-package BOJ.BOJ_BackTracking;
+package BOJ.DFS.Silver;
 
 import java.io.*;
 import java.util.*;

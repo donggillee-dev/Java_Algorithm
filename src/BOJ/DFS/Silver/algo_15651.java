@@ -1,11 +1,11 @@
-package BOJ.BOJ_BackTracking;
+package BOJ.DFS.Silver;
 import java.io.*;
 import java.util.*;
 
 public class algo_15651 {
-    static int N;
-    static int M;
-    static StringBuilder Sb;
+    private static int N;
+    private static int M;
+    private static StringBuilder Sb;
     public static void main(String[] args) throws IOException {
         BufferedReader Br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter Bw = new BufferedWriter(new OutputStreamWriter(System.out));

@@ -1,12 +1,12 @@
-package BOJ.BOJ_BackTracking;
+package BOJ.DFS.Silver;
 import java.io.*;
 import java.util.*;
 
 public class algo_15650 {
-    static StringBuilder sb;
-    static int N;
-    static int M;
-    static boolean[] visit;
+    private static StringBuilder sb;
+    private static int N;
+    private static int M;
+    private static boolean[] visit;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
