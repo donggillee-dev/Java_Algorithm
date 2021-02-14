@@ -3,7 +3,7 @@ package BOJ.DFS.Silver;
 import java.io.*;
 import java.util.*;
 
-public class algo_14889 {
+public class boj_14889 {
     static int N;
     static int[][] Stat;
     static boolean[] Choosen;
