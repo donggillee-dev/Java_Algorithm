@@ -61,6 +61,7 @@ public class boj_10845 {
                     break;
             }
         }
+
         bw.write(String.valueOf(sb));
         bw.close();
         br.close();
