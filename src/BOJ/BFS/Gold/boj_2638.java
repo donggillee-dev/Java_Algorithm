@@ -74,4 +74,3 @@ public class boj_2638 {
         System.out.println(answer);
     }
 }
-
