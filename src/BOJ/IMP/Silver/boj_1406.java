@@ -21,7 +21,6 @@ public class boj_1406 {
     public static void main(String[] arg) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
         LinkedList<Character> editorList = new LinkedList<>();
         String input = br.readLine();
         int N = input.length();
@@ -60,8 +59,6 @@ public class boj_1406 {
         for(Character ch : editorList) {
             bw.write(ch);
         }
-
-        bw.close();
-        br.close();
+        bw.flush();
     }
 }
