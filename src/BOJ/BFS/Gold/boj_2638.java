@@ -1,12 +1,12 @@
 package BOJ.BFS.Gold;
 import java.io.*;
-import java.util.Queue;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.Deque;
 
 public class boj_2638 {
-    private static int N, M, cheeseCnt;
-    private static short[][] visited;
+    private static int N, M;
+    private static boolean[][] visited;
     private static int[][] arr;
     private static final int[] dir_x = {0, 1, 0, -1};
     private static final int[] dir_y = {1, 0, -1, 0};
@@ -17,37 +17,6 @@ public class boj_2638 {
             this.col = col;
         }
     }
-    private static Queue<PosInfo> Q = new LinkedList<>();
-
-    private static void airSpread() {
-        Q.add(new PosInfo(0, 0));
-        visited = new short[N][M];
-        visited[0][0]++;
-        while(!Q.isEmpty()) {
-            PosInfo tmp = Q.poll();
-
-            for(int i = 0; i < 4; i++) {
-                int nx = tmp.row + dir_x[i];
-                int ny = tmp.col + dir_y[i];
-
-                if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
-
-                if(arr[nx][ny] == 1) {
-                    visited[nx][ny]++;
-                    if(visited[nx][ny] >= 2) {
-                        arr[nx][ny] = 0;
-                        cheeseCnt--;
-                    }
-                } else {
-                    if(visited[nx][ny] == 0 && arr[nx][ny] == 0) {
-                        visited[nx][ny]++;
-                        Q.add(new PosInfo(nx, ny));
-                    }
-                }
-            }
-        }
-    }
-
     public static void main(String[] arg) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk = new StringTokenizer(br.readLine());
@@ -55,19 +24,49 @@ public class boj_2638 {
         M = Integer.parseInt(stk.nextToken());
         String input;
         arr = new int[N][M];
-        int answer = 0;
+        visited = new boolean[N][M];
 
         for(int i = 0; i < N; i++) {
             input = br.readLine();
             for(int j = 0, idx = 0; j < M; j++, idx += 2) {
                 arr[i][j] = input.charAt(idx) - '0';
-                if(arr[i][j] == 1) cheeseCnt++;
             }
         }
+        bfs();
+    }
+    private static void bfs() {
+        int size, nx, ny, x, y, answer = -1;
+        PosInfo inf;
+        Deque<PosInfo> Q = new LinkedList<>();
+        Q.add(new PosInfo(0, 0));
+        visited[0][0] = true;
 
-        while(cheeseCnt > 0) {
-            airSpread();//외부 공기 확산
+        while(!Q.isEmpty()) {
+            size = Q.size();
+            while(--size >= 0) {
+                inf = Q.poll();
+                x = inf.row;
+                y = inf.col;
+                for(int i = 0; i < 4; i++) {
+                    nx = x + dir_x[i];
+                    ny = y + dir_y[i];
 
+                    if(nx < 0 || ny < 0 || nx >= N || ny >= M || visited[nx][ny]) continue;
+
+                    if(arr[nx][ny] >= 1) {
+                        arr[nx][ny]++;
+                        if(arr[nx][ny] > 2) {
+                            visited[nx][ny] = true;
+                            arr[nx][ny] = 0;
+                            Q.addLast(new PosInfo(nx, ny));
+                        }
+                    } else {
+                        size++;
+                        Q.addFirst(new PosInfo(nx, ny));
+                        visited[nx][ny] = true;
+                    }
+                }
+            }
             answer++;
         }
         System.out.println(answer);
