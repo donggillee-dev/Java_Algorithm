@@ -17,6 +17,7 @@ public class boj_2638 {
             this.col = col;
         }
     }
+
     public static void main(String[] arg) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk = new StringTokenizer(br.readLine());
@@ -34,6 +35,7 @@ public class boj_2638 {
         }
         bfs();
     }
+
     private static void bfs() {
         int size, nx, ny, x, y, answer = -1;
         PosInfo inf;
