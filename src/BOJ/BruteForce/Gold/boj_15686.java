@@ -3,115 +3,65 @@ import java.io.*;
 import java.util.*;
 
 public class boj_15686 {
-    private static class LocInfo {
-        int x;
-        int y;
-        public LocInfo(int nx, int ny) {
-            this.x = nx;
-            this.y = ny;
+    private static class PosInfo {
+        int row, col;
+        public PosInfo(int row, int col) {
+            this.row = row;
+            this.col = col;
         }
     }
-    private static class VisitInfo {
-        int x;
-        int y;
-        int dis;
-        public VisitInfo(int nx, int ny, int d) {
-            this.x = nx;
-            this.y = ny;
-            this.dis = d;
-        }
-    }
-    static int[][] Map;
-    static boolean[][] Visited;
-    static int N, M, ans = Integer.MAX_VALUE;
-    static int[] dir_x = {1, 0, -1, 0};
-    static int[] dir_y = {0, 1, 0, -1};
-    static LinkedList<LocInfo> Chickens = new LinkedList<>();
-    static LinkedList<LocInfo> TmpChickens = new LinkedList<>();
-    static LinkedList<LocInfo> Houses = new LinkedList<>();
-
+    private static int answer = Integer.MAX_VALUE;
+    private static PosInfo[] arr;
+    private static ArrayList<PosInfo> houseList = new ArrayList<>();
+    private static ArrayList<PosInfo> chickenList = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         StringTokenizer stk = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(stk.nextToken());
-        M = Integer.parseInt(stk.nextToken());
-        Map = new int[N][N];
-//        Visited = new boolean[N][N];
+        int N = Integer.parseInt(stk.nextToken());
+        int M = Integer.parseInt(stk.nextToken());
+        arr = new PosInfo[M];
 
         for(int i = 0; i < N; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int val;
-            for(int j = 0; j < N; j++) {
-                val = Integer.parseInt(stk.nextToken());
-                if(val == 2) {
-                    Chickens.add(new LocInfo(i, j));
-                } else if(val == 1) {
-                    Houses.add(new LocInfo(i, j));
-                } else;
-            }
-        }
-        BFS(0, 0);
-        sb.append(ans).append("\n");
-        bw.write(String.valueOf(sb));
-        bw.flush();
-        bw.close();
-        br.close();
-        return;
-    }
-    private static void BFS(int start, int depth) {
-        if(depth == M) {
-            int val = 0;
-            Queue<VisitInfo> Q = new LinkedList<>();
-            LocInfo cur;
-            for(int i = 0; i < TmpChickens.size(); i++) {
-                cur = TmpChickens.get(i);
-                Map[cur.x][cur.y] = 2;
-            }
-            for(int i = 0; i < Houses.size(); i++) {
-                if(val > ans) break;
-                boolean[][] Visited = new boolean[N][N];
-                cur = Houses.get(i);
-                Q.offer(new VisitInfo(cur.x , cur. y, 0));
-
-                while(!Q.isEmpty()) {
-                    VisitInfo inf = Q.poll();
-                    Visited[inf.x][inf.y] = true;
-                    if(Map[inf.x][inf.y] == 2) {
-                        val += inf.dis;
-                        Q.clear();
-                        break;
-                    }
-                    for(int j = 0; j < 4; j++) {
-                        int nx = inf.x + dir_x[j];
-                        int ny = inf.y + dir_y[j];
-                        if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
-                        if(!Visited[nx][ny]) {
-                            Visited[nx][ny] = true;
-                            Q.offer(new VisitInfo(nx, ny, inf.dis + 1));
-                        }
-                    }
+            sb.append(br.readLine());
+            for(int j = 0, idx = 0; j < N; j++, idx += 2) {
+                int num = sb.charAt(idx) - '0';
+                if(num == 1) {
+                    houseList.add(new PosInfo(i, j));
+                } else if(num == 2) {
+                    chickenList.add(new PosInfo(i, j));
                 }
             }
-            if(val < ans) ans = val;
-            InitMap();
-        } else if(depth < M){
-            for(int i = start; i < Chickens.size(); i++) {
-                TmpChickens.add(Chickens.get(i));
-                BFS(i + 1, depth + 1);
-                TmpChickens.removeLast();
+            sb.setLength(0);
+        }
+        combChicken(0, 0);
+        System.out.println(answer);
+        br.close();
+    }
+    private static void combChicken(int idx, int cnt) {
+        if(cnt == arr.length) {
+            getDistance();
+            return;
+        }
+
+        for(int i = idx; i < chickenList.size(); i++) {
+            arr[cnt] = chickenList.get(i);
+            combChicken(i + 1, cnt + 1);
+        }
+    }
+    private static void getDistance() {
+        int sum = 0;
+
+        for(int i = 0; i < houseList.size(); i++) {
+            int max = Integer.MAX_VALUE;
+            int distance = 0;
+            for(int j = 0; j < arr.length; j++) {
+                distance = Math.abs(houseList.get(i).row - arr[j].row) + Math.abs(houseList.get(i).col - arr[j].col);
+
+                if(distance < max) max = distance;
             }
-        } else return;
-    }
-    private static void InitVisited() {
-        for(int i = 0; i < N; i++) {
-            Arrays.fill(Visited[i], false);
+            sum += max;
         }
-    }
-    private static void InitMap() {
-        for(int i = 0; i < N; i++) {
-            Arrays.fill(Map[i], 0);
-        }
+        if(answer > sum) answer = sum;
     }
 }
