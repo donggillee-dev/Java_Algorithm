@@ -15,6 +15,7 @@ public class boj_11478 {
                 hash.add(input.substring(i, j + 1));
             }
         }
+
         System.out.println(hash.size());
     }
 }
