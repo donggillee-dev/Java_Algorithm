@@ -3,6 +3,10 @@ package BOJ.Hash.Gold;
 import java.io.*;
 import java.util.*;
 
+//TreeMap에 reverseorder를 넣어주어서 오름차순에 대한 정렬을 또 해줄 필요가 없음
+//
+//        풀이 시간 : 15분
+
 public class boj_7785 {
     public static void main(String[] arg) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
