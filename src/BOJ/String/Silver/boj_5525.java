@@ -25,6 +25,7 @@ public class boj_5525 {
         System.out.println(answer);
     }
 }
+
 //import java.util.Stack;
 //
 //public class boj_5525 {
