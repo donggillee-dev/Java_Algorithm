@@ -2,7 +2,18 @@ package BOJ.BFS.Gold;
 
 import java.io.*;
 import java.util.*;
-
+//Logic
+//[BOJ_2573] 빙산 problem solved
+//
+//빙산 측면에서 BFS로 탐색하는 방식으로 해결했다
+//
+//특정 빙산 즉 노드에서 4방향 탐색을 해서 바다와 닿은 면 개수 만큼 빙하의 높이를
+//낮춰주고 그외의 다음 빙하의 경우에는 큐에 넣어줌
+//
+//탐색한 빙하의 개수와 녹이기 이전의 개수가 동일하면 분리되지 않았다는 것을 알 수 있으며
+//이때 녹은 빙하의 개수를 전체 빙하의 개수에서 뺴준다.
+//
+//그렇지 않은 경우에는 빙하가 분리되었다는 뜻이므로 탐색 종료.
 public class boj_2573 {
     private static class Pos {
         int row, col;
