@@ -8,11 +8,9 @@ public class boj_14888 {
     static int[] An;
     static int max = Integer.MIN_VALUE;
     static int min = Integer.MAX_VALUE;
-    static LinkedList<OpInfo> Operators = new LinkedList<OpInfo>();
+    static int[] op = new int[4];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
 
         N = Integer.parseInt(br.readLine());//입력받을 숫자들의 개수 입력
         An = new int[N];
@@ -22,54 +20,34 @@ public class boj_14888 {
             An[i] = Integer.parseInt(stk.nextToken());
         }
         stk = new StringTokenizer(br.readLine());//주어진 연산자 개수 토크나이저
-        Operators.add(new OpInfo('+', Integer.parseInt(stk.nextToken())));
-        Operators.add(new OpInfo('-', Integer.parseInt(stk.nextToken())));
-        Operators.add(new OpInfo('*', Integer.parseInt(stk.nextToken())));
-        Operators.add(new OpInfo('/', Integer.parseInt(stk.nextToken())));
+        op[0] = Integer.parseInt(stk.nextToken());
+        op[1] = Integer.parseInt(stk.nextToken());
+        op[2] = Integer.parseInt(stk.nextToken());
+        op[3] = Integer.parseInt(stk.nextToken());
 
-        dfs(0, An[0]);
+        calculate(1, An[0], op[0], op[1], op[2], op[3]);
 
-        sb.append(max).append("\n").append(min).append("\n");
-        bw.write(String.valueOf(sb));
-        bw.flush();
-        bw.close();
-        br.close();
-        return;
+        System.out.println(max);
+        System.out.println(min);
     }
-
-    private static void dfs(int idx, int res) {
-        if(idx == N - 1) {
-            if(res >= max) max = res;
-            if(res <= min) min = res;
-        } else {
-            for(int i = 0; i < Operators.size(); i++) {
-                OpInfo tmp = Operators.get(i);
-                if(tmp.cnt != 0) {
-                    tmp.cnt -= 1;
-                    Operators.set(i, tmp);
-                    if(tmp.Operator == '+')  {
-                        dfs(idx + 1, res + An[idx + 1]);
-                    } else if (tmp.Operator == '-') {
-                        dfs(idx + 1, res - An[idx + 1]);
-                    } else if (tmp.Operator == '*') {
-                        dfs(idx + 1, res * An[idx + 1]);
-                    } else {
-                        dfs(idx + 1, res / An[idx + 1]);
-                    }
-                    tmp.cnt += 1;
-                    Operators.set(i, tmp);
-                }
-            }
+    private static void calculate(int depth, int sum, int op1, int op2, int op3, int op4) {
+        //더하기 부터 순차적으로 연산자 하나씩 뺴서 계산해봄
+        if(op1 > 0) {
+            calculate(depth + 1, sum + An[depth], op1 - 1, op2, op3, op4);
         }
-    }
-}
+        if(op2 > 0) {
+            calculate(depth + 1, sum - An[depth], op1, op2 - 1, op3, op4);
+        }
+        if(op3 > 0) {
+            calculate(depth + 1, sum * An[depth], op1, op2, op3 - 1, op4);
+        }
+        if(op4 > 0) {
+            calculate(depth + 1, sum / An[depth], op1, op2, op3, op4 - 1);
+        }
 
-class OpInfo {
-    char Operator;
-    int cnt;
-
-    OpInfo(char ch, int n) {
-        this.Operator = ch;
-        this.cnt = n;
+        if(depth == N) {
+            max = Math.max(max, sum);
+            min = Math.min(min, sum);
+        }
     }
 }
