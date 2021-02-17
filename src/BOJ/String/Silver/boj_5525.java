@@ -2,7 +2,17 @@ package BOJ.String.Silver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+//[BOJ_5525] IOIOI
+//
+//        현재 문자열이 I인 경우 IOI...OI의 패턴을 가지는 문자열을 스택을 통해서 가져온다
+//
+//        스택의 크기를 P의 값으로 계산해주어서 원하는 패턴이 반복되는 횟수를 구해준다.
+//
+//        위 방법으로는 시간이 좀 더 걸리길래 빠른 사람들의 코드를 확인해보았고
+//
+//        스택을 사용하지 않아도 비슷한 로직으로 풀 수 있다는 것을 알 수 있었다.
+//
+//        풀이 시간 : 25분
 public class boj_5525 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
