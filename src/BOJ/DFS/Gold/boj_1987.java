@@ -28,7 +28,6 @@ public class boj_1987 {
         }
 
         DFS(0, 0, 1, 1 << (Map[0][0] - 'A'));
-
         System.out.println(answer);
     }
     private static void DFS(int row, int col, int count, int bit) {
