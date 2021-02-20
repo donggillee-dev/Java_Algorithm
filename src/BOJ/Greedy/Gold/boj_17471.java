@@ -7,6 +7,7 @@ public class boj_17471 {
     private static int N, answer = Integer.MAX_VALUE;
     private static int[] peopleArr;
     private static boolean[][] Map;
+    private static HashMap<Integer, Integer> hash = new HashMap<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk;
@@ -41,12 +42,19 @@ public class boj_17471 {
     private static void solution(int visited, int curNode, int cnt) {
         if(curNode != 0) {
             int visitedB = ((visited) ^ ((1 << (N + 1)) - 1));
-            answer = Math.min(answer, getRemain(visited, visitedB));
+            if(hash.get(visitedB) == null) {
+                hash.put(visitedB, 0);
+                answer = Math.min(answer, getRemain(visited, visitedB));
+            }
+
         }
         if(cnt == N / 2) return;
         for(int i = 1; i <= N; i++) {
             if(i != curNode && (visited & (1 << i)) == 0) {
-                solution(visited | (1 << i), i, cnt + 1);
+                if(hash.get(visited | (1 << i)) == null) {
+                    hash.put(visited | (1 << i), 0);
+                    solution(visited | (1 << i), i, cnt + 1);
+                }
             }
         }
     }
