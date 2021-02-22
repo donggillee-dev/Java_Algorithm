@@ -41,6 +41,7 @@ public class boj_4803 {
                 int node1 = Integer.parseInt(stk.nextToken());
                 int node2 = Integer.parseInt(stk.nextToken());
                 if(node1 != node2) unionFind(node1, node2);
+                else check[node1] = 0;
             }
 
             int treeCnt = 0;
