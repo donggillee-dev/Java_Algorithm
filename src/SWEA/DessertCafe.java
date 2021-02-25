@@ -1,10 +1,9 @@
 package SWEA;
-
 import java.io.*;
 import java.util.StringTokenizer;
 
 public class DessertCafe {
-    private static int[][] dir_arr = {{1,-1}, {1,1}, {-1,1}, {-1,-1}};
+    private static int[][] dir_arr = {{1,1}, {1,-1}, {-1,-1}, {-1,1}};
     private static int N, answer;
     private static int[][] Map;
     private static boolean[] visited;
@@ -28,8 +27,8 @@ public class DessertCafe {
                 }
             }
 
-            for (int i = 0; i < N - 2; i++) {
-                for (int j = 1; j < N - 1; j++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
                     visited[Map[i][j]] = true;
                     DFS(i, j, i, j, 0, 1);
                     visited[Map[i][j]] = false;
@@ -38,15 +37,13 @@ public class DessertCafe {
             sb.append("#" + t + " " + answer).append("\n");
         }
         System.out.println(sb);
-//        bw.write(sb.toString());
-//        bw.flush();
     }
     private static void DFS(int start_row, int start_col, int cur_row, int cur_col, int dir, int cnt) {
         if(dir >= 4) return;
         int nr = cur_row + dir_arr[dir][0];
         int nc = cur_col + dir_arr[dir][1];
 
-        if(cnt >= 3 && nr == start_row && nc == start_col) {
+        if(dir == 3 && nr == start_row && nc == start_col) {
             if(cnt > answer) {
                 answer = cnt;
                 return;
