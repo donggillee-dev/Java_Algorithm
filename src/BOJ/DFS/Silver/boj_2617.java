@@ -1,64 +1,62 @@
 package BOJ.DFS.Silver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class boj_2617 {
-    private static HashMap<Integer, Integer> ascHash = new HashMap<>();
-    private static HashMap<Integer, Integer> desHash = new HashMap<>();
-    private static int[] arr;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer stk = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
         int N = Integer.parseInt(stk.nextToken());
         int M = Integer.parseInt(stk.nextToken());
-        arr  = new int[N + 1];
+        ArrayList<Integer>[] descList = new ArrayList[N + 1];
+        ArrayList<Integer>[] ascList = new ArrayList[N + 1];
+
+
+        for(int i = 1; i <= N; i++) {
+            descList[i] = new ArrayList<>();
+            ascList[i] = new ArrayList<>();
+        }
 
         for(int i = 0; i < M; i++) {
             stk = new StringTokenizer(br.readLine());
             int high = Integer.parseInt(stk.nextToken());
             int low = Integer.parseInt(stk.nextToken());
-            ascHash.put(low, high);
-            desHash.put(high, low);
+            descList[high].add(low);
+            ascList[low].add(high);
         }
+        int mid = N / 2;
+        int answer = 0;
+        for(int i = 1; i <= N; i++) {
+            boolean[] visited = new boolean[N + 1];
+            visited[i] = true;
+            int downDepth = DFS(i, ascList, visited);
 
-        for(Integer node : desHash.keySet()) {
-            searchDesc(1, node);
-        }
-        for(Integer node : ascHash.keySet()) {
-            searchAsc(1, node);
-        }
+            visited = new boolean[N + 1];
+            visited[i] = true;
+            int upDepth = DFS(i, descList, visited);
 
-        System.out.println(Arrays.toString(arr));
-    }
-    private static void searchDesc(int depth, int startNode) {
-        if(desHash.get(startNode) == null) {
-            arr[startNode] += depth;
-            return;
-        }
-
-        for(Integer node : desHash.keySet()) {
-            if(node == startNode) {
-                searchDesc(depth + 1, desHash.get(node));
+            if(downDepth > mid || upDepth > mid) {
+                answer++;
             }
         }
+        sb.append(answer);
+        bw.write(sb.toString());
+        bw.flush();
     }
-    private static void searchAsc(int depth, int startNode) {
-        if(ascHash.get(startNode) == null) {
-            arr[startNode] += depth;
-            return;
-        }
+    private static int DFS(int startNode, ArrayList<Integer>[] list, boolean[] visited) {
+        int sum = 0;
 
-        for(Integer node : ascHash.keySet()) {
-            if(node == startNode) {
-                searchDesc(depth + 1, ascHash.get(node));
+        for(int num : list[startNode]) {
+            if(!visited[num]) {
+                visited[num] = true;
+                sum += DFS(num, list, visited) + 1;
             }
         }
+
+        return sum;
     }
 }
