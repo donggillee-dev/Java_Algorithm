@@ -30,7 +30,8 @@ public class boj_9934 {
             sb.append("\n");
         }
         bw.write(sb.toString());
-        bw.flush();
+        bw.close();
+        br.close();
     }
     private static void recur(int left, int right, int level, ArrayList<Integer>[] tree, int[] arr) {
         int mid = (left + right) / 2;
