@@ -9,23 +9,25 @@ public class boj_2002 {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         HashMap<String, Integer> hash1 = new HashMap<>();
-        HashMap<String, Integer> hash2 = new HashMap<>();
         int N = Integer.parseInt(br.readLine());
-
-        for(int i = 1; i <= N; i++) {
+        int answer = 0;
+        int[] outputOrder = new int[1001];
+        for(int i = 0; i < N; i++) {
             hash1.put(br.readLine(), i);
         }
 
-        int answer = 0;
-        int num = hash1.get(br.readLine());
-        for(int i = 2; i <= N; i++) {
-            int tmp = hash1.get(br.readLine());
-            if(num > tmp) {
-                answer++;
-            }
-            num = tmp;
+        for(int i = 0; i < N; i++) {
+            outputOrder[i] = hash1.get(br.readLine());
         }
 
+        for(int i = 0; i < N - 1; i++) {
+            for(int j = i + 1; j < N; j++) {
+                if(outputOrder[i] > outputOrder[j]) {
+                    answer++;
+                    break;
+                }
+            }
+        }
         sb.append(answer).append("\n");
         bw.write(sb.toString());
         bw.close();
