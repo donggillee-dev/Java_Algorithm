@@ -24,7 +24,7 @@ public class boj_14591 {
             }
         }
         visited[1] = true;
-        DFS(map, visited, answer, 1, 1, sb);
+        DFS(map, visited, answer, 1);
 
         sb.append(answer.size()).append("\n");
         for(int i = answer.size() - 1; i >= 0; i--) {
@@ -34,12 +34,12 @@ public class boj_14591 {
         bw.close();
         br.close();
     }
-    private static void DFS(ArrayList<Integer>[] map, boolean[] visited, ArrayList<Integer> answer, int p, int depth, StringBuilder sb) {
+    private static void DFS(ArrayList<Integer>[] map, boolean[] visited, ArrayList<Integer> answer, int p) {
         for(int i = 0; i < map[p].size(); i++) {
             int next = map[p].get(i);
             if(!visited[next]) {
                 visited[next] = true;
-                DFS(map, visited, answer, next, depth + 1, sb);
+                DFS(map, visited, answer, next);
             }
         }
         answer.add(p);
