@@ -7,16 +7,13 @@ import java.io.*;
 public class boj_2195 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringBuilder sb = new StringBuilder();
         String S = br.readLine();
         String P = br.readLine();
-        int pLength = P.length();
-        int cnt = 0;
-        for(int i = 0; i < pLength; i++) {
+        int pLength = P.length(), cnt = 0;
+
+        for(int i = 0; i < pLength; i++, cnt++) {
             boolean flag = true;    //S문자열 전체가 P에 포함되어지는 경우가 존재할 수 있으므로
-            cnt++;
-            sb.setLength(0); //P를 잘라서 넣을 StringBuilder
 
             for(int j = i; j < pLength; j++) {
                 //하나씩 잘라서 StringBuilder에 넣음
@@ -31,9 +28,9 @@ public class boj_2195 {
                 }
             }
             if(flag)
-                i += P.length();
+                i += pLength;
+            sb.setLength(0); //P를 잘라서 넣을 StringBuilder
         }
-        bw.write(String.valueOf(cnt));
-        bw.flush();
+        System.out.println(cnt);
     }
 }

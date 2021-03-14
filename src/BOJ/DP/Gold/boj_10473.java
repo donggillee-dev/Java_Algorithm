@@ -2,6 +2,7 @@ package BOJ.DP.Gold;
 
 import java.io.*;
 import java.util.*;
+
 public class boj_10473 {
     //Logic
     //대포는 원하는 방향까지 50m를 날려줄 수 있음
@@ -12,8 +13,6 @@ public class boj_10473 {
 
     //풀이 시간 : 50분... 문제 잘 읽자ㅠㅠㅠ
     public static void main(String[] args) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
         ArrayList<double[]> list = new ArrayList<>();
         int N = inputInfo(list);
         double[][] dist = new double[N + 2][N + 2]; //각 노드들 간에 거리 정보
@@ -22,18 +21,19 @@ public class boj_10473 {
         init(dist, list, answer);
         Dijkstra(dist, answer);
 
-        sb.append(String.format("%f", answer[N + 1]));
-        bw.write(sb.toString());
-        bw.flush();
+        System.out.print((float)answer[answer.length - 1]);
     }
+
     private static class Info {
         int node;
         double time;
+
         public Info(int node, double time) {
             this.node = node;
             this.time = time;
         }
     }
+
     private static int inputInfo(ArrayList<double[]> list) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         double start_x, start_y, end_x, end_y;
@@ -69,48 +69,46 @@ public class boj_10473 {
     }
 
     private static void Dijkstra(double[][] dist, double[] answer) {
+        final double runAcc = 5.0, flyAcc = 25.0;
         PriorityQueue<Info> Q = new PriorityQueue<>(new Comparator<Info>() {
             @Override
             public int compare(Info o1, Info o2) {
-                if(o1.time > o2.time) return 1;
-                else if(o1.time == o2.time) return 0;
+                if (o1.time > o2.time) return 1;
+                else if (o1.time == o2.time) return 0;
                 else return -1;
             }
         });
         int length = dist.length;
-        final double runAcc = 5.0, flyAcc = 25.0;
         Q.add(new Info(0, 0.0));
 
-        while(!Q.isEmpty()) {
+        while (!Q.isEmpty()) {
             Info elem = Q.poll();
-            int curNode = elem.node;
-            double curTime = elem.time;
 
-            if(answer[curNode] < curTime) continue;
+            if (answer[elem.node] < elem.time) continue;
 
-            for(int i = 0; i < length; i++) {
+            for (int i = 0; i < length; i++) {
 
                 double nextTime = 0F;
 
-                if(curNode == 0) {//처음에는 대포를 탈 수 없음....문제 잘 읽자...
-                    double runTime = dist[curNode][i] / runAcc;
+                if (elem.node == 0) {//처음에는 대포를 탈 수 없음....문제 잘 읽자...
+                    double runTime = dist[elem.node][i] / runAcc;
                     answer[i] = runTime;
-                    if(i != 0)
+                    if (i != 0)
                         Q.add(new Info(i, answer[i]));
                     continue;
                 }
 
-                if(dist[curNode][i] >= 50) { //대포 반경 외에 있을 때는 대포로 50미터 날아가서 뛰어가거나
-                    double runTime = (dist[curNode][i] - 50) / runAcc;
-                    nextTime = runTime + 2 + curTime;
+                if (dist[elem.node][i] >= 50) { //대포 반경 외에 있을 때는 대포로 50미터 날아가서 뛰어가거나
+                    double runTime = (dist[elem.node][i] - 50) / runAcc;
+                    nextTime = runTime + 2 + elem.time;
                 } else { //대포 반경 내에 있을 경우에는 대포로 50미터 날아가서 뛰어가거나 그냥 뛰어가거나
-                    double flyTime = 2.0 + ((50 - dist[curNode][i]) / runAcc);
-                    double runTime = dist[curNode][i] / runAcc;
+                    double flyTime = 2.0 + ((50 - dist[elem.node][i]) / runAcc);
+                    double runTime = dist[elem.node][i] / runAcc;
 
-                    if(flyTime > runTime) nextTime = runTime + curTime;
-                    else nextTime = flyTime + curTime;
+                    if (flyTime > runTime) nextTime = runTime + elem.time;
+                    else nextTime = flyTime + elem.time;
                 }
-                if(answer[i] > nextTime) {
+                if (answer[i] > nextTime) {
                     answer[i] = nextTime;
                     Q.add(new Info(i, answer[i]));
                 }
