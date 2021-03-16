@@ -11,17 +11,14 @@ import java.util.Arrays;
 
 public class boj_1759 {
     private static int L, C;
-    private static char[] arr, input;
-    private static StringBuilder sb = new StringBuilder();
     public static void main(String[] arg) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
         StringTokenizer stk = new StringTokenizer(br.readLine());
         L = Integer.parseInt(stk.nextToken());
         C = Integer.parseInt(stk.nextToken());
-        arr = new char[L];
-        input = new char[C];
+        char[] arr = new char[L], input = new char[C];
 
         stk = new StringTokenizer(br.readLine());
 
@@ -30,12 +27,10 @@ public class boj_1759 {
         }
 
         Arrays.sort(input);
-        func(0, 0);
-        bw.write(String.valueOf(sb));
-        bw.close();
-        br.close();
+        func(0, 0, arr, input, sb);
+        System.out.print(sb);
     }
-    private static void func(int cnt, int idx) {
+    private static void func(int cnt, int idx, char[] arr, char[] input, StringBuilder sb) {
         if(cnt == L) {
             int mo = 0, ja = 0;
             for(int i = 0; i < cnt; i++) {
@@ -56,7 +51,7 @@ public class boj_1759 {
 
         for(int i = idx; i < C; i++) {
             arr[cnt] = input[i];
-            func(cnt + 1, i + 1);
+            func(cnt + 1, i + 1, arr, input, sb);
         }
     }
 }
