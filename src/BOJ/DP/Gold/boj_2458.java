@@ -20,14 +20,14 @@ public class boj_2458 {
         //Floyd-Warshall => O(N^3)
         //이 알고리즘으로 i부터 j까지 k를 거쳐서 갈 수 있는지 다 체크
         //결과적으로 i에서 갈 수 있는 노드의 개수를 다 체크해줄 수 있음
-//        for(int k = 1; k <= N; k++) {
-//            for(int i = 1; i <= N; i++) {
-//                for(int j = 1; j <= N; j++) {
-//                    if(!arr[i][k] || !arr[k][j]) continue;
-//                    arr[i][j] = true;
-//                }
-//            }
-//        }
+        for(int k = 1; k <= N; k++) {
+            for(int i = 1; i <= N; i++) {
+                for(int j = 1; j <= N; j++) {
+                    if(!arr[i][k] || !arr[k][j]) continue;
+                    arr[i][j] = true;
+                }
+            }
+        }
         //BFS => O(N^2)
         for(int i = 1; i <= N; i++) {
             BFS(i, N, arr);

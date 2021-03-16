@@ -50,10 +50,10 @@ public class boj_1865 {
                     updated = true;
                 }
             }
-            //갱신된 적이 없으면 순환이 존재하지 않는다는 뜻이므로 false리턴
+            //갱신된 적이 없다면 순환이 존재하지 않는다는 뜻이므로 false리턴
             if (!updated) return updated;
         }
-        //갱신된 적이 없으면 순환이 존재한단 뜻이므로 ture리
+        //N번까지 했는대도 갱신이 되었다면 순환이 존재한단 뜻이므로 true리턴
         return true;
     }
     private static void init(BufferedReader br, int[][] Map, int[] dist, int M, int W, int INF) throws IOException {
