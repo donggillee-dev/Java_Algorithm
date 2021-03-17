@@ -1,4 +1,4 @@
-package BOJ.BinarySearch;
+package BOJ.BinarySearch.Silver;
 
 import java.io.*;
 import java.util.ArrayList;
