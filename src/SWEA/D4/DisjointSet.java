@@ -50,7 +50,7 @@ public class DisjointSet {
         int parent1 = findParent(a);
         int parent2 = findParent(b);
 
-        if(parent1 == parent2) return;
-        tree[parent2] = parent1;
+        if(parent1 < parent2) tree[parent2] = parent1;
+        else tree[parent1] = parent2;
     }
 }
