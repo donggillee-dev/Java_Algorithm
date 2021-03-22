@@ -1,4 +1,4 @@
-package Jungol;
+package Jungol.Greedy;
 
 import java.io.*;
 import java.util.PriorityQueue;

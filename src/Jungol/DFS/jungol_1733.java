@@ -1,4 +1,4 @@
-package Jungol;
+package Jungol.DFS;
 
 import java.io.*;
 import java.util.StringTokenizer;
