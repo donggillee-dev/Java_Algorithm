@@ -5,7 +5,7 @@ import java.io.*;
 //Logic
 //접두와 접미가 같은 길이를 저장하는 KMP의 특성을 이용하여 문제에서 앞을 연속되게 자른다른 것을
 //보고 뒤집으면 되겠다는 생각을 하였다
-//풀이 시간 : 120시간
+//풀이 시간 : 3시간
 
 public class boj_16570 {
     public static void main(String[] args) throws IOException {
