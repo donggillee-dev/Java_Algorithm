@@ -1,4 +1,4 @@
-package BOJ.String.Gold;
+package BOJ.KMP.Gold;
 
 import java.io.*;
 //Logic
