@@ -1,4 +1,4 @@
-package BOJ.DFS.Gold;
+package BOJ.LCS.Gold;
 
 import java.io.*;
 //Logic
