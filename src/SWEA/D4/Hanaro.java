@@ -95,3 +95,62 @@ public class Hanaro {
         System.out.println(sb);
     }
 }
+
+//아래 풀이는 실행시간이 엄청 빠른 사람의 코드를 보고 인상깊어서 긁어왔다
+//그때그때 선택되어지지 않은 정점중 가장 최소의 거리를 가지는 정점을 선택해서 그 정점으로부터 선택되어지지 않은 애들까지의 거리를 다 계산하고
+//다시 반복 => N번
+
+//public class Hanaro {
+//    static int N;
+//    static double E;
+//    static int[][] map;
+//    public static void main(String[] args) throws Exception{
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        StringBuilder sb = new StringBuilder();
+//        int T = Integer.parseInt(br.readLine());
+//        for(int tc = 1; tc <= T; tc++) {
+//            N = Integer.parseInt(br.readLine());
+//            map = new int[N][N];
+//            StringTokenizer st = null;
+//            for(int i = 0; i < 2; i++) {
+//                st = new StringTokenizer(br.readLine());
+//                for(int j = 0; j < N; j++) {
+//                    map[j][i] = Integer.parseInt(st.nextToken());
+//                }
+//            }
+//            E = Double.parseDouble(br.readLine());
+//            boolean[] visited = new boolean[N];
+//            double[] length = new double[N];
+//            Arrays.fill(length, Double.MAX_VALUE);
+//            length[0] = 0;
+//
+//            for(int i = 0; i < N; i++) {
+//                int min = -1;
+//                double minLength = Double.MAX_VALUE;
+//                for(int j = 0; j < N; j++) {
+//                    if(!visited[j] && length[j] < minLength) {
+//                        min = j;
+//                        minLength = length[j];
+//                    }
+//                }
+//                visited[min] = true;
+//
+//                for(int j = 0; j < N; j++) {
+//                    if(!visited[j] && length[j] > distance(min, j)) {
+//                        length[j] = distance(min, j);
+//                    }
+//                }
+//            }
+//            double ans = 0;
+//            for(int i = 0; i < length.length; i++) {
+//                ans += length[i] * E;
+//            }
+//
+//            sb.append("#" + tc + " " + Math.round(ans)).append("\n");
+//        }
+//        System.out.print(sb);
+//    }
+//    private static double distance(int a1, int a2) {
+//        return Math.pow(map[a1][0] - map[a2][0], 2) + Math.pow(map[a1][1] - map[a2][1], 2);
+//    }
+//}
