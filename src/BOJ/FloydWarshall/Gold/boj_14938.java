@@ -7,6 +7,7 @@ import java.util.*;
 //풀이 방법 2개 하나는 플루이드 하나는 모든정점에 대해서 시작정점으로 해서 다익 돌아주는것
 //두번째 방법은 호균이의 코드를 따라했다
 
+
 public class boj_14938 {
     private static int N, M, R;
     private static int[] cost, itemList;
