@@ -17,6 +17,7 @@ public class boj_2458 {
             arr[Integer.parseInt(stk.nextToken())][Integer.parseInt(stk.nextToken())] = true;
         }
 
+
         //Floyd-Warshall => O(N^3)
         //이 알고리즘으로 i부터 j까지 k를 거쳐서 갈 수 있는지 다 체크
         //결과적으로 i에서 갈 수 있는 노드의 개수를 다 체크해줄 수 있음
