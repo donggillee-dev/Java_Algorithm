@@ -1,4 +1,4 @@
-package BOJ.DP.Gold;
+package BOJ.FloydWarshall.Gold;
 
 import java.io.*;
 import java.util.*;
