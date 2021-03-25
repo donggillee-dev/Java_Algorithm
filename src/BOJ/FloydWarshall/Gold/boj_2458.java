@@ -29,6 +29,7 @@ public class boj_2458 {
                 }
             }
         }
+
         //BFS => O(N^2)
         for(int i = 1; i <= N; i++) {
             BFS(i, N, arr);
