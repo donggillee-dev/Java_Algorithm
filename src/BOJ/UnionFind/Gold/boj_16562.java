@@ -1,4 +1,4 @@
-package BOJ.Tree.Gold;
+package BOJ.UnionFind.Gold;
 
 import java.io.*;
 import java.util.StringTokenizer;
