@@ -41,11 +41,11 @@ public class boj_12763 {
             int[] node = pq.poll();
             int startNode = node[0], time = node[1], cost = node[2];
 
-            if(cost > M || time > T) continue;
+            if(time > T || cost > M) continue;
 
             for(int[] elem : adj[startNode]) {
 
-                if(time + elem[1] > T || cost + elem[2] > M) continue;
+                if(time + elem[1] > T) continue;
 
                 if(timeArr[elem[0]] < time && costArr[elem[0]] < cost) continue;
 
