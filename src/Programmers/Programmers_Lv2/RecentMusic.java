@@ -4,70 +4,126 @@ import java.util.*;
 public class RecentMusic {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        String m = "CC#BCC#BCC#BCC#B";
+        String m = "ZZZ";
         String[] musicinfos = {
-                "03:00,03:30,FOO,CC#B",
-                "04:00,04:08,BAR,CC#BCC#BCC#B"
+                "12:00,12:14,HELLO,C#DEFGAB",
+                "13:00,13:05,WORLD,ABCDEF"
         };
 
         System.out.println(sol.solution(m, musicinfos));
     }
     private static class Solution {
         public String solution(String m, String[] musicinfos) {
-            StringBuilder answer_sb = new StringBuilder();
+            HashMap<String, String> hash = new HashMap<>();
             StringBuilder sb = new StringBuilder();
-            PriorityQueue<Info> Q = new PriorityQueue<>((o1, o2) -> o2.time - o1.time);
+            StringBuilder tmp = new StringBuilder();
+            int[] pi = new int[m.length()];
 
-            String[] infoArr, start;
-            int startTime, endTime, playTime;
+            sb.append(m);
+            hash.put("C#", "c");
+            hash.put("D#", "d");
+            hash.put("F#", "f");
+            hash.put("G#", "g");
+            hash.put("A#", "a");
 
-            for(String str : musicinfos) {
-                infoArr = str.split(",");
-                start = infoArr[0].split(":");
-                String[] end = infoArr[1].split(":");
-                startTime = Integer.parseInt(start[0]) * 3600 + Integer.parseInt(start[1]) * 60;
-                endTime = Integer.parseInt(end[0]) * 3600 + Integer.parseInt(end[1]) * 60;
-                playTime = (endTime - startTime) / 60;
+            for(String key : hash.keySet()) {
+                tmp.append(sb.toString().replaceAll(key, hash.get(key)));
+                sb.setLength(0);
+                sb.append(tmp);
+                tmp.setLength(0);
+            }
 
-                int idx = 0;
-                for(int i = 1; i <= playTime; i++) {
-                    if(infoArr[3].charAt(idx) == '#') {
-                        playTime++;
-                    }
-                    sb.append(infoArr[3].charAt(idx));
-                    idx++;
-                    if(idx == infoArr[3].length()) idx = 0;
+            m = sb.toString();
+            makeTable(sb.toString(), pi);
+            sb.setLength(0);
+
+            int ansLength = 0;
+            StringBuilder ansTitle = new StringBuilder();
+            ansTitle.append("(None)");
+            for(String line : musicinfos) {
+                String[] info = line.split(",");
+                String[] start = info[0].split(":");
+                String[] end = info[1].split(":");
+                int startTime = Integer.parseInt(start[0]) * 3600 + Integer.parseInt(start[1]) * 60;
+                int endTime = Integer.parseInt(end[0]) * 3600 + Integer.parseInt(end[1]) * 60;
+                int playTime = (endTime - startTime) / 60;
+
+                sb.append(info[3]);
+
+                for(String key : hash.keySet()) {
+                    tmp.append(sb.toString().replaceAll(key, hash.get(key)));
+                    sb.setLength(0);
+                    sb.append(tmp);
+                    tmp.setLength(0);
                 }
 
-                String[] splitArr = String.valueOf(sb).split(m);
-                for(int i = 1; i < splitArr.length; i++) {
-                    if(splitArr[i].length() > 0 && splitArr[i].charAt(0) != '#') {
-                        Q.offer(new Info(playTime, infoArr[2]));
-                        break;
+                String hashStr = sb.toString();
+                sb.setLength(0);
+
+                sb.append(hashStr);
+                int length = sb.length();
+
+                if(length < playTime) {
+                    int cnt = (playTime / length);
+                    int rem = playTime % length;
+
+                    while(cnt --> 0) {
+                        sb.append(hashStr);
+                    }
+
+                    if(rem != 0) {
+                        for(int i = 0; i < rem; i++) {
+                            sb.append(hashStr.charAt(i));
+                        }
+                    }
+                } else if(length > playTime) {
+                    sb.setLength(playTime);
+                }
+
+                if(kmp(sb.toString(), m, pi)) {
+                    if(ansLength < playTime) {
+                        ansLength = playTime;
+                        ansTitle.setLength(0);
+                        ansTitle.append(info[2]);
                     }
                 }
-//                if(String.valueOf(sb).contains(m)) {
-//                    int flagidx = String.valueOf(sb).indexOf(m) + m.length();
-//                    if((flagidx < sb.length()) && !(sb.charAt(flagidx) == '#'))
-//                        Q.offer(new Info(playTime, infoArr[2]));
-//                }
-                sb.delete(0, sb.length());
+
+                sb.setLength(0);
             }
-            if(Q.size() == 0) {
-                sb.append("(None)").append("\n");
-            } else {
-                answer_sb.append(Q.poll().title);
-            }
-            Q.clear();
-            return String.valueOf(answer_sb);
+
+            return ansTitle.toString();
         }
-    }
-    private static class Info {
-        int time;
-        String title;
-        public Info(int time, String title) {
-            this.time = time;
-            this.title = title;
+        private static void makeTable(String pattern, int[] pi) {
+            int j = 0, length = pattern.length();
+
+            for(int i = 1; i < length; i++) {
+                while(j != 0 && pattern.charAt(i) != pattern.charAt(j)) {
+                    j = pi[j - 1];
+                }
+
+                if(pattern.charAt(i) == pattern.charAt(j)) {
+                    pi[i] = ++j;
+                }
+            }
+        }
+        private static boolean kmp(String parent, String pattern, int[] pi) {
+            int j = 0, parentLength = parent.length(), patternLength = pattern.length();
+
+            for(int i = 0; i < parentLength; i++) {
+                while(j != 0 && parent.charAt(i) != pattern.charAt(j)) {
+                    j = pi[j - 1];
+                }
+
+                if(parent.charAt(i) == pattern.charAt(j)) {
+                    if(j == patternLength - 1) {
+                        return true;
+                    } else {
+                        j++;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }
