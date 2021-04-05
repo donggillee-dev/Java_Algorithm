@@ -3,10 +3,12 @@ package BOJ.Sorting.Gold;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.StringTokenizer;
+import java.util.*;
+
+//Logic
+//볼을 무게순으로 정렬하여 가장 큰 볼부터 누적합된 무게에 대해서 처리, color동일한 것들에 대해서도 처리
+//그 후에 동일한 무게를 처리해준다 => 동일한 무게이면서 컬러가 다른 경우에 대해서만 기존 정답 값에서 빼주어야함
+//왜냐하면 누적합에 대해 처리해줄때 동일한 color들의 볼들에 대해서는 예외를 이미 처리해줬기 때문
 
 public class boj_10800 {
     private static class Info {
