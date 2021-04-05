@@ -3,6 +3,9 @@ package BOJ.BruteForce.Gold;
 import java.io.*;
 import java.util.*;
 
+//Logic
+//그냥 구현문제이긴 하지만,,, 시간 복잡도 단축 필요...
+
 public class boj_18808 {
     private static int[][] Sticker;
     private static int[][] NoteBook;
