@@ -63,9 +63,10 @@ public class boj_10800 {
         for(int i = 0; i < n - 1; i++) {
             Info ball = ballList.get(i);
             for(int j = i + 1; j < n; j++) {
-                if(ballList.get(j).weight != ball.weight) break;
-                else if(ballList.get(j).color != ball.color){
-                    ans_arr[ball.idx] -= ballList.get(j).weight;
+                Info targetBall = ballList.get(j);
+                if(targetBall.weight != ball.weight) break;
+                else if(targetBall.color != ball.color){
+                    ans_arr[ball.idx] -= targetBall.weight;
                 }
             }
         }

@@ -70,6 +70,7 @@ public class boj_6087 {
             if(pos.x == end_row && pos.y == end_col && pos.cnt < ans) {
                 ans = pos.cnt;
                 visited[pos.x][pos.y] = pos.cnt;
+                continue;
             }
 
             for(int i = 0; i < 4; i++) {
