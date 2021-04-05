@@ -4,18 +4,55 @@ import java.io.*;
 import java.util.*;
 
 public class boj_18808 {
-    static int[][] Sticker;
-    static int[][] NoteBook;
-    static int N, M, StickerNum;
-    static int ans = 0;
+    private static int[][] Sticker;
+    private static int[][] NoteBook;
+    private static boolean attach(int N, int M, int sx, int sy, int length) {
+        int[][] copyNote = new int[N][M];
+
+        int attached = 0;
+        for(int i = 0; i < N; i++) {
+            System.arraycopy(NoteBook[i], 0, copyNote[i], 0, M);
+        }
+
+        loop:for(int i = 0; i < Sticker.length; i++) {
+            for(int j = 0; j < Sticker[0].length; j++) {
+                if((sx + i) >= N || (sy + j) >= M || (sx + i) < 0 || (sy + j) < 0)
+                    break loop;
+                if(Sticker[i][j] == 1 && copyNote[sx + i][sy + j] == 0) {
+                    copyNote[sx + i][sy + j] = 1;
+                    attached++;
+                } else if(Sticker[i][j] == 1 && copyNote[sx + i][sy + j] == 1) {
+                    attached = 0;
+                    break loop;
+                } else;
+
+            }
+        }
+        if(attached == length) {
+            for(int i = 0; i < N; i++) {
+                System.arraycopy(copyNote[i], 0, NoteBook[i], 0, M);
+            }
+            return true;
+        }
+        return false;
+    }
+    private static void rotate() {
+        int[][] tmp = new int[Sticker[0].length][Sticker.length];
+        for(int i = 0; i < Sticker[0].length; i++) {
+            for(int j = 0; j < Sticker.length; j++) {
+                tmp[i][j] = Sticker[Sticker.length - j - 1][i];
+            }
+        }
+        Sticker = tmp;
+        return;
+    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
         StringTokenizer stk = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(stk.nextToken());
-        M = Integer.parseInt(stk.nextToken());
-        StickerNum = Integer.parseInt(stk.nextToken());
+        int N = Integer.parseInt(stk.nextToken());
+        int M = Integer.parseInt(stk.nextToken());
+        int StickerNum = Integer.parseInt(stk.nextToken());
+        int ans = 0;
 
         NoteBook = new int[N][M];
 
@@ -36,9 +73,7 @@ public class boj_18808 {
             loop1:for(int cnt = 0; cnt < 4; cnt++) {
                 for(int nx = 0; nx < N; nx++) {
                     for(int ny = 0; ny < M; ny++) {
-                        boolean ret = false;
-                        ret = attach(nx, ny, length);
-                        if(ret) {
+                        if(attach(N, M, nx, ny, length)) {
                             ans += length;
                             break loop1;
                         }
@@ -47,52 +82,6 @@ public class boj_18808 {
                 rotate();
             }
         }
-        sb.append(ans).append("\n");
-        bw.write(String.valueOf(sb));
-        bw.flush();
-        bw.close();
-        br.close();
-        return;
-    }
-    public static boolean attach(int nx, int ny, int length) {
-        int[][] copyNote = new int[N][M];
-
-        boolean flag = false;
-
-        int attached = 0;
-        for(int i = 0; i < N; i++) {
-            System.arraycopy(NoteBook[i], 0, copyNote[i], 0, M);
-        }
-        loop2:for(int i = 0; i < Sticker.length; i++) {
-            for(int j = 0; j < Sticker[0].length; j++) {
-                if((nx + i) >= N || (ny + j) >= M || (nx + i) < 0 || (ny + j) < 0)
-                    break loop2;
-                if(Sticker[i][j] == 1 && copyNote[nx + i][ny + j] == 0) {
-                    copyNote[nx + i][ny + j] = 1;
-                    attached++;
-                } else if(Sticker[i][j] == 1 && copyNote[nx + i][ny + j] == 1) {
-                    attached = 0;
-                    break loop2;
-                } else;
-
-            }
-        }
-        if(attached == length) {
-            flag = true;
-            for(int i = 0; i < N; i++) {
-                System.arraycopy(copyNote[i], 0, NoteBook[i], 0, M);
-            }
-        }
-        return flag;
-    }
-    public static void rotate() {
-        int[][] tmp = new int[Sticker[0].length][Sticker.length];
-        for(int i = 0; i < Sticker[0].length; i++) {
-            for(int j = 0; j < Sticker.length; j++) {
-                tmp[i][j] = Sticker[Sticker.length - j - 1][i];
-            }
-        }
-        Sticker = tmp;
-        return;
+        System.out.println(ans);
     }
 }
