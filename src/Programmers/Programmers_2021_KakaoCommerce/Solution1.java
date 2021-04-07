@@ -34,3 +34,27 @@ public class Solution1 {
         return answer;
     }
 }
+
+//public class Solution1 {
+//    public static int solution(int[] gift_cards, int[] wants) {
+//        int answer = 0;
+//        int length = wants.length;
+//        int[] arr = new int[100001];
+//        for (int i = 0; i < length; i++) {
+//            arr[gift_cards[i]]++;
+//        }
+//        for (int i = 0; i < length; i++)
+//            if (arr[wants[i]] > 0)
+//                arr[wants[i]]--;
+//        for (int i = 1; i <= 100000; i++)
+//            if (arr[i] != 0)
+//                answer += arr[i];
+//        return answer;
+//    }
+//
+//    public static void main(String[] args) {
+//        int[] gift_cards = {5,4,5,4,5, };
+//        int[] wants = { 1,2,3,5,4 };
+//        System.out.println(solution(gift_cards, wants));
+//    }
+//}

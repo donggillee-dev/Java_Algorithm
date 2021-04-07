@@ -78,3 +78,61 @@ public class Solution3 {
         }
     }
 }
+
+//import java.util.ArrayList;
+//import java.util.LinkedList;
+//import java.util.Queue;
+
+//public class Solution3 {
+//    static class info {
+//        int dest, weight;
+//
+//        info(int dest, int weight) {
+//            this.dest = dest;
+//            this.weight = weight;
+//        }
+//    }
+//
+//    public static int[] solution(int n, int[] passenger, int[][] train) {
+//        int[] answer = new int[2];
+//        ArrayList<Integer> arr[] = new ArrayList[n + 1];
+//        for (int i = 1; i <= n; i++)
+//            arr[i] = new ArrayList<>();
+//        for (int i = 0; i < train.length; i++) {
+//            arr[train[i][0]].add(train[i][1]);
+//            arr[train[i][1]].add(train[i][0]);
+//        }
+//
+//        int[] distance = new int[n + 1];
+//        Queue<info> q = new LinkedList<>();
+//        q.add(new info(1, passenger[0]));
+//        distance[1] = passenger[0];
+//        while (!q.isEmpty()) {
+//            info cur = q.poll();
+//
+//            for (int next : arr[cur.dest]) {
+//                if (distance[next] != 0)
+//                    continue;
+//                distance[next] = cur.weight + passenger[next - 1];
+//                q.add(new info(next, distance[next]));
+//            }
+//        }
+//        int index = 1, maxPassenger = 0;
+//        for (int i = 1; i <= n; i++) {
+//            if (distance[i] >= maxPassenger) {
+//                maxPassenger = distance[i];
+//                index = i;
+//            }
+//        }
+//        answer[0] = index;
+//        answer[1] = maxPassenger;
+//        return answer;
+//    }
+//
+//    public static void main(String[] args) {
+//        int n = 4;
+//        int[] passenger = {2, 1, 2, 2};
+//        int[][] train = {{2,1},{1,3},{2,4}};
+//        solution(n, passenger, train);
+//    }
+//}

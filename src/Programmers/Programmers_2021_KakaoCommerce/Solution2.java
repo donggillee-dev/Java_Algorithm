@@ -46,3 +46,45 @@ public class Solution2 {
         return answer;
     }
 }
+
+
+//public class Solution2 {
+//    static int row, col, answer;
+//
+//    public static int solution(int[][] needs, int r) {
+//        answer = 0;
+//        row = needs.length;
+//        col = needs[0].length;
+//        dfs(0, 0, new boolean[col], r, needs);
+//        return answer;
+//    }
+//
+//    private static void dfs(int cnt, int idx, boolean[] canUse, int r, int[][] needs) {
+//        if (cnt == r) {
+//            int count = 0;
+//            for (int x = 0; x < needs.length; x++) {
+//                boolean canMake = true;
+//                for (int y = 0; y < needs[x].length && canMake; y++) {
+//                    if (needs[x][y] == 1 && !canUse[y]) {
+//                        canMake = false;
+//                    }
+//                }
+//                if (canMake)
+//                    count++;
+//            }
+//            answer = Math.max(answer, count);
+//            return;
+//        }
+//        for (int i = idx; i < col; i++) {
+//            canUse[i] = true;
+//            dfs(cnt + 1, i + 1, canUse, r, needs);
+//            canUse[i] = false;
+//        }
+//    }
+//
+//    public static void main(String[] args) {
+//        int[][] needs = { { 1, 0, 0 }, { 1, 1, 0 }, { 1, 1, 0 }, { 1, 0 }, { 1, 1, 0 }, { 0, 1, 1 } };
+//        int r = 3;
+//        System.out.println(solution(needs, r));
+//    }
+//}
