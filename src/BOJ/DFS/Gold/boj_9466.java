@@ -13,50 +13,52 @@ import java.util.StringTokenizer;
 //풀이 시간 : 3시간....
 
 public class boj_9466 {
-    private static int team = 0;
-    private static int[] arr;
-    private static boolean[] visited, cycle;
+    private static int cnt = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
+        StringTokenizer stk;
         int t = Integer.parseInt(br.readLine());
 
-        while (t-- > 0) {
+        while(t-->0) {
             int n = Integer.parseInt(br.readLine());
-            StringTokenizer stk = new StringTokenizer(br.readLine());
-            arr = new int[n + 1];
-            visited = new boolean[n + 1];
-            cycle = new boolean[n + 1];
+            int[] num = new int[n + 1];
+            boolean[] visited = new boolean[n + 1], isTeam = new boolean[n + 1];
+
+            stk = new StringTokenizer(br.readLine());
 
             for(int i = 1; i <= n; i++) {
-                arr[i] = Integer.parseInt(stk.nextToken());
+                num[i] = Integer.parseInt(stk.nextToken());
             }
 
             for(int i = 1; i <= n; i++) {
-                if(!visited[i]);
-                    dfs(i);
+                dfs(i, num, visited, isTeam);
             }
-            sb.append(n - team).append("\n");
-            team = 0;
+            sb.append(n - cnt).append("\n");
+            cnt = 0;
         }
         System.out.print(sb);
     }
-    private static void dfs(int start) {
+    private static void dfs(int start, int[] num, boolean[] visited, boolean[] isTeam) {
         if(visited[start]) return;
 
+        int next = num[start];
         visited[start] = true;
-        int next = arr[start];
 
-        if(!visited[next]) dfs(next);
-        else {
-            if(!cycle[next]) {
-                team++;
+        if(!visited[next]) {
+            dfs(next, num, visited, isTeam);
+        } else {
+            if(!isTeam[next]) {
+                isTeam[next] = true;
+                cnt++;
 
-                for(int i = next; i != start; i = arr[i]) {
-                    team++;
+                for(int i = next; i != start; i = num[i]) {
+                    cnt++;
+                    isTeam[i] = true;
                 }
             }
         }
-        cycle[start] = true;
+        isTeam[start] = true;
+        return;
     }
 }
