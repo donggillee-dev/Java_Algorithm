@@ -2,6 +2,13 @@ package Programmers.Programmers_Lv2;
 
 import java.util.*;
 
+//Logic
+//BFS로 풀면 되는 문제
+//처음에는 BFS로 탐색해 나가면서 visited배열을 사용하지 않고 탐색하려는 위치의 값(이동 거리)이 이때까지 특정 루트로 탐색해온 거리보다
+//길면 다시 탐색하게끔 했지만 시간 초과가 남
+//다시 생각해보니까
+//우선순위 큐를 써서 이동거리가 적은애부터 뽑아서 무조건 탐색하게 하고 방문한 곳은 visited배열의 방문처리 해주면 되는 간단한 문제였음...
+//풀이 시간 : 1시간
 public class GameMapDist {
     private static class Info {
         int r, c, cnt;
@@ -26,6 +33,7 @@ public class GameMapDist {
         });
 
         pq.add(new Info(row - 1, col - 1, 1));
+        visited[row - 1][col - 1] = true;
 
         while (!pq.isEmpty()) {
             Info inf = pq.poll();
