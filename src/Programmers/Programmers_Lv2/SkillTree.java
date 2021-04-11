@@ -1,5 +1,7 @@
 package Programmers.Programmers_Lv2;
 
+import java.util.HashMap;
+
 public class SkillTree {
     public static void main(String[] args) {
         String skill = "CBD";
@@ -14,36 +16,33 @@ public class SkillTree {
     }
     private static class Solution {
         public int solution(String skill, String[] skill_trees) {
-            int answer = 0;
+            int skill_length = skill.length(), answer = 0;
+            HashMap<Character, Integer> hash = new HashMap<>();
 
-            for(int i = 0; i < skill_trees.length; i++) {
-                String skill_tree = skill_trees[i];
+            for(int i = 0, cnt = 1; i < skill_length; i++, cnt++) {
+                hash.put(skill.charAt(i), cnt);
+            }
+
+            for(String st : skill_trees) {
+                int length = st.length();
+                boolean isPossible = true;
                 int idx = 0;
 
-                for(int j = 0; j < skill_tree.length(); j++) {
-                    if(idx >= skill.length()) break;
-                    if(skill_tree.charAt(j) == skill.charAt(idx)) {
-                        idx++;
-                    }
-                }
-                if(idx >= skill.length())
-                    answer++;
-                else {
-                    boolean isPossible = true;
-                    StringBuilder sb = new StringBuilder();
+                for(int i = 0; i < length; i++) {
+                    char ch = st.charAt(i);
 
-                    for(int j = idx; j < skill.length(); j++) {
-                        sb.append(skill.charAt(j));
-
-                        if(skill_tree.contains(String.valueOf(sb))) {
+                    if(hash.get(ch) != null) {
+                        int num = hash.get(ch);
+                        if(num != idx + 1) {
                             isPossible = false;
                             break;
-                        }
-                        sb.delete(0, sb.length());
+                        } else idx = num;
                     }
-                    if(isPossible) answer++;
                 }
+
+                if(isPossible) answer++;
             }
+
             return answer;
         }
     }
