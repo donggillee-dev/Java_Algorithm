@@ -2,6 +2,8 @@ package SWEA;
 
 import java.io.*;
 import java.util.*;
+//Logic
+//그냥 Brute-Fore + DFS + BFS
 
 public class BreakBrick {
     private static final int max = 987654321;
