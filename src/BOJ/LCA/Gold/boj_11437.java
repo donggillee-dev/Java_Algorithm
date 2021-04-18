@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 //Logic
 //LCA 2문제의 DP방식을 그대로 적용하면 되는 문제이다
+
 public class boj_11437 {
     private static int N, D;
     private static ArrayList<ArrayList<Integer>> list;
