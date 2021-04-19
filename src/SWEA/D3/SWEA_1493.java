@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class swea_1493 {
+public class SWEA_1493 {
     private static int[][] arr = new int[301][301];
     private static class Info {
         int row, col;
