@@ -1,4 +1,4 @@
-package BOJ.Sorting.Gold;
+package BOJ.Sort.Gold;
 
 import java.io.BufferedReader;
 import java.io.IOException;

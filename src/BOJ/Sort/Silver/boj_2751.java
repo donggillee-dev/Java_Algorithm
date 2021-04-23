@@ -1,4 +1,4 @@
-package BOJ.Sorting.Silver;
+package BOJ.Sort.Silver;
 
 import java.io.*;
 
