@@ -33,8 +33,8 @@ public class boj_1787 {
             }
             if(arr[i] == arr[j]) {
                 ++j;
+                pi[i] = j;
             }
-            pi[i] = j;
         }
 
         long answer = 0;
