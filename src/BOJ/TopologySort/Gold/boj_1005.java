@@ -1,4 +1,4 @@
-package BOJ.TopoLogic.Gold;
+package BOJ.TopologySort.Gold;
 import java.io.*;
 import java.util.*;
 
