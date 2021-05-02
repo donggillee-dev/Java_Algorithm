@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
+
 //Logic
 //최대, 최소 세그먼트 트리를 각각 만들어서 각각에 대한 쿼리를 던져주면 되는 문제
 //풀이 시간 : 10분
+
 public class boj_2357 {
     private static long initMax(int[] arr, long[] max_tree, int node, int start, int end) {
         if(start == end) return max_tree[node] = arr[start];
