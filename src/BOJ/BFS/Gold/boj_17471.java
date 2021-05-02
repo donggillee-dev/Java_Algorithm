@@ -1,4 +1,4 @@
-package BOJ.Greedy.Gold;
+package BOJ.BFS.Gold;
 
 import java.io.*;
 import java.util.*;
@@ -82,7 +82,9 @@ public class boj_17471 {
            }
         }
 
-
+        if(sumA == 156) {
+            System.out.println();
+        }
         if(visitedA != 0) return Integer.MAX_VALUE;
 
         for(int i = 1; i <= N; i++) {
@@ -104,6 +106,8 @@ public class boj_17471 {
             }
         }
 
+        if(Math.abs(sumA - sumB) == 2)
+            System.out.println();
 
         if(visitedB - 1 != 0) return Integer.MAX_VALUE;
 
