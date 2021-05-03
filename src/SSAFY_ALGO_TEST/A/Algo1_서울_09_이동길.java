@@ -1,4 +1,4 @@
-package SSAFY_ALGO_TEST;
+package SSAFY_ALGO_TEST.A;
 
 import java.io.*;
 import java.util.StringTokenizer;
