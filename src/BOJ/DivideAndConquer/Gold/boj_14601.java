@@ -1,4 +1,4 @@
-package BOJ.DivideConquer.Gold;
+package BOJ.DivideAndConquer.Gold;
 
 import java.io.*;
 import java.util.*;
