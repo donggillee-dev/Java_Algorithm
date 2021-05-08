@@ -1,4 +1,4 @@
-package BOJ.DivideConquer;
+package BOJ.DivideAndConquer;
 import java.io.*;
 import java.util.*;
 
