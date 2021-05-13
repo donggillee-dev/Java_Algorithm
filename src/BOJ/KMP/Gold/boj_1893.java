@@ -11,6 +11,7 @@ public class boj_1893 {
 
         int t = Integer.parseInt(br.readLine());
         while(t --> 0) {
+
             String a = br.readLine();
             String w = br.readLine();
             String s = br.readLine();
