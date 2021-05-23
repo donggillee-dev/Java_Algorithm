@@ -50,6 +50,7 @@ public class boj_15806 {
             System.out.println("NO");
     }
 
+    //입력
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk = new StringTokenizer(br.readLine());
@@ -60,8 +61,8 @@ public class boj_15806 {
         int k = Integer.parseInt(stk.nextToken());
         t = Integer.parseInt(stk.nextToken());
 
-        int[][] room = new int[n + 1][n + 1];
-        boolean[][] check = new boolean[n + 1][n + 1];
+        int[][] room = new int[310][310];
+        boolean[][] check = new boolean[310][310];
 
         for(int i = 0; i < m; i++) {
             stk = new StringTokenizer(br.readLine());
@@ -80,6 +81,7 @@ public class boj_15806 {
             check[x][y] = true;
         }
 
+        //bfs함수 호출
         bfs(q, room, check);
     }
 }
