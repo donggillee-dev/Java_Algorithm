@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+
 public class boj_2098 {
     private static int N;
     private static int[][] Map, DP;
