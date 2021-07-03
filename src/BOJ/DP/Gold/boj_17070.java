@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+//Logic
+//두 가지 버전으로 문제를 풀어봄
+//풀이 시간 : 탐색 ver 28분 , DP는 검색해서
+
 //DP ver
 //특정 i, j번쨰 위치에 0, 1, 2모양의 파이프의 끝이 놓여져 있다는 것
 //0 : 가로, 1 : 세로, 2 : 대각
