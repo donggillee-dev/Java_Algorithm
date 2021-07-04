@@ -66,6 +66,6 @@ public class Solution3 {
     }
     public static void main(String[] args) {
         Solution sol = new Solution();
-        System.out.println(sol.solution("aabcbcd", "abc"));
+        System.out.println(sol.solution("abc", "ab"));
     }
 }
