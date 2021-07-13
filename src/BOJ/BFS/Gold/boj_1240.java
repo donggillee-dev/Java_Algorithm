@@ -1,4 +1,4 @@
-package BOJ.DFS.Gold;
+package BOJ.BFS.Gold;
 
 import java.io.BufferedReader;
 import java.io.IOException;
