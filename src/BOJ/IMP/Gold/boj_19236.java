@@ -22,16 +22,15 @@ package BOJ.IMP.Gold;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class boj_19236 {
     //8개의 방향 나타내는 배열
     private static int ans;
-    private static final int[] dir_x = {0, -1, -1, 0, 1, 1, 1, 0, -1};
-    private static final int[] dir_y = {0, 0, -1, -1, -1, 0, 1, 1, 1};
+    private static final int[] dir_x = {-1, -1, -1, 0, 1, 1, 1, 0, -1};
+    private static final int[] dir_y = {1, 0, -1, -1, -1, 0, 1, 1, 1};
 
-    private static class Fish {
+    private static class Fish implements Comparable<Fish> {
         int x, y, num, dir;
 
         public Fish(int x, int y, int num, int dir) {
@@ -40,105 +39,104 @@ public class boj_19236 {
             this.num = num;
             this.dir = dir;
         }
-    }
-    private static class Pos implements Comparable<Pos> {
-        int x, y, num;
-
-        public Pos(int x, int y, int num) {
-            this.x = x;
-            this.y = y;
-            this.num = num;
-        }
 
         @Override
-        public int compareTo(Pos p) {
-            return this.num - p.num;
+        public int compareTo(Fish f) {
+            return this.num - f.num;
         }
     }
+
     private static boolean isPossible1(int nx, int ny) {
-        if(nx < 0 || ny < 0 || nx >= 4 || ny >= 4) return false;
+        if (nx < 0 || ny < 0 || nx >= 4 || ny >= 4) return false;
 
         return true;
     }
+
     private static boolean isPossible2(int nx, int ny, int sharkX, int sharkY) {
-        if(nx == sharkX && ny == sharkY) return false;
+        if (nx == sharkX && ny == sharkY) return false;
 
         return true;
     }
+
     private static void copyMap(Fish[][] source, Fish[][] copy) {
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 4; j++) {
-                if(source[i][j] == null) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (source[i][j] == null) {
                     continue;
                 }
                 copy[i][j] = new Fish(source[i][j].x, source[i][j].y, source[i][j].num, source[i][j].dir);
             }
         }
     }
+
     private static void simulation(int sharkX, int sharkY, int sharkDir, int sum, Fish[][] oriMap) {
-        PriorityQueue<Pos> pq = new PriorityQueue<>();
         Fish[][] cpyMap = new Fish[4][4];
 
         copyMap(oriMap, cpyMap);
 
-        //물고기 번호 우선순위 큐
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 4; j++) {
-                if((i == sharkX && j == sharkY) || cpyMap[i][j] == null) continue;
-
-                pq.add(new Pos(i, j, cpyMap[i][j].num));
-            }
-        }
-
         //재귀 호출시마다 정답 갱신
-        if(ans < sum) ans = sum;
+        if (ans < sum) ans = sum;
 
         //물고기 이동
-        while(!pq.isEmpty()) {
-            Pos elem = pq.poll();
-            int dir = cpyMap[elem.x][elem.y].dir;
-            int num = cpyMap[elem.x][elem.y].num;
+        //우선순위큐로 구현했다가 객체 참조형인거 때문에 그냥 배열 순회하면서 물고기 순번 찾는 로직으로 변경
+        //시간복잡도는 괜찮은듯
+        for (int cnt = 1; cnt <= 16; cnt++) {
+            loop:
+            for (int j = 0; j < 4; j++) {
+                for (int k = 0; k < 4; k++) {
+                    if (cpyMap[j][k] == null) continue;
 
-            for(int i = 0; i <= 8; i++) {
-                int nd = (dir + i) % 8;
-                int nx = elem.x + dir_x[nd];
-                int ny = elem.y + dir_y[nd];
+                    if (cpyMap[j][k].num == cnt) {
+                        Fish elem = cpyMap[j][k];
+                        int dir = cpyMap[elem.x][elem.y].dir;
+                        int num = cpyMap[elem.x][elem.y].num;
 
-                if(!isPossible1(nx, ny)) continue; //벗어나는 경우
+                        for (int i = 0; i < 8; i++) {
+                            int nd = (dir + i) % 8;
+                            int nx = elem.x + dir_x[nd];
+                            int ny = elem.y + dir_y[nd];
 
-                if(cpyMap[nx][ny] == null) { //해당 위치에 아무것도 없는 경우
-                    if(!isPossible2(nx, ny, sharkX, sharkY)) continue; //상어 있는 경우
+                            if (!isPossible1(nx, ny)) continue; //벗어나는 경우
 
-                    //없는 경우
-                    cpyMap[nx][ny] = new Fish(nx, ny, num, nd);
-                    cpyMap[elem.x][elem.y] = null;
-                    break;
-                } else {
-                    //두개를 바꿔줘야힘 좌표 바꿔줄 필요없고 그냥 번호랑 방향만 바꿔주면 됨
-                    int tmp = nd;
-                    cpyMap[elem.x][elem.y].dir = cpyMap[nx][ny].dir;
-                    cpyMap[nx][ny].dir = tmp;
+                            if (cpyMap[nx][ny] == null) { //해당 위치에 아무것도 없는 경우
+                                if (!isPossible2(nx, ny, sharkX, sharkY)) continue; //상어 있는 경우
 
-                    tmp = cpyMap[elem.x][elem.y].num;
-                    cpyMap[elem.x][elem.y].num = cpyMap[nx][ny].num;
-                    cpyMap[nx][ny].num = tmp;
+                                //없는 경우
+                                cpyMap[nx][ny] = new Fish(nx, ny, num, nd);
+                                cpyMap[elem.x][elem.y] = null;
+                                break;
+                            } else {
+                                //두개를 바꿔줘야힘 좌표 바꿔줄 필요없고 그냥 번호랑 방향만 바꿔주면 됨
+                                int tmp = nd;
+                                cpyMap[elem.x][elem.y].dir = cpyMap[nx][ny].dir;
+                                cpyMap[nx][ny].dir = tmp;
+
+                                tmp = cpyMap[elem.x][elem.y].num;
+                                cpyMap[elem.x][elem.y].num = cpyMap[nx][ny].num;
+                                cpyMap[nx][ny].num = tmp;
+                                break;
+                            }
+                        }
+                        break loop;
+                    }
                 }
             }
         }
 
-        for(int mov = 1; mov <= 3; mov++) {//칸 수
-                int nx = sharkX + (dir_x[sharkDir] * mov);
-                int ny = sharkY + (dir_y[sharkDir] * mov);
+        for (int mov = 1; mov <= 3; mov++) {//칸 수
+            int nx = sharkX + (dir_x[sharkDir] * mov);
+            int ny = sharkY + (dir_y[sharkDir] * mov);
 
-                if(!isPossible1(nx, ny) || cpyMap[nx][ny] == null) continue;
+            if (!isPossible1(nx, ny) || cpyMap[nx][ny] == null) continue;
 
-                Fish tmp = new Fish(cpyMap[nx][ny].x, cpyMap[nx][ny].y, cpyMap[nx][ny].num, cpyMap[nx][ny].dir);
-                int tmpSum = (sum + cpyMap[nx][ny].num);
-                cpyMap[nx][ny] = null;
-                simulation(nx, ny, tmp.dir, tmpSum, cpyMap);
-                cpyMap[nx][ny] = new Fish(tmp.x, tmp.y, tmp.num, tmp.dir);
+            Fish tmp = new Fish(cpyMap[nx][ny].x, cpyMap[nx][ny].y, cpyMap[nx][ny].num, cpyMap[nx][ny].dir);
+            int tmpSum = (sum + cpyMap[nx][ny].num);
+            cpyMap[nx][ny] = null;
+            simulation(nx, ny, tmp.dir, tmpSum, cpyMap);
+            cpyMap[nx][ny] = new Fish(tmp.x, tmp.y, tmp.num, tmp.dir);
         }
     }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk;
@@ -151,7 +149,7 @@ public class boj_19236 {
             for (int j = 0; j < 4; j++) {
                 int a = Integer.parseInt(stk.nextToken());
                 int b = Integer.parseInt(stk.nextToken());
-                if(i == 0 && j == 0) {
+                if (i == 0 && j == 0) {
                     ans += a;
                     sharkDir = b;
                     continue;
