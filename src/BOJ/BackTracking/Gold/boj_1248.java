@@ -45,10 +45,8 @@ public class boj_1248 {
 
         if(depth == n) {
             finish = true;
-        }
-
-        if(finish)
             return;
+        }
 
         for(int i = -10; i <= 10; i++) {
             ans[depth] = i;
