@@ -8,6 +8,8 @@ import java.util.StringTokenizer;
 //Logic
 //dp를 이용해서 간단히 풀 수 있는 문제
 //해당 위치의 값은 이전값까지의 최선의 선택에 영향을 받기에 최소, 최대 배열을 만들어서 점화식 생성
+//블로그에서 더 효율적인 메모리 사용을 보여주는 풀이를 보게됨
+//맨 아래 주석처리 되어있음
 //풀이 시간 : 16분
 
 public class boj_2096 {
@@ -55,3 +57,51 @@ public class boj_2096 {
         System.out.println(maxAns + " " + minAns);
     }
 }
+
+/*
+public class Main {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+
+		int N = Integer.parseInt(br.readLine());
+		int[] maxDp = new int[3];
+		int[] minDp = new int[3];
+
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+
+			int x1 = Integer.parseInt(st.nextToken());
+			int x2 = Integer.parseInt(st.nextToken());
+			int x3 = Integer.parseInt(st.nextToken());
+
+			if (i == 0) {
+				maxDp[0] = minDp[0] = x1;
+				maxDp[1] = minDp[1] = x2;
+				maxDp[2] = minDp[2] = x3;
+			} else {
+				// 최댓값을 구하는 dp 배열
+				int beforeMaxDp_0 = maxDp[0], beforeMaxDp_2 = maxDp[2];
+				maxDp[0] = Math.max(maxDp[0], maxDp[1]) + x1;
+				maxDp[2] = Math.max(maxDp[1], maxDp[2]) + x3;
+				maxDp[1] = Math.max(Math.max(beforeMaxDp_0, maxDp[1]), beforeMaxDp_2) + x2;
+
+				// 최솟값을 구하는 dp 배열
+				int beforeMinDp_0 = minDp[0], beforeMinDp_2 = minDp[2];
+				minDp[0] = Math.min(minDp[0], minDp[1]) + x1;
+				minDp[2] = Math.min(minDp[1], minDp[2]) + x3;
+				minDp[1] = Math.min(Math.min(beforeMinDp_0, minDp[1]), beforeMinDp_2) + x2;
+			}
+		}
+
+		bw.write(Math.max(maxDp[0], Math.max(maxDp[1], maxDp[2])) + " ");
+		bw.write(Math.min(minDp[0], Math.min(minDp[1], minDp[2])) + "\n");
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+}
+ */
