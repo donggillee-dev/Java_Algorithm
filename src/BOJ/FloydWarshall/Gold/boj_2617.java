@@ -39,8 +39,7 @@ public class boj_2617 {
             }
         }
 
-        int desc = (n - 1) / 2;
-        int asc = n - ((n + 1) / 2);
+        int half = (n / 2) + 1;
         int ans = 0;
 
         for(int i = 1; i <= n; i++) {
@@ -50,7 +49,7 @@ public class boj_2617 {
                 if(arr[i][j] == 1) ascCnt++;
             }
 
-            if(descCnt > desc || ascCnt > asc) ans++;
+            if(descCnt >= half || ascCnt >= half) ans++;
         }
 
         System.out.println(ans);
