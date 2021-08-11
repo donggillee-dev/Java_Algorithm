@@ -1,63 +1,63 @@
 package BOJ.DP.Silver;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+//Logic
+//DP로 풀 수 있는 문제
+//인덱스 처리때문에 예전에 애먹었는데 지금 생각해보니까 그냥 아래 오른쪽 아래만 생각하면 됨
+
+//풀이 시간 : 20분
 
 public class boj_1932 {
-    static int[][] TriAnInfo;
-    static int[][] DPArr;
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer stk;
-        int N = Integer.parseInt(br.readLine());
-        int ans = Integer.MIN_VALUE;
-
-        TriAnInfo = new int[N][N];
-        DPArr = new int[N][N];
-
-        for(int i = 0; i < N; i++) {
-            int j = 0;
-            stk = new StringTokenizer(br.readLine());
-            Arrays.fill(DPArr[i], Integer.MIN_VALUE);
-
-            while(stk.hasMoreTokens()) {
-                TriAnInfo[i][j] = Integer.parseInt(stk.nextToken());
-                j++;
-            }
-        }
-        DPArr[0][0] = TriAnInfo[0][0];
-        DPArr[1][0] = TriAnInfo[0][0] + TriAnInfo[1][0];
-        DPArr[1][1] = TriAnInfo[0][0] + TriAnInfo[1][1];
-
-        DP(N);
-
-        for(int i = 0; i < N; i++) {
-            if(ans < DPArr[N - 1][i]) ans = DPArr[N - 1][i];
-        }
-        sb.append(ans).append("\n");
-        bw.write(String.valueOf(sb));
-        bw.flush();
-        bw.close();
-        br.close();
-        return;
+    private static int n;
+    private static int stoi(String str) {
+        return Integer.parseInt(str);
     }
+    private static int[][] input() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer stk;
+        n = Integer.parseInt(br.readLine());
+        int[][] arr = new int[n][n];
 
-    private static void DP(int N) {
-        for(int i = 2; i < N; i++) {
-            for(int j = 0; j <= i; j++) {
-                if(j == 0) {
-                    DPArr[i][j] = DPArr[i - 1][j] + TriAnInfo[i][j];
-                } else if(i == j) {
-                    DPArr[i][j] = DPArr[i - 1][j - 1] + TriAnInfo[i][j];
-                } else {
-                    if(DPArr[i][j] < DPArr[i - 1][j - 1] + TriAnInfo[i][j]) DPArr[i][j] = DPArr[i - 1][j - 1] + TriAnInfo[i][j];
-                    if(DPArr[i][j] < DPArr[i - 1][j] + TriAnInfo[i][j]) DPArr[i][j] = DPArr[i - 1][j] + TriAnInfo[i][j];
-                }
+        for(int i = 0, m = 0; i < n; i++, m++) {
+            stk = new StringTokenizer(br.readLine());
+            for(int j = 0; j <= m; j++) {
+                arr[i][j] = stoi(stk.nextToken());
             }
         }
-        return;
+
+        return arr;
+    }
+    private static int solution(int[][] arr, int[][] dp) {
+        int max = -1;
+        dp[0][0] = arr[0][0];
+
+        for(int i = 0, m = 1; i < n - 1; i++, m++) {
+            for(int j = 0; j < m; j++) {
+                dp[i + 1][j] = Math.max(dp[i][j] + arr[i + 1][j], dp[i + 1][j]);
+                dp[i + 1][j + 1] = Math.max(dp[i][j] + arr[i + 1][j + 1], dp[i + 1][j + 1]);
+            }
+        }
+
+        for(int i = 0; i < n; i++) {
+            max = Math.max(max, dp[n - 1][i]);
+        }
+
+        return max;
+    }
+    public static void main(String[] args) {
+        int[][] arr = null, dp = null;
+
+        try {
+            arr = input();
+            dp = new int[n][n];
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(solution(arr, dp));
     }
 }
