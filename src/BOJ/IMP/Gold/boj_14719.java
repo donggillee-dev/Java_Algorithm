@@ -3,48 +3,62 @@ package BOJ.IMP.Gold;
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class boj_14719 {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer stk = new StringTokenizer(br.readLine());
+//Logic
+//현재 위치(1 ~ n-1)에서 왼쪽, 오른쪽 확인해서 가장 높은 왼쪽 오른쪽 구하고
+//그 중 낮은거 높이 - 현재 높이가 채워지는 빗물 높이임
 
-        int N = Integer.parseInt(stk.nextToken());
-        int M = Integer.parseInt(stk.nextToken());
-        int answer = 0;
-        int[] arr = new int[M];
+//풀이 시간 : 15분
+
+public class boj_14719 {
+    private static int h, w;
+    private static int stoi(String str) {
+        return Integer.parseInt(str);
+    }
+    private static int[] input() throws IOException {
+        BufferedReader br = new BufferedReader(new BufferedReader(new InputStreamReader(System.in)));
+        StringTokenizer stk = new StringTokenizer(br.readLine());
+        h = stoi(stk.nextToken());
+        w = stoi(stk.nextToken());
+
+        int[] arr = new int[w];
 
         stk = new StringTokenizer(br.readLine());
-
-        for(int i = 0; i < M; i++) {
-            arr[i] = Integer.parseInt(stk.nextToken());
+        for(int i = 0; i < w; i++) {
+            arr[i] = stoi(stk.nextToken());
         }
 
-        int diffLeft = 0, diffRight = 0;
-        for(int i = 1; i < M - 1; i++) {
-            //왼쪽 탐색
-            int left = 0, right = 0;
+        return arr;
+    }
+    private static int solution(int[] arr) {
+        int ans = 0;
+
+        for(int i = 1; i < w - 1; i++) {
+            int left, right;
+            left = right = arr[i];
+
             for(int j = i - 1; j >= 0; j--) {
-                if(left < arr[j]) left = arr[j];
+                left = Math.max(left, arr[j]);
             }
 
-            //오른쪽 탐색
-            for(int j = i + 1; j < M; j++) {
-                if(right < arr[j]) right = arr[j];
+            for(int j = i + 1; j < w; j++) {
+                right = Math.max(right, arr[j]);
             }
-            diffLeft = left - arr[i];
-            diffRight = right - arr[i];
-            if(diffLeft <= 0 || diffRight <= 0) continue;
-            if(left < right) {
-                answer += diffLeft;
+
+            int leftDiff = left - arr[i];
+            int rightDiff = right - arr[i];
+
+            if(leftDiff < rightDiff) {
+                ans += leftDiff;
             } else {
-                answer += diffRight;
+                ans += rightDiff;
             }
         }
-        sb.append(answer);
-        bw.write(sb.toString());
-        bw.close();
-        br.close();
+
+        return ans;
+    }
+    public static void main(String[] args) throws IOException {
+        int[] arr = input();
+
+        System.out.print(solution(arr));
     }
 }
