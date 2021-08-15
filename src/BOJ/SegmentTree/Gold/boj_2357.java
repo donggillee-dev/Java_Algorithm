@@ -10,67 +10,77 @@ import java.util.StringTokenizer;
 //풀이 시간 : 10분
 
 public class boj_2357 {
-    private static long initMax(int[] arr, long[] max_tree, int node, int start, int end) {
-        if(start == end) return max_tree[node] = arr[start];
+
+    private static int stio(String str) {
+        return Integer.parseInt(str);
+    }
+
+    private static long initMax(int[] arr, long[] maxTree, int node, int start, int end) {
+        if(start == end) return maxTree[node] = arr[start];
 
         int mid = (start + end) / 2;
 
-        return max_tree[node] = Math.max(initMax(arr, max_tree, node * 2, start, mid), initMax(arr, max_tree, node * 2 + 1, mid + 1, end));
+        return maxTree[node] = Math.max(initMax(arr, maxTree, node * 2, start, mid), initMax(arr, maxTree, node * 2 + 1, mid + 1, end));
     }
-    private static long initMin(int[] arr, long[] min_tree, int node, int start, int end) {
-        if(start == end) return min_tree[node] = arr[start];
+
+    private static long initMin(int[] arr, long[] minTree, int node, int start, int end) {
+        if(start == end) return minTree[node] = arr[start];
 
         int mid = (start + end) / 2;
 
-        return min_tree[node] = Math.min(initMin(arr, min_tree, node * 2, start, mid), initMin(arr, min_tree, node * 2 + 1, mid + 1, end));
+        return minTree[node] = Math.min(initMin(arr, minTree, node * 2, start, mid), initMin(arr, minTree, node * 2 + 1, mid + 1, end));
     }
-    private static long getMax(long[] max_tree, int node, int left, int right, int start, int end) {
-        if(left > end || right < start) return 0;
 
-        if(left <= start && end <= right) return max_tree[node];
+    private static long getMax(long[] maxTree, int node, int left, int right, int start, int end) {
+        if(left > end || right < start) return Long.MIN_VALUE;
+
+        if(left <= start && end <= right) return maxTree[node];
 
         int mid = (start + end) / 2;
 
-        return Math.max(getMax(max_tree, node * 2, left, right, start, mid), getMax(max_tree, node * 2 + 1, left, right, mid + 1, end));
+        return Math.max(getMax(maxTree, node * 2, left, right, start, mid), getMax(maxTree, node * 2 + 1, left, right, mid + 1, end));
     }
-    private static long getMin(long[] min_tree, int node, int left, int right, int start, int end) {
+
+    private static long getMin(long[] minTree, int node, int left, int right, int start, int end) {
         if(left > end || right < start) return Long.MAX_VALUE;
 
-        if(left <= start && end <= right) return min_tree[node];
+        if(left <= start && end <= right) return minTree[node];
 
         int mid = (start + end) / 2;
 
-        return Math.min(getMin(min_tree, node * 2, left, right, start, mid), getMin(min_tree, node * 2 + 1, left, right, mid + 1, end));
+        return Math.min(getMin(minTree, node * 2, left, right, start, mid), getMin(minTree, node * 2 + 1, left, right, mid + 1, end));
     }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer stk = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(stk.nextToken());
-        int m = Integer.parseInt(stk.nextToken());
-        int depth = (int)Math.ceil(Math.log(n)/Math.log(2));
-        int tree_depth = (1 << (depth + 1));
+        int n = stio(stk.nextToken());
+        int m = stio(stk.nextToken());
+        int k = (int)Math.ceil(Math.log(n)/Math.log(2));
+        int tree_depth = (1 << (k + 1));
         int[] arr = new int[n + 1];
-        long[] max_tree = new long[tree_depth];
-        long[] min_tree = new long[tree_depth];
+        long[] maxTree = new long[tree_depth];
+        long[] minTree = new long[tree_depth];
 
         for(int i = 1; i <= n; i++) {
             arr[i] = Integer.parseInt(br.readLine());
         }
 
-        initMax(arr, max_tree, 1, 1, n);
-        initMin(arr, min_tree, 1, 1, n);
+        initMax(arr, maxTree, 1, 1, n);
+        initMin(arr, minTree, 1, 1, n);
 
         while(m --> 0) {
             stk = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(stk.nextToken());
-            int b = Integer.parseInt(stk.nextToken());
+            int a = stio(stk.nextToken());
+            int b = stio(stk.nextToken());
 
-            long min = getMin(min_tree, 1, a, b, 1, n);
-            long max = getMax(max_tree, 1, a, b, 1, n);
+            long min = getMin(minTree, 1, a, b, 1, n);
+            long max = getMax(maxTree, 1, a, b, 1, n);
 
             sb.append(min).append(" ").append(max).append("\n");
         }
+
         System.out.print(sb);
     }
 }
