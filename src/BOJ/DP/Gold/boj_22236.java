@@ -6,10 +6,14 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 //Logic
+//dp를 이용하여 풀 수 있는 문제
+//비행기의 고도와 현재 거리를 이용해서 dp배열 생성
+//dp[d][0] => 도착지에 고도 0
+//dp[d][height] = dp[d - 1][height + 1] + dp[d - 1][height - 1]
+//이 점화식으로 풀 수 있다
 
-//dp[i][j] = dp[i - 1][j + 1] + dp[i - 1][j - 1]
-//현재 인덱스에 현재 고도까지의 경우의 수는
-//이전 인덱스에서 고도 - 1, 고도 + 1 한거 두개 더한값과 동일
+
+//다시 풀기 완료!!
 
 public class boj_22236 {
     private static int d, m;
@@ -28,31 +32,29 @@ public class boj_22236 {
     }
 
     private static long calc(int idx, int height) {
+        if(idx > 0 && idx < d && height <= 0) return 0;
 
-        if(idx > 0 && idx < d && height <= 0) return 0; //도착지에 도달하기 전에 고도가 땅에 닿는 경우
-
-        if(idx == 0) { //도착지에 도달했을떄
-            if(height == 0) return 1; //고도가 땅인경우는 1리턴
-            else return 0;
+        if(idx == 0) {
+            if(height != 0) return 0;
+            else return 1;
         }
 
-        if(dp[idx][height] != -1) return dp[idx][height]; //메모이제이션
-        else dp[idx][height] = 0; //그렇지 않다면 0으로 초기화
+        if(dp[idx][height] != -1) return dp[idx][height];
 
-        dp[idx][height] += calc(idx - 1, height - 1) + calc(idx - 1, height + 1);
+        dp[idx][height] = 0;
 
-        return dp[idx][height] % m;
+        return (dp[idx][height] += (calc(idx - 1, height - 1) + calc(idx - 1, height + 1))) % m;
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer stk = new StringTokenizer(br.readLine());
-
         d = stoi(stk.nextToken());
         m = stoi(stk.nextToken());
 
         init();
 
         System.out.println(calc(d, 0));
+
     }
 }
