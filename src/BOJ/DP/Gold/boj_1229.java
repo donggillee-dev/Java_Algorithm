@@ -7,8 +7,9 @@ import java.util.Arrays;
 
 //Logic
 //아슬아슬하게 통과한 문제
-//좀 더 개선해서 풀어보도록 하자
-//에라토스테네스의 체로 생각하면 될거같다
+//모든 n은 빅뱅수끼리 표현이 가능하다
+//가장 적은 횟수로 표현하는 방법은
+//이전까지의 빅뱅수에서 더해보는법
 
 //풀이 시간 : 35분
 
@@ -47,13 +48,9 @@ public class boj_1229 {
                 dp[i] = 1;
                 bigIdx++;
             } else {
-                for(int j = 0; j < bigIdx; j++) {
+                for(int j = bigIdx - 1; j >= 0; j--) {
                     int diff = i - bigArr[j];
-                    if(dp[i] < dp[diff] + dp[bigArr[j]]) {
-                        dp[i] = dp[diff] + dp[bigArr[j]];
-                    } else {
-                        break;
-                    }
+                    dp[i] = Math.min(dp[i], dp[diff] + dp[bigArr[j]]);
                 }
             }
         }
