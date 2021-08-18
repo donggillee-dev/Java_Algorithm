@@ -13,13 +13,19 @@ import java.util.StringTokenizer;
 
 //풀이 시간 : 25분
 public class boj_2042 {
-    private static long init(long[] arr, long[] tree, int node, int start, int end) {
+
+    private static long stol(String str) {
+        return Long.parseLong(str);
+    }
+
+    private static long init(long[] arr, long[] tree, int start, int end, int node) {
         if(start == end) return tree[node] = arr[start];
 
         int mid = (start + end) / 2;
 
-        return tree[node] = init(arr, tree, node * 2, start, mid) + init(arr, tree, node * 2 + 1, mid + 1, end);
+        return tree[node] = init(arr, tree, start, mid, node * 2) + init(arr, tree, mid + 1, end, node * 2 + 1);
     }
+
     private static void update(long[] tree, int start, int end, int node, int index, long diff) {
         if(!(start <= index && index <= end)) return;
 
@@ -31,42 +37,52 @@ public class boj_2042 {
             update(tree, mid + 1, end, node * 2 + 1, index, diff);
         }
     }
-    private static long sum(long[] tree, int start, int end, int node, int left, int right) {
-        if(left > end || right < start) return 0;
+
+    private static long getSum(long[] tree, int start, int end, int left, int right, int node) {
+        if(start > right || left > end) return 0;
 
         if(left <= start && end <= right) return tree[node];
 
         int mid = (start + end) / 2;
 
-        return sum(tree, start, mid, node * 2, left, right) + sum(tree, mid + 1, end, node * 2 + 1, left, right);
+        return getSum(tree, start, mid, left, right, node * 2) + getSum(tree, mid + 1, end, left, right, node * 2 + 1);
     }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer stk = new StringTokenizer(br.readLine());
-
-        int n = Integer.parseInt(stk.nextToken()), m = Integer.parseInt(stk.nextToken()), k = Integer.parseInt(stk.nextToken());
-
+        int n = (int)stol(stk.nextToken());
+        int m = (int)stol(stk.nextToken());
+        int k = (int)stol(stk.nextToken());
         int depth = (int)Math.ceil(Math.log(n) / Math.log(2));
-        int tree_size = (1 << (depth + 1));
-        long[] arr = new long[n + 1], tree = new long[tree_size];
+        int treeSize = (1 << (depth + 1));
+        long[] arr = new long[n + 1];
+        long[] tree = new long[treeSize];
 
         for(int i = 1; i <= n; i++) {
-            arr[i] = Long.parseLong(br.readLine());
+            arr[i] = stol(br.readLine());
         }
-        init(arr, tree, 1, 1, n);
+
+        init(arr, tree, 1, n, 1);
+
         for(int i = 0; i < m + k; i++) {
             stk = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(stk.nextToken());
-            int b = Integer.parseInt(stk.nextToken());
-            long c = Long.parseLong(stk.nextToken());
+            boolean isUpdate = stol(stk.nextToken()) == 1;
 
-            if(a == 1) {
-                long diff = c - arr[b];
-                arr[b] = c;
-                update(tree, 1, n, 1, b, diff);
+            if(isUpdate) {
+                int index = (int)stol(stk.nextToken());
+                long updateNum = stol(stk.nextToken());
+                long diff = updateNum - arr[index];
+
+                arr[index] = updateNum;
+
+                update(tree, 1, n, 1, index, diff);
             } else {
-                sb.append(sum(tree, 1, n, 1, b, (int)c)).append("\n");
+                int left = (int)stol(stk.nextToken());
+                int right = (int)stol(stk.nextToken());
+
+                sb.append(getSum(tree, 1, n, left, right, 1)).append("\n");
             }
         }
 
