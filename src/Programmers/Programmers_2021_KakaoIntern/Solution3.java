@@ -8,121 +8,50 @@ import java.util.*;
 public class Solution3 {
     public static void main(String[] args) throws IOException {
         System.out.println(solution(8, 2, new String[]{"D 2", "C", "U 3", "C", "D 4", "C", "U 2", "Z", "Z", "U 1", "C"}));
+//        System.out.println(solution(8, 2, new String[]{"D 2","C","U 3","C","D 4","C","U 2","Z","Z"}));
     }
 
-    private static String solution(int n, int k, String[] cmd) {
-        StringTokenizer stk;
+    private static String getAns(int size, Stack<Integer> s) {
         StringBuilder sb = new StringBuilder();
-        boolean[] ans = new boolean[n];
-        Stack<Integer> S = new Stack<>();
-        Deque<Integer> left = new LinkedList<>();
-        Deque<Integer> right = new LinkedList<>();
 
-        for (int i = 0; i <= k; i++) {
-            left.addLast(i);
+        for(int i = 0; i < size; i++) {
+            sb.append('O');
         }
 
-        for (int i = k + 1; i < n; i++) {
-            right.addLast(i);
+        while(!s.isEmpty()) {
+            int idx = s.pop();
+            sb.insert(idx, 'X');
         }
 
+        return sb.toString();
+    }
+    private static String solution(int n, int k, String[] cmd) {
+        Stack<Integer> s = new Stack<>();
+        int size = n;
         for (String c : cmd) {
-            stk = new StringTokenizer(c);
-            char ch = stk.nextToken().charAt(0);
-            int x;
-            switch (ch) {
-                case 'D':
-                    x = Integer.parseInt(stk.nextToken());
 
-                    for (int i = 0; i < x; i++) {
-                        left.addLast(right.pollFirst());
-                    }
+            switch (c.charAt(0)) {
+                case 'U':
+                    k -= Integer.parseInt(c.substring(2));
+                    break;
+                case 'D':
+                    k += Integer.parseInt(c.substring(2));
                     break;
                 case 'C':
-                    if (left.size() == 0) {
-                        S.push(right.pollFirst());
-                    } else {
-                        S.push(left.pollLast());
-                    }
-
-                    if (right.size() != 0) {
-                        left.addLast(right.pollFirst());
-                    }
-                    break;
-                case 'U':
-                    x = Integer.parseInt(stk.nextToken());
-
-                    for (int i = 0; i < x; i++) {
-                        right.addFirst(left.pollLast());
+                    s.push(k);
+                    size--;
+                    if(k >= size) {
+                        k -= 1;
                     }
                     break;
                 case 'Z':
-                    if (left.size() == 0) {
-                        Deque<Integer> tmp = new LinkedList<>();
-                        while (!right.isEmpty() && right.peekFirst() < S.peek()) {
-                            tmp.addLast(right.pollFirst());
-                        }
-
-                        right.addFirst(S.pop());
-
-                        while (!tmp.isEmpty()) {
-                            right.addFirst(tmp.pollLast());
-                        }
-                    } else if (right.size() == 0) {
-                        Deque<Integer> tmp = new LinkedList<>();
-                        while (!left.isEmpty() && left.peekLast() > S.peek()) {
-                            tmp.addLast(left.pollLast());
-                        }
-
-                        left.addLast(S.pop());
-
-                        while (!tmp.isEmpty()) {
-                            left.addLast(tmp.pollFirst());
-                        }
-                    } else if(left.isEmpty() && right.isEmpty()){
-                        left.addLast(S.pop());
-                    } else {
-                        if (left.peekLast() < S.peek()) {
-                            Deque<Integer> tmp = new LinkedList<>();
-                            while (!right.isEmpty() && right.peekFirst() > S.peek()) {
-                                tmp.addLast(right.pollFirst());
-                            }
-                            right.addFirst(S.pop());
-
-                            while (!tmp.isEmpty()) {
-                                right.addFirst(tmp.pollLast());
-                            }
-                        } else if (left.peekLast() > S.peek()) {
-                            Deque<Integer> tmp = new LinkedList<>();
-
-                            while (!left.isEmpty() && left.peekLast() > S.peek()) {
-                                tmp.addFirst(left.pollLast());
-                            }
-                            left.addLast(S.pop());
-
-                            while (!tmp.isEmpty()) {
-                                left.addLast(tmp.pollFirst());
-                            }
-                        }
-                    }
+                    int num = s.pop();
+                    if(num <= k) k++;
+                    size++;
                     break;
             }
         }
 
-        while (!left.isEmpty()) {
-            ans[left.pollFirst()] = true;
-        }
-        while (!right.isEmpty()) {
-            ans[right.pollFirst()] = true;
-        }
-
-        for (int i = 0; i < n; i++) {
-            if (ans[i]) {
-                sb.append('O');
-            } else {
-                sb.append('X');
-            }
-        }
-        return sb.toString();
+        return getAns(size, s);
     }
 }
