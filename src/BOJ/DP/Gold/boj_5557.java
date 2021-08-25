@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+//Logic
+//n번째까지 더한 값을 index로 이용, 그걸 메모이제이션해서 값의 저하기 + 재귀
+
+//풀이시간 : 45분
+
 public class boj_5557 {
     private static int n;
     private static int[] arr;
