@@ -5,23 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+//Logic
+//아직 의문인 문제, 냄새를 탐지한 구간을 통과했는지 아닌지 여부를 pq에 넣어서 다익을 돌리려했으나 계속 틀림
+//결국 힌트를 참고해서 탐지 구간의 가중치를 홀수로 하고 나머지를 모두 짝수로 해서
+//후보군중에 홀수인 부분이 존재하면 냄새가 탐지된 구간을 거쳤다는 추측이 성립하므로 결과 도출
+//이 과정에서 987654321인지 아닌지 판단 추가 필수
+
 public class boj_9370 {
     private static int n, m, t, s, g, h;
 
     private static class Info implements Comparable<Info> {
         int node, weight;
-        boolean flag;
 
         public Info(int next, int weight) {
             this.node = next;
             this.weight = weight;
-            this.flag = false;
-        }
-
-        public Info(int next, int weight, boolean flag) {
-            this.node = next;
-            this.weight = weight;
-            this.flag = flag;
         }
 
         @Override
@@ -34,35 +32,35 @@ public class boj_9370 {
     private static HashMap<Integer, Boolean> cand;
     private static ArrayList<Info>[] adj;
 
-    private static HashSet<Integer> dijk() {
+    private static PriorityQueue<Integer> dijk() {
         PriorityQueue<Info> pq = new PriorityQueue<>();
-        HashSet<Integer> set = new HashSet<>();
 
-        pq.add(new Info(s, 0, false));
+        pq.add(new Info(s, 0));
         dist[s] = 0;
 
         while(!pq.isEmpty()) {
             Info inf = pq.poll();
 
-            if(cand.get(inf.node) != null && inf.flag) {
-                set.add(inf.node);
-            }
             if(dist[inf.node] < inf.weight) continue;
 
             for(Info next : adj[inf.node]) {
                 int nextWeight = inf.weight + next.weight;
-                boolean visited = false;
-                if((next.node == g && inf.node == h) || (next.node == h && inf.node == g) || inf.flag) {
-                    visited = true;
-                }
+
                 if(dist[next.node] > nextWeight) {
                     dist[next.node] = nextWeight;
-                    pq.add(new Info(next.node, nextWeight, visited));
+                    pq.add(new Info(next.node, nextWeight));
                 }
             }
         }
+        PriorityQueue<Integer> ret = new PriorityQueue<>();
 
-        return set;
+        for(int node : cand.keySet()) {
+            if(dist[node] != 987654321 && dist[node] % 2 == 1) {
+                ret.add(node);
+            }
+        }
+
+        return ret;
     }
 
     public static void main(String[] args) throws IOException {
@@ -97,6 +95,12 @@ public class boj_9370 {
                 int to = Integer.parseInt(stk.nextToken());
                 int weight = Integer.parseInt(stk.nextToken());
 
+                if((from == g && to == h) || (from == h && to == g)) {
+                    weight = (weight * 2 - 1);
+                } else {
+                    weight = (weight * 2);
+                }
+
                 adj[from].add(new Info(to, weight));
                 adj[to].add(new Info(from, weight));
             }
@@ -106,8 +110,9 @@ public class boj_9370 {
                 cand.put(candidate, true);
             }
 
-            PriorityQueue<Integer> pq = new PriorityQueue<>();
-            pq.addAll(dijk());
+            PriorityQueue<Integer> pq = dijk();
+
+            if(pq.isEmpty()) continue;
 
             while(!pq.isEmpty()) {
                 sb.append(pq.poll()).append(" ");
