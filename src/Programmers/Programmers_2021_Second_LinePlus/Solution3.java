@@ -48,7 +48,7 @@ public class Solution3 {
                     curJob = inf.cate;
                     time += (inf.start + inf.dur);
                 } else {
-                    while (!reqQ.isEmpty() && reqQ.peek().start <= time) {
+                    while (!reqQ.isEmpty() && reqQ.peek().start < time) {
                         Info inf = reqQ.poll();
 
                         if(inf.cate == curJob && inf.start == time) {
@@ -70,7 +70,7 @@ public class Solution3 {
                     time += inf.dur;
                 } else { //대기큐에 있는 것들 중에 중요도의 합이 가장 큰거
 
-                    while (!reqQ.isEmpty() && reqQ.peek().start <= time) {
+                    while (!reqQ.isEmpty() && reqQ.peek().start < time) {
                         Info inf = reqQ.poll();
                         waitQ.add(inf);
 
@@ -134,6 +134,26 @@ public class Solution3 {
 
         while (true) {
             while (!waitQ.isEmpty()) {
+
+                if(waitQ.peek().start == time && waitQ.peek().cate == curJob) {
+                    time += waitQ.peek().dur;
+                    PriorityQueue<int[]> tmpPq = new PriorityQueue<>();
+
+                    while(!pq.isEmpty()) {
+                        int[] elem = pq.peek();
+
+                        if(elem[0] == waitQ.peek().cate) {
+                            elem[1] -= waitQ.peek().prior;
+                            break;
+                        } else {
+                            tmpPq.add(pq.poll());
+                        }
+                    }
+
+                    pq.addAll(tmpPq);
+                    continue;
+                }
+
                 Info inf = waitQ.poll();
 
                 if (inf.cate == pq.peek()[0]) {
