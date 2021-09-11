@@ -1,11 +1,12 @@
-package Programmers.Programmers_2021_LinePlus.Part2;
+package Programmers.Programmers_2021_First_LinePlus.Part2;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class Solution1 {
+public class Solution3 {
     public static void main(String[] args) {
-        solution("line", new String[]{"-s STRING", "-n NUMBER", "-e NULL"}, new String[]{"line -n 100 -s hi -e", "lien -s Bye"});
+        System.out.println(Arrays.toString(solution("line", new String[]{"-s STRING", "-n NUMBERS", "-e NULL", "-number ALIAS -n"}, new String[]{"line -n 100 -s hi -e -number 99", "lien -s Bye"})));
     }
 
     private static boolean[] solution(String program, String[] flag_rules, String[] commands) {
@@ -18,7 +19,15 @@ public class Solution1 {
         //Key : 플래그명, Value : 해당 플래그의 argument type
         for (String str : flag_rules) {
             stk = new StringTokenizer(str);
-            flagHash.put(stk.nextToken(), stk.nextToken());
+            String flag = stk.nextToken();
+            String arg = stk.nextToken();
+
+            if (arg.compareTo("ALIAS") == 0) { //flag_rule에 ALIAS라는 문구가 들어오는 경우 처리
+                String aliasTo = stk.nextToken(); //alias처리해줄 플래그를 받아온다
+                flagHash.put(flag, flagHash.get(aliasTo)); //flagHash에 기존의 값을 가져와서 flagHash에 똑같이 넣어준다
+            } else { //그 외의 경우에는 flagHash에 flag, argumentType으로 넣어줌
+                flagHash.put(flag, arg);
+            }
         }
 
         //각 command에 대해 조건 만족 여부 판단
@@ -46,7 +55,6 @@ public class Solution1 {
                         break;
                     } else {
                         //해당 플래그가 몇번 나타나는 건지 검증, 무조건 0번 아니면 1번 나타나야함
-
                         if(flagCntHash.get(flag) == null) { //한번도 존재한적 없었던 플래그라면 1로 세팅
                             flagCntHash.put(flag, 1);
                         } else {
@@ -79,6 +87,34 @@ public class Solution1 {
                                     if (!Character.isDigit(ch)) {
                                         isPossible = false;
                                         break loop;
+                                    }
+                                }
+                            } else if (argType.compareTo("STRINGS") == 0) {//다중 인자 STRINGS에 대한 처리
+                                for (j = i + 1; j < length; j++) {
+                                    if (flagHash.get(commandArr[j]) != null) {//다중 인자 처리중에 다음 플래그를 만났으므로 검증 중지
+                                        i = j - 2;//i 인덱스값 조정
+                                        break;
+                                    }
+                                    argArr = commandArr[j].toCharArray(); //현재 j인덱스에 해당하는 인자를 가져와 char배열로 만들어준다
+                                    for (char ch : argArr) { //위의 STRING과 동일한 방식으로 해당 인자에 대한 유효성 검증
+                                        if (!Character.isAlphabetic(ch)) {
+                                            isPossible = false;
+                                            break loop;
+                                        }
+                                    }
+                                }
+                            } else if (argType.compareTo("NUMBERS") == 0) {//다중 인자 NUMBERS에 대한 처리
+                                for (j = i + 1; j < length; j++) {
+                                    if (flagHash.get(commandArr[j]) != null) {//다중 인자 처리중에 다음 플래그를 만났으므로 검증 중지
+                                        i = j - 2;//i 인덱스값 조정
+                                        break;
+                                    }
+                                    argArr = commandArr[j].toCharArray(); //현재 j인덱스에 해당하는 인자를 가져와 char배열로 만들어준다
+                                    for (char ch : argArr) {//위의 NUMBER와 동일한 방식으로 해당 인자에 대한 유효성 검증
+                                        if (!Character.isDigit(ch)) {
+                                            isPossible = false;
+                                            break loop;
+                                        }
                                     }
                                 }
                             } else { //NULL의 경우에는 다음인자 즉 arg가 flagHash에 존재하는 플래그인지 체크

@@ -1,4 +1,4 @@
-package Programmers.Programmers_2021_LinePlus.Part1;
+package Programmers.Programmers_2021_First_LinePlus.Part1;
 
 import java.io.*;
 import java.util.*;

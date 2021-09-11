@@ -1,4 +1,4 @@
-package Programmers.Programmers_2021_LinePlus.Part2;
+package Programmers.Programmers_2021_First_LinePlus.Part2;
 
 import java.util.Arrays;
 import java.util.HashMap;
