@@ -5,84 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+//Logic
+//각 문자들이 문자열에서 나타나는 총 개수를 카운트
+//두 포인터 방식으로 왼쪽 포인터 반복문으로 이동
+    //k보다 적은 개수를 가진애라면 불가능하니까 걍 skip
+//그 외에는 오른쪽 포인터 이동시켜주면서 cnt가 k와 동일해질때 길이 측정
+
+//다시 풀기
+
 public class boj_20437 {
-    private static int getShort(int k, int length, String str) {
-        int ans = 987654321, width = k - 1;
-        int[] count = new int[26];
 
-        loop:while (width < length) {
-            Arrays.fill(count, 0);
-
-            int leftIdx = 0, rightIdx = 0;
-            for (; rightIdx < width; rightIdx++) { //create window
-                char ch = str.charAt(rightIdx);
-
-                count[ch - 'a']++;
-
-                if(count[ch - 'a'] == k) {
-                    ans = Math.min(ans, rightIdx - leftIdx + 1);
-                    break loop;
-                }
-            }
-
-            while(rightIdx < length) {
-                char rightCh = str.charAt(rightIdx);
-                char leftCh = str.charAt(leftIdx);
-
-                count[leftCh - 'a']--;
-                count[rightCh - 'a']++;
-
-                if(count[rightCh - 'a'] == k) {
-                    ans = Math.min(ans, rightIdx - leftIdx);
-                    break loop;
-                }
-
-                rightIdx++;
-                leftIdx++;
-            }
-            width++;
+    private static void makeArr(int length, String str, int[] arr) {
+        for(int i = 0; i < length; i++) {
+            int idx = str.charAt(i) - 'a';
+            arr[idx]++;
         }
-
-        return ans;
-    }
-
-    private static int getLong(int k, int length, String str) {
-        int ans = -1, width = length;
-
-        int[] count = new int[26];
-
-        loop:while (width >= 0) {
-            Arrays.fill(count, 0);
-
-            int leftIdx = 0, rightIdx = 0;
-            for (; rightIdx < width; rightIdx++) { //create window
-                char ch = str.charAt(rightIdx);
-                count[ch - 'a']++;
-
-                if(count[ch - 'a'] == k && str.charAt(leftIdx) == str.charAt(rightIdx)) {
-                    ans = Math.max(ans, rightIdx - leftIdx + 1);
-                }
-            }
-
-            while(rightIdx < length) {
-                char rightCh = str.charAt(rightIdx);
-                char leftCh = str.charAt(leftIdx);
-
-                count[leftCh - 'a']--;
-                leftIdx++;
-
-                if(count[rightCh - 'a'] == k && str.charAt(leftIdx) == str.charAt(rightIdx)) {
-                    ans = Math.max(ans, rightIdx - leftIdx);
-                    break loop;
-                }
-
-                count[rightCh - 'a']++;
-                rightIdx++;
-            }
-            width--;
-        }
-
-        return ans;
     }
 
     public static void main(String[] args) throws IOException {
@@ -90,18 +27,41 @@ public class boj_20437 {
         StringBuilder sb = new StringBuilder();
 
         int t = Integer.parseInt(br.readLine());
+        int[] arr = new int[26];
+
         while (t-- > 0) {
             String str = br.readLine();
-            int k = Integer.parseInt(br.readLine());
             int length = str.length();
+            int k = Integer.parseInt(br.readLine());
+            int max = -1, min = 987654321;
 
-            int ansA = getShort(k, length, str);
-            int ansB = getLong(k, length, str);
+            if(k == 1) {
+                sb.append("1 1").append("\n");
+                continue;
+            }
 
-            if(ansA == 987654321 || ansB == -1) {
-                sb.append(-1);
+            Arrays.fill(arr, 0);
+            makeArr(length, str, arr);
+
+            for(int i = 0; i < length; i++) {
+                if(arr[str.charAt(i) - 'a'] < k) continue;
+
+                int cnt = 1;
+                for(int j = i + 1; j < length; j++) {
+                    if(str.charAt(j) == str.charAt(i)) cnt++;
+
+                    if(cnt == k) {
+                        min = Math.min(min, j - i + 1);
+                        max = Math.max(max, j - i + 1);
+                        break;
+                    }
+                }
+            }
+
+            if(min == 987654321 || max == -1) {
+                sb.append(-1).append("\n");
             } else {
-                sb.append(ansA + " " + ansB).append("\n");
+                sb.append(min + " " + max).append("\n");
             }
         }
 
