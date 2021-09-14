@@ -3,7 +3,6 @@ package BOJ.String.Gold;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 //Logic
 //각 문자들이 문자열에서 나타나는 총 개수를 카운트
@@ -14,55 +13,46 @@ import java.util.Arrays;
 //다시 풀기
 
 public class boj_20437 {
-
-    private static void makeArr(int length, String str, int[] arr) {
+    private static void makeArr(int[] arr, String str, int length) {
         for(int i = 0; i < length; i++) {
-            int idx = str.charAt(i) - 'a';
-            arr[idx]++;
+            arr[str.charAt(i) - 'a']++;
         }
     }
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-
         int t = Integer.parseInt(br.readLine());
-        int[] arr = new int[26];
 
-        while (t-- > 0) {
+        for(; t > 0; t--) {
             String str = br.readLine();
-            int length = str.length();
+            int length = str.length(), max = -1, min = 987654321;
+            int[] arr = new int[26];
             int k = Integer.parseInt(br.readLine());
-            int max = -1, min = 987654321;
 
             if(k == 1) {
                 sb.append("1 1").append("\n");
                 continue;
             }
 
-            Arrays.fill(arr, 0);
-            makeArr(length, str, arr);
+            makeArr(arr, str, length);
 
             for(int i = 0; i < length; i++) {
                 if(arr[str.charAt(i) - 'a'] < k) continue;
 
-                int cnt = 1;
-                for(int j = i + 1; j < length; j++) {
-                    if(str.charAt(j) == str.charAt(i)) cnt++;
+                int count = 1;
+                for(int l = i + 1; l < length; l++) {
+                    if(str.charAt(l) == str.charAt(i)) count++;
 
-                    if(cnt == k) {
-                        min = Math.min(min, j - i + 1);
-                        max = Math.max(max, j - i + 1);
+                    if(count == k) {
+                        max = Math.max(max, l - i + 1);
+                        min = Math.min(min, l - i + 1);
                         break;
                     }
                 }
             }
 
-            if(min == 987654321 || max == -1) {
-                sb.append(-1).append("\n");
-            } else {
-                sb.append(min + " " + max).append("\n");
-            }
+            if(max == -1) sb.append(-1).append("\n");
+            else sb.append(min + " " + max).append("\n");
         }
 
         System.out.print(sb);
