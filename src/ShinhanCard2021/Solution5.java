@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+//시험 부정행위
+//한 시험에 한명만 부정행위 가능
+//이미 한 애는 또 불가
+
 public class Solution5 {
     private static int stoi(String str) {
         return Integer.parseInt(str);
