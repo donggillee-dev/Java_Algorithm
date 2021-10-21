@@ -24,6 +24,9 @@ import java.util.StringTokenizer;
 //4. 겨울
 //	4-1. S2D2가 돌아다니면서 땅에 양분 추가 -> 입력으로 주어
 
+// 문제대로 구현하자
+// 죽은 나무들의 나이 합 / 2가 아니라 그때그때 죽은 나무들의 나이 / 2 해야함
+
 public class boj_16235 {
 	private static int totalCnt;
 	private static int N, M, K;
