@@ -1,106 +1,132 @@
 package BOJ.IMP.Gold;
-import java.io.*;
-import java.util.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+//r, c는 1부터 시작
+//각 칸의 초기 양분은 다 5씩
+//1. 봄 (pq로 처리)
+//	1-1.나무는 자신의 나이만큼 양분 먹고 나이 1 증가(자신이 있는 1x1 칸의 양분만 먹을 수 있음)
+//	1-2. 하나의 칸에 여러 나무가 있으면 나이가 어린애부터 머금
+//	1-3. 만약 땅에 양분이 부족해 자신의 나이만큼 양분을 먹을 수 없는 나무는 먹지 못하고 즉사
+//2. 여름 (위의 봄 로직에서 pq순회 다하고 죽은애들 값을 합해서 / 2하고 더해준다
+//	2-1. 봄에 죽은 나무가 양분으로 변함
+//	2-2. 각각의 죽은 나무마다 나이를 2로 나눈 값이 나무가 있던 칸에 양분으로 추가(소수점 아래는 버림)
+//3. 가을 (그냥 순차탐색하면서 하면 됨)
+//	3-1. 나무가 번식. 나이가 5의 배수인 나무들만 번식
+//	3-2. 인접한 8개의 칸에 나이가 1인 나무가 생김
+//4. 겨울
+//	4-1. S2D2가 돌아다니면서 땅에 양분 추가 -> 입력으로 주어
 
 public class boj_16235 {
-    static class Tree {
-        int x;
-        int y;
-        int z;
-        public Tree(int nx, int ny, int nz) {
-            this.x = nx;
-            this.y = ny;
-            this.z = nz;
-        }
-    }
+	private static int totalCnt;
+	private static int N, M, K;
+	private static int[] dr = {-1, -1, -1, 0, 1, 1, 1, 0};
+	private static int[] dc = {-1, 0, 1, 1, 1, 0, -1, -1};
+	
+	private static int stoi(String str) {
+		return Integer.parseInt(str);
+	}
 
-    static int N, M, K, TreeCnt;
-    static LinkedList<Tree> Trees = new LinkedList<>();
-    static int[][] Ground;
-    static int[][] A;
-    static int[][] Dead;
-    static int[] dir_x= {-1,-1,-1,0,0,1,1,1};
-    static int[] dir_y= {-1,0,1,-1,1,-1,0,1};
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer stk = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(stk.nextToken());
-        M = Integer.parseInt(stk.nextToken());
-        K = Integer.parseInt(stk.nextToken());
-        Ground = new int[N + 1][N + 1];
-        A = new int[N + 1][N + 1];
-        Dead = new int[N + 1][N + 1];
-
-        for(int i = 1; i <= N; i++) {
-            stk = new StringTokenizer(br.readLine());
-            for(int j = 1; j <= N; j++) {
-                Ground[i][j] = 5;
-                A[i][j] = Integer.parseInt(stk.nextToken());
-            }
-        }
-
-        for(int i = 0; i < M; i++) {
-            stk = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(stk.nextToken());
-            int y = Integer.parseInt(stk.nextToken());
-            int z = Integer.parseInt(stk.nextToken());
-            Trees.add(new Tree(x, y, z));
-        }
-        Collections.sort(Trees, Comparator.comparingInt(o -> o.z));
-        Grow();
-        sb.append(Trees.size()).append("\n");
-        bw.write(String.valueOf(sb));
-        bw.flush();
-        bw.close();
-        br.close();
-        return;
-    }
-    private static void Grow() {
-        int nth_year = 0;
-        Tree cur_tree;
-        LinkedList<Tree> newTrees = new LinkedList<>();
-        while(nth_year < K) {
-            //Spring && Fall
-            for(Iterator<Tree> tree = Trees.iterator(); tree.hasNext();) {
-                cur_tree = tree.next();
-                int x = cur_tree.x;
-                int y = cur_tree.y;
-                int z = cur_tree.z;
-
-                if(Ground[x][y] >= z) {//양분 먹기
-                    Ground[x][y] -= z;
-                    cur_tree.z++;
-
-                    if(cur_tree.z % 5 == 0) {
-                        int nx;
-                        int ny;
-                        for(int i = 0; i < 8; i++) {
-                            nx = x + dir_x[i];
-                            ny = y + dir_y[i];
-
-                            if(nx < 1 || ny < 1 || nx > N || ny > N) continue;
-                            newTrees.add(new Tree(nx, ny, 1));
-                        }
-                    }
-                } else {//죽은 나무 처리
-                    Dead[x][y] += cur_tree.z / 2;
-                    tree.remove();
-                }
-            }
-            Trees.addAll(0, newTrees);
-            newTrees.clear();
-
-            //Summer && Winter
-            for(int i = 1; i <= N; i++) {
-                for(int j = 1; j <= N; j++) {
-                    Ground[i][j] += Dead[i][j];
-                    Ground[i][j] += A[i][j];
-                    Dead[i][j] = 0;
-                }
-            }
-            nth_year++;
-        }
-    }
+	private static boolean isRange(int row, int col) {
+		if(row < 1 || col < 1 || row > N || col > N) return false;
+		return true;
+	}
+	
+	private static void initData(int[][] map, int[][] A, Deque<Integer>[][] treeMap, BufferedReader br) throws IOException {
+		StringTokenizer stk;
+		
+		for(int row = 1; row <= N; row++) {
+			stk = new StringTokenizer(br.readLine());
+			for(int col = 1; col <= N; col++) {
+				map[row][col] = 5;
+				A[row][col] = stoi(stk.nextToken());
+				treeMap[row][col] = new LinkedList<>();
+			}
+		}
+	}
+	
+	private static void process(int[][] map, int[][] A, Deque<Integer>[][] treeMap) {
+		//Spring & Summer & Winter
+		for(int row = 1; row <= N; row++) {
+			for(int col = 1; col <= N; col++) {
+				int deadSum = 0;
+				int size = treeMap[row][col].size();
+				
+				while(size --> 0) {
+					int age = treeMap[row][col].pollFirst();
+					
+					//if can eat
+					if(age <= map[row][col]) {
+						map[row][col] -= age;
+						age++;
+						treeMap[row][col].addLast(age);
+					} else { //cannot eat it will die
+						deadSum += (age / 2);
+						totalCnt--;
+					}
+				}
+				
+				map[row][col] += A[row][col];
+				map[row][col] += deadSum;
+			}
+		}
+		
+		//Fall
+		for(int row = 1; row <= N; row++) {
+			for(int col = 1; col <= N; col++) {
+				for(Integer age : treeMap[row][col]) {
+					if(age % 5 == 0) {
+						for(int dir = 0; dir < 8; dir++) {
+							int nr = row + dr[dir];
+							int nc = col + dc[dir];
+							
+							if(isRange(nr, nc)) {
+								treeMap[nr][nc].addFirst(1);
+								totalCnt++;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stk = new StringTokenizer(br.readLine());
+		
+		N = stoi(stk.nextToken());
+		totalCnt = M = stoi(stk.nextToken());
+		K = stoi(stk.nextToken());
+		int[][] map = new int[N + 1][N + 1];
+		int[][] A = new int[N + 1][N + 1];
+		Deque<Integer>[][] treeMap = new Deque[N + 1][N + 1];
+		
+		initData(map, A, treeMap, br); //input A & init Data
+		
+		//input tree data
+		for(int i = 0; i < M; i++) {
+			stk = new StringTokenizer(br.readLine());
+			int x = stoi(stk.nextToken());
+			int y = stoi(stk.nextToken());
+			int z = stoi(stk.nextToken());
+			
+			treeMap[x][y].add(z);
+		}
+		
+		while(K --> 0) {
+			process(map, A, treeMap);
+			
+			if(totalCnt == 0) break;
+		}
+		
+		System.out.println(totalCnt);
+	}
 }
