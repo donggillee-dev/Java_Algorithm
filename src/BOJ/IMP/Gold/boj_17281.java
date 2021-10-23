@@ -31,64 +31,48 @@ public class boj_17281 {
 
 		for (int inning = 0; inning < N; inning++) {
 			int strikeCnt = 0;
-			boolean[] base = { false, false, false};
+			int base1 = 0, base2 = 0, base3 = 0;
 
 			while (strikeCnt < 3) {
 				int curOrder = order[orderIdx]; // 현재 선수 번호
 				int action = infoArr[inning][curOrder]; // 현재 선수가 일으키는 일
 
 				switch (action) {
-					case 0: {
+					case 0:
 						strikeCnt++;
 						break;
-					}
 					
-					case 1: {
-						if(base[2]) score++;
+					case 1: 
+						score += base3;
 						
-						base[2] = base[1];
-						base[1] = base[0];
-						base[0] = true;
+						base3 = base2;
+						base2 = base1;
+						base1 = 1;
 						break;
-					}
 					
-					case 2: {
-						for(int i = 1; i < 3; i++) { //2루 ~ 3루 사람들 들여보냄
-							if(base[i]) {
-								score++;
-							}
-							base[i] = false;
-						}
-						base[2] = base[0]; //1루에 있는 사람은 3루로
-						base[0] = false;
-						base[1] = true; //타자는 2루로
+					case 2:
+						score += (base2 + base3);
+						base3 = base1;
+						base2 = 1;
+						base1 = 0;
 						break;
-					}
 					
-					case 3: {
-						for(int i = 0; i < 3; i++) { //1루 ~ 3루 사람들 모두 들어옴
-							if(base[i]) {
-								score++;
-							}
-							base[i] = false;
-						}
-						base[2] = true; //타자 3루에 배치
+					case 3:
+						score += (base1 + base2 + base3);
+						base3 = 1;
+						base2 = 0;
+						base1 = 0;
 						break;
-					}
 					
-					case 4: {
-						for(int i = 0; i < 3; i++) { //베이스에 있는 모두 주자들 in
-							if(base[i]) {
-								score++;
-							}
-							base[i] = false;
-						}
-						score++; //타자도 in
+					case 4:
+						score += (base1 + base2 + base3 + 1);
+						base1 = base2 = base3 = 0;
 						break;
-					}
-				
 				}
-				orderIdx = (orderIdx + 1) % 9;
+				
+				if(++orderIdx >= 9) {
+					orderIdx = 0;
+				}
 			}
 		}
 
