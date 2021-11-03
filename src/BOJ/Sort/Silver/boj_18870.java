@@ -7,7 +7,7 @@ import java.util.*;
 
 //Logic
 //처음에는 Arrays.sort로 해결했던 문제
-//최악의 경우 Arrays.sort는 N^2 시간복잡도
+//Arrays.sort내부에서 여러 if문과 조건들이 담겨져있음 -> 직접 구현하여 사용하는 것이 더 빠를거같다
 
 public class boj_18870 {
     private static void swap(int[] arr, int i, int j) {
