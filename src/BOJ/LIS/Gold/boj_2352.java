@@ -34,9 +34,10 @@ public class boj_2352 {
             arr[i] = Integer.parseInt(stk.nextToken());
         }
 
+        int idx = 0;
+
         dp[0] = arr[0];
 
-        int idx = 0;
         for(int i = 1; i < n; i++) {
             if(dp[idx] < arr[i]) {
                 dp[++idx] = arr[i];
