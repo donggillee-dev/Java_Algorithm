@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 
+//Logic
+//투 포인터 + dfs 로 풀 수 있는 문제
+//시간 복잡도 N * 2^(N - 1)인데
+//문자열 N의 최대길이가 8이므로 시간복잡도 초과 안함, String에 의한 메모리 낭비는 좀 심할지도...?
+
 public class boj_17255 {
     private static String str;
     private static int length;
