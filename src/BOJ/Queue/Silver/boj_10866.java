@@ -32,7 +32,7 @@ public class boj_10866 {
                 case "pop_back":
                     sb.append(dq.size() == 0 ? -1 : dq.pollLast()).append("\n");
                     break;
-                case "size":
+                case "SIZE":
                     sb.append(dq.size()).append("\n");
                     break;
                 case "empty":

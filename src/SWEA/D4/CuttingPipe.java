@@ -61,7 +61,7 @@ public class CuttingPipe {
 //                    if(sb.charAt(j) == ')' && S.peek() == '(') {
 //                        S.pop();
 //                        if(!isCutted) {
-//                            answer += S.size();
+//                            answer += S.SIZE();
 //                            isCutted = true;
 //                        } else {
 //                            answer++;

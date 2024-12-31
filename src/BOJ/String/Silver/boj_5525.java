@@ -26,11 +26,11 @@ import java.io.InputStreamReader;
 //                    idx++;
 //                }
 //                if(S.peek() != 'I') S.pop();
-//                int size = S.size();
-//                if(size >= P) {
-//                    while(size >= P) {
+//                int SIZE = S.SIZE();
+//                if(SIZE >= P) {
+//                    while(SIZE >= P) {
 //                        answer++;
-//                        size -= 2;
+//                        SIZE -= 2;
 //                    }
 //                }
 //                S.clear();

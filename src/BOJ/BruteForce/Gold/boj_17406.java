@@ -98,7 +98,7 @@ public class boj_17406 {
 //            answer = Math.min(answer, min);
 //            return;
 //        }
-//        for(int i = 0; i < list.size(); i++) {
+//        for(int i = 0; i < list.SIZE(); i++) {
 //            if(!visited[i]) {
 //                visited[i] = true;
 //                Info tmp = list.get(i);
